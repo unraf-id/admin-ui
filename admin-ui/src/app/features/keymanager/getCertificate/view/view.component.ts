@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BulkuploadService } from 'src/app/core/services/bulkupload.service';
+import { KeymanagerService } from 'src/app/core/services/keymanager.service';
 import { RequestModel } from 'src/app/core/models/request.model';
 import { AppConfigService } from 'src/app/app-config.service';
 import { SortModel } from 'src/app/core/models/sort.model';
 import { PaginationModel } from 'src/app/core/models/pagination.model';
-import * as masterDataUploadConfig from 'src/assets/entity-spec/masterdataupload.json';
+import * as getCertificateConfig from 'src/assets/entity-spec/getcertificate.json';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import Utils from '../../../../app.utils';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
@@ -32,7 +32,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   filtersApplied = false;
 
   constructor(
-    private bulkuploadService: BulkuploadService,
+    private keymanagerService: KeymanagerService,
     private appService: AppConfigService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -40,7 +40,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private auditService: AuditService
   ) {
-    this.getmasterdatauploadConfigs();
+    this.getCertificateCofig();
     this.translateService.use(appService.getConfig().primaryLangCode);
     this.translateService.getTranslation(appService.getConfig().primaryLangCode).subscribe(response => {
       console.log(response);
@@ -48,28 +48,28 @@ export class ViewComponent implements OnInit, OnDestroy {
     });
     this.subscribed = router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.getMasterDataUpload();
+        this.getCertificate();
       }
     });
   }
 
   ngOnInit() {
-    this.auditService.audit(3, masterDataUploadConfig.auditEventIds[0], 'masterdataupload');
+    this.auditService.audit(3, getCertificateConfig.auditEventIds[0], 'getCertificate');
   }
 
-  getmasterdatauploadConfigs() {
-    this.displayedColumns = masterDataUploadConfig.columnsToDisplay;
+  getCertificateCofig() {
+    this.displayedColumns = getCertificateConfig.columnsToDisplay;
     console.log(this.displayedColumns);
-    this.actionButtons = masterDataUploadConfig.actionButtons.filter(
+    this.actionButtons = getCertificateConfig.actionButtons.filter(
       value => value.showIn.toLowerCase() === 'ellipsis'
     );
-    this.actionEllipsis = masterDataUploadConfig.actionButtons.filter(
+    this.actionEllipsis = getCertificateConfig.actionButtons.filter(
       value => value.showIn.toLowerCase() === 'button'
     );
-    this.paginatorOptions = masterDataUploadConfig.paginator;
+    this.paginatorOptions = getCertificateConfig.paginator;
   }
 
-  pageEvent(event: any) {
+  /*pageEvent(event: any) {
     const filters = Utils.convertFilter(
       this.activatedRoute.snapshot.queryParams,
       this.appService.getConfig().primaryLangCode
@@ -99,9 +99,9 @@ export class ViewComponent implements OnInit, OnDestroy {
     filters.sort = this.sortFilter;
     const url = Utils.convertFilterToUrl(filters);
     this.router.navigateByUrl('admin/bulkupload/masterdataupload/view?' + url);
-  }
+  }*/
 
-  getMasterDataUpload() {
+  getCertificate() {
     this.datas = [];
     this.noData = false;
     this.filtersApplied = false;
@@ -119,10 +119,10 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.requestModel = new RequestModel(null, null, filters);
     console.log("filters>>>"+JSON.stringify(filters));
     console.log(JSON.stringify(this.requestModel));
-    this.bulkuploadService
-      .getUploadDetails(this.requestModel, "masterdata", filters.pagination.pageStart, filters.pagination.pageFetch)
+    this.keymanagerService
+      .getCertificate(this.requestModel, "", filters.pagination.pageStart, filters.pagination.pageFetch, "")
       .subscribe(({ response, errors }) => {
-        console.log(response);
+        console.log("response>>>"+response);
         if (response != null) {
           this.paginatorOptions.totalEntries = response.totalItems;
           this.paginatorOptions.pageIndex = filters.pagination.pageStart;
@@ -134,20 +134,7 @@ export class ViewComponent implements OnInit, OnDestroy {
             this.noData = true;
           }
         } else {
-          this.dialog
-            .open(DialogComponent, {
-               data: {
-                case: 'MESSAGE',
-                title: this.errorMessages.technicalError.title,
-                message: this.errorMessages.technicalError.message,
-                btnTxt: this.errorMessages.technicalError.btnTxt
-               } ,
-              width: '700px'
-            })
-            .afterClosed()
-            .subscribe(result => {
-              console.log('dialog is closed from view component');
-            });
+          this.noData = true;
         }
       });
   }

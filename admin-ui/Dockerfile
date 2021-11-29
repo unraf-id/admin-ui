@@ -45,12 +45,6 @@ ADD ./default.conf /etc/nginx/conf.d/
 
 ADD ./download.conf /etc/nginx/include/download.conf
 
-RUN mkdir application && cd application
-
-COPY ["angular.json", "karma.conf.js", "package.json", "proxy.conf.json", "tsconfig.app.json","tsconfig.json","tsconfig.spec.json","tslint.json"] ./
-
-ADD ./src/ ./src
-
 RUN cd /home/${container_user}
 
 ADD dist ${base_path}

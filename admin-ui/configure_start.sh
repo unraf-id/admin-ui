@@ -21,10 +21,4 @@ unzip -o master-templates.zip
 
 echo "unzip pre-requisites completed."
 
-cd application
-
-npm install --ignore-scripts
-
-npm run-script build -- --prod --base-href . --output-path=dist
-
 exec "$@"

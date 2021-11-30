@@ -1,4 +1,5 @@
-<div id="flex-single-view" style="padding-top: 12px;">
+<mat-spinner class="spinner-placer" *ngIf="showSpinner"></mat-spinner>
+<div id="flex-single-view" style="padding-top: 12px;" *ngIf="!showSpinner">
   <!-- <div class="navigation">
       <span><i class="material-icons" (click) = "naviagteBack()" >keyboard_arrow_left</i></span>&nbsp;<span class="title">{{'center.center-detail-view'|translate}}</span>
     </div> -->
@@ -109,7 +110,7 @@
               <button id="createButton" mat-raised-button *ngIf="data.length == 0" (click)="submitPrimaryPanel()">
                 {{ "center.create" | translate }}
               </button>
-              <button mat-raised-button (click)="cancel()">
+              <button mat-raised-button (click)="cancel()" *ngIf="secondaryLang">
                 {{ "center.cancel" | translate }}
               </button>
             </mat-card-actions>
@@ -256,11 +257,11 @@
               </mat-form-field>
             </div>
             <mat-card-actions class="action-buttons">
-              <button id="createButton" mat-raised-button *ngIf="data.length > 1 && data[1] != null"
+              <button id="createButton" mat-raised-button *ngIf="showUpdateButton"
                 (click)="submitSecondaryPanel()">
                 {{ "center.update" | translate }}
               </button>
-              <button id="createButton" mat-raised-button *ngIf="data.length > 1 && data[1] == null"
+              <button id="createButton" mat-raised-button *ngIf="!showUpdateButton"
                 (click)="submitSecondaryPanel()">
                 {{ "center.create" | translate }}
               </button>

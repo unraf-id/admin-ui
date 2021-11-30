@@ -11,6 +11,7 @@ import { CommonService } from 'src/app/core/services/common.service';
 import { DeviceModel } from 'src/app/core/models/device.model';
 import * as appConstants from '../../../../app.constants';
 import { HeaderService } from 'src/app/core/services/header.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-devices-header',
@@ -18,8 +19,9 @@ import { HeaderService } from 'src/app/core/services/header.service';
   encapsulation: ViewEncapsulation.None
 })
 export class DevicesHeaderComponent implements OnInit {
-	actionButtonElipses = new Array();
+	  actionButtonElipses = new Array();
   	lang: string;
+    router;
   	@Input() headerData: HeaderModel;
   	@Input() data: DeviceModel;
 
@@ -27,9 +29,12 @@ export class DevicesHeaderComponent implements OnInit {
 	  	private dataSerice: DataStorageService,
 	    private appService: AppConfigService,
       private headerService: HeaderService,
-	    private commonService: CommonService
+	    private commonService: CommonService,
+      private _router: Router
+
   	) {
     	this.lang = headerService.getUserPreferredLanguage();
+      this.router = _router.url;
   	}
 
   ngOnInit() {

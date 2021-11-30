@@ -29,7 +29,7 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() showRadioButton: boolean = false;
   @Output() sort = new EventEmitter();
   @Output() selectedCenterDetail = new EventEmitter();
-  
+  @Input() isUser = true;
   tableData = [];
   columnsOfTableData = [];
   sortStatusArray: string[] = [];
@@ -162,21 +162,47 @@ export class TableComponent implements OnInit, OnChanges {
 
   ellipsisAction(data) {
     if (data.isActive === true) {
-      this.ellipsisList = [...this.buttonList];
+      // this.ellipsisList = [...this.buttonList];
+      this.ellipsisList = JSON.parse(JSON.stringify(this.buttonList));
+      if (!this.isUser) {
+        // user mapping center menu options
+        this.ellipsisList.filter((values, i) => {
+          values.filter(value => {
+            if (value.buttonName.eng === 'Activate') {
+              const index = this.ellipsisList[i].indexOf(value);
+              this.ellipsisList[i].splice(index, 1);
+            }
+          })
+        });
+      } else{
       this.ellipsisList.filter(values => {
         if (values.buttonName.eng === 'Activate') {
           const index = this.ellipsisList.indexOf(values);
           this.ellipsisList.splice(index, 1);
         }
       });
+    }
     } else if (data.isActive === false) {
-      this.ellipsisList = [...this.buttonList];
+      // this.ellipsisList = [...this.buttonList];
+      this.ellipsisList = JSON.parse(JSON.stringify(this.buttonList));
+      if (!this.isUser) {
+        // user mapping center menu options
+        this.ellipsisList.filter((values, i) => {
+          values.filter(value => {
+            if (value.buttonName.eng === 'Deactivate') {
+              const index = this.ellipsisList[i].indexOf(value);
+              this.ellipsisList[i].splice(index, 1);
+            }
+          })
+        });
+      } else{
       this.ellipsisList.filter(values => {
         if (values.buttonName.eng === 'Deactivate') {
           const index = this.ellipsisList.indexOf(values);
           this.ellipsisList.splice(index, 1);
         }
       });
+    }
     }else{
       this.ellipsisList = [...this.buttonList];
     }

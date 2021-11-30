@@ -100,7 +100,7 @@
                         formControlName="holidayDate"
                         placeholder="{{field.label[primaryLang] | translate}}"
                         [value]="primaryData[field.name]"
-                        field.required
+                        required={{field.ismandatory}} 
                       />
                       <mat-datepicker-toggle
                         matSuffix

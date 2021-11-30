@@ -10,6 +10,7 @@ import { AppConfigService } from 'src/app/app-config.service';
 import { CommonService } from 'src/app/core/services/common.service';
 import { MachineModel } from 'src/app/core/models/machine.model';
 import * as appConstants from '../../../../app.constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users-header',
@@ -17,17 +18,20 @@ import * as appConstants from '../../../../app.constants';
   styleUrls: ['./users-header.component.scss']
 })
 export class UsersHeaderComponent implements OnInit {
-	actionButtonElipses = new Array();
+	  actionButtonElipses = new Array();
   	lang: string;
+    router;
   	@Input() headerData: HeaderModel;
   	@Input() data: MachineModel;
 
   	constructor(
 	  	private dataSerice: DataStorageService,
 	    private appService: AppConfigService,
-	    private commonService: CommonService
+	    private commonService: CommonService,
+      private _router: Router
   	) {
     	this.lang = appService.getConfig()['primaryLangCode'];
+      this.router = _router.url;
   	}
   	
 	ngOnInit() {

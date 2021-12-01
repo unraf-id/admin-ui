@@ -1,26 +1,24 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AuditService } from 'src/app/core/services/audit.service';
-import { TranslateService } from '@ngx-translate/core';
-import { AppConfigService } from 'src/app/app-config.service';
-
 import { RequestModel } from 'src/app/core/models/request.model';
 import { SortModel } from 'src/app/core/models/sort.model';
 import { DataStorageService } from 'src/app/core/services/data-storage.service';
+import { AppConfigService } from 'src/app/app-config.service';
 import { PaginationModel } from 'src/app/core/models/pagination.model';
 import { CenterRequest } from 'src/app/core/models/centerRequest.model';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import Utils from 'src/app/app.utils';
 import { MatDialog } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
+import { AuditService } from 'src/app/core/services/audit.service';
 import { HeaderService } from 'src/app/core/services/header.service';
 
 @Component({
-  selector: 'app-view',
-  templateUrl: './view.component.html',
-  styleUrls: ['./view.component.scss']
+  selector: 'app-lost-rid-status',
+  templateUrl: './lost-rid-status.component.html',
+  styleUrls: ['./lost-rid-status.component.scss']
 })
-export class ViewComponent implements OnInit {
-
+export class LostRidStatusComponent implements OnInit {
   displayedColumns = [];
   actionButtons = [];
   actionEllipsis = [];
@@ -30,18 +28,14 @@ export class ViewComponent implements OnInit {
   pagination = new PaginationModel();
   centerRequest = {} as CenterRequest;
   requestModel: RequestModel;
-  users = [];
+  datas = [];
   subscribed: any;
   errorMessages: any;
   noData = false;
   filtersApplied = false;
 
-  keycloakUrl =
-    location.origin+'/keycloak/auth/admin/master/console/#/realms/mosip/users';
-
   constructor(
-    private translate: TranslateService,
-    private dataStorageService: DataStorageService,
+    private dataStroageService: DataStorageService,
     private appService: AppConfigService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -50,31 +44,28 @@ export class ViewComponent implements OnInit {
     private translateService: TranslateService,
     private auditService: AuditService
   ) {
-    this.getUserConfigs();
+    this.getlostridConfigs();
     this.primaryLang = this.headerService.getUserPreferredLanguage();
     
     this.translateService.use(this.primaryLang);
     translateService.getTranslation(this.primaryLang).subscribe(response => {
-      console.log(response);
       this.errorMessages = response.errorPopup;
     });
     this.subscribed = router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if(this.displayedColumns)
-          this.getUserConfigs();
+          this.getlostridConfigs();
       }
     });
   }
 
   ngOnInit() {
-    //this.auditService.audit(3, 'ADM-042', 'users');
+    this.auditService.audit(5, 'ADM-045');
   }
 
-  getUserConfigs() {
-    let url = this.router.url.split('/')[3];
-    if(url === "zoneuser"){
-      this.dataStorageService
-      .getSpecFileForMasterDataEntity("zoneuser")
+  getlostridConfigs() {
+    this.dataStroageService
+      .getSpecFileForMasterDataEntity("lost-rid-status")
       .subscribe(response => {
         this.displayedColumns = response.columnsToDisplay;
         this.actionButtons = response.actionButtons.filter(
@@ -84,25 +75,9 @@ export class ViewComponent implements OnInit {
           value => value.showIn.toLowerCase() === 'button'
         );
         this.paginatorOptions = response.paginator;
-        this.auditService.audit(3, response.auditEventIds[0], 'zoneuser');
-        this.getUsers();
+        this.auditService.audit(3, response.auditEventIds[0], 'lost-rid-status');
+        this.getlostridDetails();
       });
-    }else{
-      this.dataStorageService
-      .getSpecFileForMasterDataEntity("user")
-      .subscribe(response => {
-        this.displayedColumns = response.columnsToDisplay;
-        this.actionButtons = response.actionButtons.filter(
-          value => value.showIn.toLowerCase() === 'ellipsis'
-        );
-        this.actionEllipsis = response.actionButtons.filter(
-          value => value.showIn.toLowerCase() === 'button'
-        );
-        this.paginatorOptions = response.paginator;
-        this.auditService.audit(3, response.auditEventIds[0], 'user');
-        this.getUsers();
-      });
-    }    
   }
 
   pageEvent(event: any) {
@@ -110,17 +85,10 @@ export class ViewComponent implements OnInit {
     filters.pagination.pageFetch = event.pageSize;
     filters.pagination.pageStart = event.pageIndex;
     const url = Utils.convertFilterToUrl(filters);
-    let currenturl = this.router.url.split('/')[3];
-    if(currenturl === "zoneuser"){
-      this.router.navigateByUrl(`admin/resources/zoneuser/view?${url}`);
-    }else{
-      this.router.navigateByUrl(`admin/resources/users/view?${url}`);
-    }
-   
+    this.router.navigateByUrl(`admin/lost-rid-status/view?${url}`);
   }
 
-  getSortColumn(event: SortModel) {
-    console.log(event);
+  getSortColumn(event: SortModel) {    
     this.sortFilter.forEach(element => {
       if (element.sortField === event.sortField) {
         const index = this.sortFilter.indexOf(element);
@@ -128,21 +96,16 @@ export class ViewComponent implements OnInit {
       }
     });
     if (event.sortType != null) {
-    this.sortFilter.push(event);
-  }
-    const filters = Utils.convertFilter(this.activatedRoute.snapshot.queryParams, this.primaryLang);
-    filters.sort = this.sortFilter;
-    const url = Utils.convertFilterToUrl(filters);
-    let currenturl = this.router.url.split('/')[3];
-    if(currenturl === "zoneuser"){
-      this.router.navigateByUrl(`admin/resources/zoneuser/view?${url}`);
-    }else{
-      this.router.navigateByUrl(`admin/resources/users/view?${url}`);
+      this.sortFilter.push(event);
     }
+    const filters = Utils.convertFilter(this.activatedRoute.snapshot.queryParams, this.primaryLang);
+    filters.sort = this.sortFilter.slice(1);
+    const url = Utils.convertFilterToUrl(filters);
+    this.router.navigateByUrl('admin/lost-rid-status/view?' + url);
   }
 
-  getUsers() {
-    this.users = [];
+  getlostridDetails() {
+    this.datas = [];
     this.noData = false;
     this.filtersApplied = false;
     const filters = Utils.convertFilter(this.activatedRoute.snapshot.queryParams, this.primaryLang);
@@ -151,22 +114,20 @@ export class ViewComponent implements OnInit {
     }
     this.sortFilter = filters.sort;
     if(this.sortFilter.length == 0){
-      this.sortFilter.push({"sortType":"desc","sortField":"createdDateTime"});      
+      this.sortFilter.push({"sortType":"desc","sortField":"registrationDate"});      
     }
-    let currenturl = this.router.url.split('/')[3];
     this.requestModel = new RequestModel(null, null, filters);
     console.log(JSON.stringify(this.requestModel));
-    this.dataStorageService
-      .getUsersData(this.requestModel, currenturl)
-      .subscribe(({ response, errors }) => {
-        console.log(response);
+    this.dataStroageService
+      .getlostridDetails(this.requestModel)
+      .subscribe(({ response, errors }) => {        
         if (response != null) {
-          this.paginatorOptions.totalEntries = response.totalRecord;
-          this.paginatorOptions.pageIndex = filters.pagination.pageStart;
-          this.paginatorOptions.pageSize = filters.pagination.pageFetch;
-          console.log(this.paginatorOptions);
-          if (response.data != null) {
-            this.users = [...response.data];
+          this.paginatorOptions.totalEntries = 0;
+          this.paginatorOptions.pageIndex = 0;
+          this.paginatorOptions.pageSize = 0;
+          if (response.data.length) {
+            this.datas = [...response.data];
+            console.log("this.datas>>>"+this.datas);
           } else {
             this.noData = true;
          }
@@ -189,9 +150,8 @@ export class ViewComponent implements OnInit {
 
       });
   }
-
-  ngOnDestroy() {
+// tslint:disable-next-line:align
+ngOnDestroy() {
     this.subscribed.unsubscribe();
   }
 }
-

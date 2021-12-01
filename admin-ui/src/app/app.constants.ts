@@ -12,7 +12,8 @@ export const URL = {
   zoneuser: `masterdata/zoneuser/search`,
   documentCategories: `masterdata/documentcategories`,
   mappedDocUrl: `masterdata/documenttypes/`,
-  unMappedDocUrl: `masterdata/documenttypes/`
+  unMappedDocUrl: `masterdata/documenttypes/`,
+  'lost-rid-status': `admin/lostRid `,
 };
 export const navItems = [
   {
@@ -79,6 +80,14 @@ export const navItems = [
     displayName: 'menuItems.item5.title',
     icon: './assets/images/id-card.svg',
     route: '/admin/rid-status',
+    children: null,
+    auditEventId: 'ADM-009',
+    roles: ['REGISTRATION_ADMIN']
+  },
+  {
+    displayName: 'menuItems.item8.title',
+    icon: './assets/images/id-card.svg',
+    route: '/admin/lost-rid-status',
     children: null,
     auditEventId: 'ADM-009',
     roles: ['REGISTRATION_ADMIN']
@@ -525,6 +534,10 @@ export const FilterMapping = {
   'rid-status': {
     apiName: 'packet',
     specFileName: 'rid-status'
+  },
+  'lost-rid-status': {
+    apiName: 'lostRid ',
+    specFileName: 'lost-rid-status'
   }
 };
 

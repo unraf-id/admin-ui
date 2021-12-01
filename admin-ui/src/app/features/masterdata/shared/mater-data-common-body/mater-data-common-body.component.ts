@@ -751,10 +751,12 @@ export class MaterDataCommonBodyComponent implements OnInit {
       );
       this.dataStorageService.createMasterData(request).subscribe(updateResponse => {
           if (!updateResponse.errors) {
-            if(textToValidate){
-              this.secondaryData["code"] = updateResponse.response.code; 
-              if(updateResponse.response.id && url !== "dynamicfields"){
+            if(textToValidate){       
+              this.secondaryData["code"] = updateResponse.response.code;       
+              if(updateResponse.response.id && url !== "dynamicfields"){                 
                 this.secondaryData["id"] = updateResponse.response.id; 
+              }else if(url === "dynamicfields"){
+                this.secondaryData["code"] = updateResponse.response.fieldVal.code; 
               }  
               if(!this.secondaryData.createdBy){
                 let request = new RequestModel(
@@ -915,10 +917,12 @@ export class MaterDataCommonBodyComponent implements OnInit {
       );
       this.dataStorageService.updateData(request).subscribe(updateResponse => {
           if (!updateResponse.errors) {
-            if(textToValidate){
-              this.secondaryData["code"] = updateResponse.response.code; 
-              if(updateResponse.response.id && url !== "dynamicfields"){
+            if(textToValidate){    
+              this.secondaryData["code"] = updateResponse.response.code;           
+              if(updateResponse.response.id && url !== "dynamicfields"){                
                 this.secondaryData["id"] = updateResponse.response.id; 
+              }else if(url === "dynamicfields"){
+                this.secondaryData["code"] = updateResponse.response.fieldVal.code; 
               }
               if(this.saveSecondaryForm){
                 this.secondaryData['isActive'] = true;

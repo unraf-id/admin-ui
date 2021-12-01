@@ -52,7 +52,8 @@ export class ViewComponent implements OnInit, OnDestroy {
     });
     this.subscribed = router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        //this.getCertificate();
+        if(this.displayedColumns)
+          this.getCertificateCofig();
       }
     });
   }

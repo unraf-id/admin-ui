@@ -62,7 +62,8 @@ export class ViewComponent implements OnInit {
     });
     this.subscribed = router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        //this.getUsers();
+        if(this.displayedColumns)
+          this.getUserConfigs();
       }
     });
   }

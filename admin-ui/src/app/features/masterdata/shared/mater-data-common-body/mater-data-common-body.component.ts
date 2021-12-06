@@ -154,7 +154,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
         this.pageName = "Center Type";
         this.primaryData = {"code":"","name":"","descr":"","langCode":this.primaryLang,"isActive":true};
       }else if(url === "blocklisted-words"){
-        this.pageName = "Blacklisted Word";
+        this.pageName = "Blocklisted Word";
         this.showPanel(this.pageName);
         this.primaryData = {"word":"","description":"","langCode":this.primaryLang,"isActive":true};
       }else if(url === "gender-type"){
@@ -216,12 +216,12 @@ export class MaterDataCommonBodyComponent implements OnInit {
 
       if(url === "center-type"){
         this.pageName = "Center Type";
-      }else if(url === "blacklisted-words"){
+      }else if(url === "blocklisted-words"){
         this.copyPrimaryWord = this.primaryData.word;
         if(this.secondaryData){
           this.copySecondaryWord = this.secondaryData.word;
         }        
-        this.pageName = "Blacklisted Word";
+        this.pageName = "Blocklisted Word";
         this.showPanel(this.pageName);
         this.primaryData['oldWord'] = this.primaryData['word'];
       }else if(url === "gender-type"){
@@ -276,7 +276,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
   }
 
   showPanel(pageName : string){
-    if(pageName ==='Blacklisted Word'){
+    if(pageName ==='Blocklisted Word'){
       this.showSecondaryForm = false;
     }else if(pageName ==='Device Specification'){
       this.showSecondaryForm = false;
@@ -404,7 +404,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
         if(this.secondaryData){
           this.copySecondaryWord = this.secondaryData.word;
         }        
-        this.pageName = "Blacklisted Word";
+        this.pageName = "Blocklisted Word";
         this.showPanel(this.pageName);
         this.primaryData['oldWord'] = this.primaryData['word'];
       }else if(this.url === "gender-type"){

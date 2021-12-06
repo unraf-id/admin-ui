@@ -44,6 +44,13 @@ const routes: Routes = [
           )
       },
       {
+        path: 'lost-rid-status',
+        loadChildren: () =>
+          import('./features/lost-rid-status/lost-rid-status.module').then(
+            m => m.LostRidStatusModule
+          )
+      },
+      {
         path: 'bulkupload',
         loadChildren: () =>
           import('./features/bulkupload/bulkupload.module').then(

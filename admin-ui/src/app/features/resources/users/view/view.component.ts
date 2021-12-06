@@ -35,6 +35,8 @@ export class ViewComponent implements OnInit {
   errorMessages: any;
   noData = false;
   filtersApplied = false;
+  isUserMatMenu = false;
+  userConfig:any;
 
   keycloakUrl =
     location.origin+'/keycloak/auth/admin/master/console/#/realms/mosip/users';
@@ -60,7 +62,8 @@ export class ViewComponent implements OnInit {
     });
     this.subscribed = router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        //this.getUsers();
+        if(this.displayedColumns)
+          this.getUserConfigs();
       }
     });
   }
@@ -72,9 +75,11 @@ export class ViewComponent implements OnInit {
   getUserConfigs() {
     let url = this.router.url.split('/')[3];
     if(url === "zoneuser"){
+      this.isUserMatMenu = true;
       this.dataStorageService
       .getSpecFileForMasterDataEntity("zoneuser")
       .subscribe(response => {
+        this.userConfig = response;
         this.displayedColumns = response.columnsToDisplay;
         this.actionButtons = response.actionButtons.filter(
           value => value.showIn.toLowerCase() === 'ellipsis'
@@ -87,13 +92,15 @@ export class ViewComponent implements OnInit {
         this.getUsers();
       });
     }else{
+      this.isUserMatMenu = false;
       this.dataStorageService
       .getSpecFileForMasterDataEntity("user")
       .subscribe(response => {
+        this.userConfig = response;
         this.displayedColumns = response.columnsToDisplay;
-        this.actionButtons = response.actionButtons.filter(
-          value => value.showIn.toLowerCase() === 'ellipsis'
-        );
+        // this.actionButtons = response.actionButtons.filter(
+        //   value => value.showIn.toLowerCase() === 'ellipsis'
+        // );
         this.actionEllipsis = response.actionButtons.filter(
           value => value.showIn.toLowerCase() === 'button'
         );
@@ -166,6 +173,28 @@ export class ViewComponent implements OnInit {
           console.log(this.paginatorOptions);
           if (response.data != null) {
             this.users = [...response.data];
+            let url = this.router.url.split('/')[3];
+            if (url !== "zoneuser") {
+              this.users.forEach((item) => {
+                if (item.regCenterId === null) {
+                  //map to center
+                  this.actionButtons.push(
+                    this.userConfig.actionButtons.filter(
+                      (value) =>
+                        value.showIn.toLowerCase() === "ellipsis" && value.buttonName.eng !== "Remap"
+                    )
+                  );
+                } else {
+                  //remap
+                  this.actionButtons.push(
+                    this.userConfig.actionButtons.filter(
+                      (value) =>
+                        value.showIn.toLowerCase() === "ellipsis" && value.buttonName.eng !== "Map to Center"
+                    )
+                  );
+                }
+              });
+            }
           } else {
             this.noData = true;
          }

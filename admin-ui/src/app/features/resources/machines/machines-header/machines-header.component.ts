@@ -5,6 +5,7 @@ import { CommonService } from 'src/app/core/services/common.service';
 import { MachineModel } from 'src/app/core/models/machine.model';
 import * as appConstants from '../../../../app.constants';
 import { HeaderService } from 'src/app/core/services/header.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-machines-header',
@@ -14,15 +15,20 @@ import { HeaderService } from 'src/app/core/services/header.service';
 export class MachinesHeaderComponent implements OnInit {
   actionButtonElipses = new Array();
   lang: string;
+  router;
   @Input() headerData: HeaderModel;
   @Input() data: MachineModel;
 
   constructor(
     private dataSerice: DataStorageService,
     private headerService: HeaderService,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private _router: Router
+
   ) {
     this.lang = this.headerService.getUserPreferredLanguage();;
+    this.router = _router.url;
+
   }
 
   ngOnInit() {}

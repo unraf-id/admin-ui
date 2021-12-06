@@ -50,12 +50,12 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.primaryLang = this.headerService.getUserPreferredLanguage();
     this.translateService.use(this.primaryLang);
     this.translateService.getTranslation(this.primaryLang).subscribe(response => {
-      console.log(response);
       this.errorMessages = response.errorPopup;
     });
     this.subscribed = router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        //this.getRegistrationCenters();
+        if(this.displayedColumns)
+          this.getCenterConfigs();
       }
     });
   }

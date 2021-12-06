@@ -167,6 +167,14 @@ export class DataStorageService {
     return this.http.post(this.BASE_URL + 'masterdata/packet/resume', request);
   }
 
+  getlostridDetails(request: RequestModel): Observable<any> {
+    delete request['request']['languageCode'];
+    delete request['request']['pagination'];
+    //request['request']['filters'].push({"columnName": "registrationDate", "fromValue": "2021-11-01", "toValue": "2021-11-17", "type": "between", "value": ""});
+    //request['request']['filters'].push({"columnName": "name", "type": "equals", "value": "MOSIP-17076"});
+    return this.http.post(this.BASE_URL + appConstants.URL["lost-rid-status"], request);
+  }
+
   deleteUser(userId: any, actualData: any): Observable<any> {
     let url = this.router.url.split('/')[3];
     let urlmapping = {"users":"usercentermapping", "zoneuser":"zoneuser"};
@@ -199,6 +207,9 @@ export class DataStorageService {
   }
 
   getMasterDataByTypeAndId(type: string, data: RequestModel): Observable<any> {
+    let url = this.router.url.split('/')[3];
+    if(url === "dynamicfields")
+      data.request.filters.push({columnName: "name", type: "contains", value: this.router.url.split('/')[4]});
     return this.http.post(
       this.BASE_URL + appConstants.MASTERDATA_BASE_URL + type + '/search?addMissingData=true',
       data

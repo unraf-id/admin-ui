@@ -97,7 +97,6 @@
                         [min]="tomorrow"
                         [matDatepicker]="picker"
                         (dateChange)="captureDatePickerValue($event, field.name, 'primary')"
-                        formControlName="holidayDate"
                         placeholder="{{field.label[primaryLang] | translate}}"
                         [value]="primaryData[field.name]"
                         required={{field.ismandatory}} 
@@ -112,7 +111,6 @@
                     <div *ngIf="field.showInSingleView === 'true' && field.inputType === 'dropdown' && field.name === 'locationCode'">
                       <mat-form-field>
                         <mat-select 
-                          formControlName="locationCode"
                           [value]="primaryData[field.name]"
                           placeholder="{{ field.label[primaryLang] }}"
                           required={{field.ismandatory}}>
@@ -128,7 +126,6 @@
                     <mat-form-field *ngIf="field.showInSingleView === 'true' && field.inputType === 'dropdown' && field.name != 'locationCode'">
                       <div *ngIf="field.name === 'deviceTypeCode'">
                       <mat-select
-                        formControlName="deviceTypeCode"
                         [value]="primaryData[field.name]"
                         placeholder="{{ field.label[primaryLang] }}"
                         required={{field.ismandatory}}
@@ -146,7 +143,6 @@
                       </div>
                       <div *ngIf="field.name === 'machineTypeCode'">
                       <mat-select
-                        formControlName="machineTypeCode"
                         [value]="primaryData[field.name]"
                         placeholder="{{ field.label[primaryLang] }}"
                         required={{field.ismandatory}}
@@ -164,7 +160,6 @@
                       </div>
                       <div *ngIf="field.name === 'fileFormatCode'">
                         <mat-select
-                          formControlName="fileFormatCode"
                           [value]="primaryData[field.name]"
                           placeholder="{{ field.label[primaryLang] }}"
                           required={{field.ismandatory}}
@@ -182,7 +177,6 @@
                         </div>
                         <div *ngIf="field.name === 'templateTypeCode'">
                         <mat-select
-                          formControlName="templateTypeCode"
                           [value]="primaryData[field.name]"
                           placeholder="{{ field.label[primaryLang] }}"
                           required={{field.ismandatory}}
@@ -200,7 +194,6 @@
                         </div>
                         <div *ngIf="field.name === 'moduleId'">
                         <mat-select
-                          formControlName="moduleId"
                           [value]="primaryData[field.name]"
                           placeholder="{{ field.label[primaryLang] }}"
                           required={{field.ismandatory}}
@@ -218,7 +211,6 @@
                         </div>
                       <div *ngIf="field.name === 'hierarchyLevel'">
                       <mat-select
-                        formControlName="hierarchyLevel"
                         [value]="primaryData[field.name]" 
                         placeholder="{{ field.label[primaryLang] }}"  
                         required={{field.ismandatory}}             
@@ -360,7 +352,6 @@
                         [min]="tomorrow"
                         [matDatepicker]="picker1"
                         (dateChange)="captureDatePickerValue($event, field.name, 'secondary')"
-                        formControlName="holidayDate"
                         placeholder="{{field.label[secondaryLang] | translate}}"
                         [value]="secondaryData[field.name]"
                         field.required
@@ -375,7 +366,6 @@
                     <div *ngIf="field.showInSingleView === 'true' && field.inputType === 'dropdown' && field.name === 'locationCode'">
                       <mat-form-field>
                         <mat-select 
-                          formControlName="locationCode"
                           [value]="secondaryData[field.name]"
                           placeholder="{{ field.label[secondaryLang] }}">
                           <mat-option *ngFor="let data of dropDownValues['locationCode']['secondary']" 
@@ -390,7 +380,6 @@
                       <mat-form-field *ngIf="field.showInSingleView === 'true' && field.inputType === 'dropdown' && field.name !== 'locationCode'">
                       <div *ngIf="field.name === 'deviceTypeCode'">
                        <mat-select
-                        formControlName="deviceTypeCode"
                         [value]="secondaryData[field.name]"
                         placeholder="{{ field.label[secondaryLang] }}"
                       >
@@ -407,7 +396,6 @@
                       </div>
                       <div *ngIf="field.name === 'machineTypeCode'">
                        <mat-select
-                        formControlName="machineTypeCode"
                         [value]="secondaryData[field.name]"
                         placeholder="{{ field.label[secondaryLang] }}"
                       >
@@ -424,7 +412,6 @@
                       </div>
                       <div *ngIf="field.name === 'fileFormatCode'">
                         <mat-select
-                          formControlName="fileFormatCode"
                           [value]="secondaryData[field.name]"
                           placeholder="{{ field.label[secondaryLang] }}"
                         >
@@ -441,7 +428,6 @@
                         </div>
                         <div *ngIf="field.name === 'templateTypeCode'">
                         <mat-select
-                          formControlName="templateTypeCode"
                           [value]="secondaryData[field.name]"
                           placeholder="{{ field.label[secondaryLang] }}"
                         >
@@ -458,7 +444,6 @@
                         </div>
                         <div *ngIf="field.name === 'moduleId'">
                         <mat-select
-                          formControlName="moduleId"
                           [value]="secondaryData[field.name]"
                           placeholder="{{ field.label[secondaryLang] }}"
                         >
@@ -476,7 +461,6 @@
                      
                       <div *ngIf="field.name === 'hierarchyLevel'">
                       <mat-select
-                        formControlName="hierarchyLevel"
                         [value]="secondaryData[field.name]" 
                         placeholder="{{ field.label[secondaryLang] }}"
                         disabled = true              

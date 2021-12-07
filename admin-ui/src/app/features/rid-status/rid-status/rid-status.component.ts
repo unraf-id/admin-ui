@@ -54,7 +54,8 @@ export class RidStatusComponent implements OnInit {
     });
     this.subscribed = router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        //this.getridDetails();
+        if(this.displayedColumns)
+          this.getridConfigs();
       }
     });
   }

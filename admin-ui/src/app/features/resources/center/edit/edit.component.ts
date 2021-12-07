@@ -99,6 +99,8 @@ export class EditComponent {
   localeDtFormat = "";
   locationFieldNameList: string[] = [];
   dynamicFieldValue = {};
+  showSpinner = false;
+  showUpdateButton = null;
   constructor(
     private location: Location,
     private translateService: TranslateService,
@@ -157,6 +159,7 @@ export class EditComponent {
       this.primaryLang === this.secondaryLang ? this.showSecondaryForm = false : this.showSecondaryForm = true;
     }else{
       this.showSecondaryForm = false;
+      this.showSpinner = false;
     }
     //Set the keyboard mapping
     this.primaryKeyboard = defaultJson.keyboardMapping[this.primaryLang];
@@ -372,7 +375,7 @@ export class EditComponent {
       this.centerRequest
     );
     this.data[0] = null;
-    
+    this.showSpinner = true;
     this.centerService.getRegistrationCentersDetails(request).subscribe(
       response => {
         if (response.response.data) {
@@ -423,13 +426,17 @@ export class EditComponent {
       .getRegistrationCentersDetails(request)
       .subscribe(secondaryResponse => {
         if (secondaryResponse.response.data) {
+          this.showUpdateButton = true;
           this.data[1] = secondaryResponse.response.data
             ? secondaryResponse.response.data[0]
             : null;
           this.setSecondaryFormValues();
           this.disableSecondaryForm = false;
+          this.showSpinner = false;
         } else {
-          this.disableSecondaryForm = false;        
+          this.showUpdateButton = false;
+          this.disableSecondaryForm = false;
+          this.showSpinner = false;       
           //this.showErrorPopup();
         }
       },

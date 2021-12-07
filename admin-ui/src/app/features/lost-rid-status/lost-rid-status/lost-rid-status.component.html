@@ -1,8 +1,3 @@
-<!-- <span class="display"
-  >{{'users.redirectMessage'| translate}} &nbsp;
-  <a href="{{ keycloakUrl }}" target="_blank">link</a>
-</span> -->
-
 <ng-container>
 <span><h3 class="header"></h3></span>
 <mat-card class="mat-elevation-z5">
@@ -16,9 +11,8 @@
     (pageEvent)="pageEvent($event)"
   ></app-toolbar>
   <app-table
-    *ngIf="users && displayedColumns && actionButtons"
-    [isUser]="isUserMatMenu"
-    [data]="users"
+    *ngIf="datas && displayedColumns && actionButtons"
+    [data]="datas"
     [displayedColumns]="displayedColumns"
     [buttonList]="actionButtons"
     [sortData]="sortFilter"

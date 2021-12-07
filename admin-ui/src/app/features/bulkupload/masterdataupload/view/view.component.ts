@@ -47,12 +47,12 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.getmasterdatauploadConfigs();
     this.translateService.use(this.headerService.getUserPreferredLanguage());
     this.translateService.getTranslation(this.headerService.getUserPreferredLanguage()).subscribe(response => {
-      console.log(response);
       this.errorMessages = response.errorPopup;
     });
     this.subscribed = router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        
+        if(this.displayedColumns)
+          this.getmasterdatauploadConfigs();
       }
     });
   }

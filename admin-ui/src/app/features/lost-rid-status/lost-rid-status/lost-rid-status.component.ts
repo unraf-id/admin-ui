@@ -11,16 +11,14 @@ import { MatDialog } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { AuditService } from 'src/app/core/services/audit.service';
-
 import { HeaderService } from 'src/app/core/services/header.service';
 
 @Component({
-  selector: 'app-view',
-  templateUrl: './view.component.html',
-  styleUrls: ['./view.component.scss']
+  selector: 'app-lost-rid-status',
+  templateUrl: './lost-rid-status.component.html',
+  styleUrls: ['./lost-rid-status.component.scss']
 })
-export class ViewComponent implements OnInit, OnDestroy {
-
+export class LostRidStatusComponent implements OnInit {
   displayedColumns = [];
   actionButtons = [];
   actionEllipsis = [];
@@ -30,7 +28,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   pagination = new PaginationModel();
   centerRequest = {} as CenterRequest;
   requestModel: RequestModel;
-  devices = [];
+  datas = [];
   subscribed: any;
   errorMessages: any;
   noData = false;
@@ -46,7 +44,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private auditService: AuditService
   ) {
-    this.getDevicesConfigs();
+    this.getlostridConfigs();
     this.primaryLang = this.headerService.getUserPreferredLanguage();
     
     this.translateService.use(this.primaryLang);
@@ -56,18 +54,18 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.subscribed = router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if(this.displayedColumns)
-          this.getDevicesConfigs();
+          this.getlostridConfigs();
       }
     });
   }
 
   ngOnInit() {
-    //this.auditService.audit(3, deviceConfig.auditEventIds[0], 'devices');
+    this.auditService.audit(5, 'ADM-045');
   }
 
-  getDevicesConfigs() {
+  getlostridConfigs() {
     this.dataStroageService
-      .getSpecFileForMasterDataEntity("devices")
+      .getSpecFileForMasterDataEntity("lost-rid-status")
       .subscribe(response => {
         this.displayedColumns = response.columnsToDisplay;
         this.actionButtons = response.actionButtons.filter(
@@ -77,8 +75,8 @@ export class ViewComponent implements OnInit, OnDestroy {
           value => value.showIn.toLowerCase() === 'button'
         );
         this.paginatorOptions = response.paginator;
-        this.auditService.audit(3, response.auditEventIds[0], 'devices');
-        this.getDevices();
+        this.auditService.audit(3, response.auditEventIds[0], 'lost-rid-status');
+        this.getlostridDetails();
       });
   }
 
@@ -87,11 +85,10 @@ export class ViewComponent implements OnInit, OnDestroy {
     filters.pagination.pageFetch = event.pageSize;
     filters.pagination.pageStart = event.pageIndex;
     const url = Utils.convertFilterToUrl(filters);
-    this.router.navigateByUrl(`admin/resources/devices/view?${url}`);
+    this.router.navigateByUrl(`admin/lost-rid-status/view?${url}`);
   }
 
-  getSortColumn(event: SortModel) {
-    console.log(event);
+  getSortColumn(event: SortModel) {    
     this.sortFilter.forEach(element => {
       if (element.sortField === event.sortField) {
         const index = this.sortFilter.indexOf(element);
@@ -99,17 +96,16 @@ export class ViewComponent implements OnInit, OnDestroy {
       }
     });
     if (event.sortType != null) {
-    this.sortFilter.push(event);
-  }
-    console.log(this.sortFilter);
+      this.sortFilter.push(event);
+    }
     const filters = Utils.convertFilter(this.activatedRoute.snapshot.queryParams, this.primaryLang);
-    filters.sort = this.sortFilter;
+    filters.sort = this.sortFilter.slice(1);
     const url = Utils.convertFilterToUrl(filters);
-    this.router.navigateByUrl('admin/resources/devices/view?' + url);
+    this.router.navigateByUrl('admin/lost-rid-status/view?' + url);
   }
 
-  getDevices() {
-    this.devices = [];
+  getlostridDetails() {
+    this.datas = [];
     this.noData = false;
     this.filtersApplied = false;
     const filters = Utils.convertFilter(this.activatedRoute.snapshot.queryParams, this.primaryLang);
@@ -118,37 +114,22 @@ export class ViewComponent implements OnInit, OnDestroy {
     }
     this.sortFilter = filters.sort;
     if(this.sortFilter.length == 0){
-      this.sortFilter.push({"sortType":"desc","sortField":"createdDateTime"});      
+      this.sortFilter.push({"sortType":"desc","sortField":"registrationDate"});      
     }
     this.requestModel = new RequestModel(null, null, filters);
     console.log(JSON.stringify(this.requestModel));
     this.dataStroageService
-      .getDevicesData(this.requestModel)
-      .subscribe(({ response, errors }) => {
-        console.log(response);
+      .getlostridDetails(this.requestModel)
+      .subscribe(({ response, errors }) => {        
         if (response != null) {
-          this.paginatorOptions.totalEntries = response.totalRecord;
-          this.paginatorOptions.pageIndex = filters.pagination.pageStart;
-          this.paginatorOptions.pageSize = filters.pagination.pageFetch;
-          console.log(this.paginatorOptions);
-          if (response.data != null) {
-            this.devices = [...response.data];
+          this.paginatorOptions.totalEntries = 0;
+          this.paginatorOptions.pageIndex = 0;
+          this.paginatorOptions.pageSize = 0;
+          if (response.data.length) {
+            this.datas = [...response.data];
+            console.log("this.datas>>>"+this.datas);
           } else {
             this.noData = true;
-        //   this.dialog
-        //   .open(DialogComponent, {
-        //      data: {
-        //       case: 'MESSAGE',
-        //       title: this.errorMessages.noData.title,
-        //       message: this.errorMessages.noData.message,
-        //       btnTxt: this.errorMessages.noData.btnTxt
-        //      } ,
-        //     width: '700px'
-        //   }).afterClosed().subscribe( result => {
-        //     this.router.navigateByUrl(
-        //       `admin/resources/devices/view`
-        //     );
-        //   });
          }
       } else {
         this.dialog

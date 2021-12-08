@@ -181,12 +181,14 @@ export class EditComponent {
     //load weekdays label in primary language
     //this.days = appConstants.days[this.primaryLang];
     //load secondary labels
+    if(this.secondaryLang){
     this.translateService
       .getTranslation(this.secondaryLang)
       .subscribe(response => {
         this.secondaryLanguageLabels = response.center;
         //console.log(this.secondaryLanguageLabels);
       });
+    }
     //load popup messages labels  
     this.translateService
       .getTranslation(this.primaryLang)

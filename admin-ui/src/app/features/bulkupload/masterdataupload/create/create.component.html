@@ -19,7 +19,7 @@
             <mat-form-field>
               <mat-label>{{labelanddatas.operation | translate }}</mat-label>
               <mat-select
-                formControlName="operation"
+                formControlName="operation" id="operation"
               >
                 <mat-option
                   *ngFor="let data of labelanddatas.operationCtrl"
@@ -35,7 +35,7 @@
             <div style="width:100%;display:inline">
               <mat-form-field style="width:98% !important;">              
                 <mat-label>{{labelanddatas.tableName | translate }}</mat-label>
-                <mat-select formControlName="tableName" (selectionChange)="captureDropDownValue($event)" >
+                <mat-select formControlName="tableName" id="tableName" (selectionChange)="captureDropDownValue($event)" >
                   <mat-option
                     *ngFor="let data of labelanddatas.tableNames"
                     [value]="data.id"

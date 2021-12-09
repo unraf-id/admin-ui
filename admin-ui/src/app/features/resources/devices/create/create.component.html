@@ -17,7 +17,7 @@
             <br /><br />
             
             <mat-form-field>
-              <input #keyboardRef #name (focus)="scrollPage(name, 'primary', 'name', 0)" formControlName="name" matInput
+              <input #keyboardRef #name (focus)="scrollPage(name, 'primary', 'name', 0)" formControlName="name" id="name" matInput
                 placeholder="{{
                               'devices.name' | translate
                             }}" required />
@@ -30,7 +30,7 @@
 
             <mat-form-field>
               <input #keyboardRef #serialNumber (focus)="scrollPage(serialNumber, 'primary', 'serialNumber', 1)"
-                formControlName="serialNumber" matInput placeholder="{{
+                formControlName="serialNumber" id="serialNumber" matInput placeholder="{{
                               'devices.serialNumber' | translate
                             }}" required/>
               <mat-error *ngIf="
@@ -42,7 +42,7 @@
 
             <mat-form-field>
               <input #keyboardRef #macAddress (focus)="scrollPage(macAddress, 'primary', 'macAddress', 2)"
-                formControlName="macAddress" matInput placeholder="{{
+                formControlName="macAddress" id="macAddress" matInput placeholder="{{
                               'devices.macAddress' | translate
                             }}" required/>
               <mat-error *ngIf="
@@ -54,7 +54,7 @@
 
             <mat-form-field>
               <input #keyboardRef #ipAddress (focus)="scrollPage(ipAddress, 'primary', 'ipAddress', 3)"
-                formControlName="ipAddress" matInput placeholder="{{
+                formControlName="ipAddress" id="ipAddress" matInput placeholder="{{
                               'devices.ipAddress' | translate
                             }}" />
               <mat-error *ngIf="
@@ -65,7 +65,7 @@
             </mat-form-field>
 
             <mat-form-field>
-              <input matInput [min]="minDate" [matDatepicker]="picker" formControlName="validity"
+              <input matInput [min]="minDate" [matDatepicker]="picker" formControlName="validity" id="validity"
                 placeholder="{{ 'devices.validity' | translate }}" />
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
@@ -79,7 +79,7 @@
 
             <mat-form-field>
               <mat-label>{{"devices.deviceSpecId" | translate}}</mat-label>
-              <mat-select formControlName="deviceSpecId" required>
+              <mat-select formControlName="deviceSpecId" id="deviceSpecId" required>
                 <mat-option *ngFor="let data of dropDownValues.deviceTypeCode.primary" [value]="data.fieldCode">
                   {{ data.fieldValue }}
                 </mat-option>
@@ -92,7 +92,7 @@
             </mat-form-field>
             <mat-form-field>
               <mat-label>{{ "devices.zone" | translate }}</mat-label>
-              <mat-select formControlName="zone" required>
+              <mat-select formControlName="zone" id="zone" required>
                 <mat-option *ngFor="let data of dropDownValues.zone.primary" 
                 (onSelectionChange)="captureDropDownValue($event, data.code, 'primary')" 
                 [value]="data.code">
@@ -108,7 +108,7 @@
             <mat-form-field>
             <mat-label>{{ "center.center-name" | translate }}</mat-label>
             <mat-select
-              formControlName="regCenterId">
+              formControlName="regCenterId" id="regCenterId">
               <mat-option *ngFor="let data of dropDownValues.regCenterCode.primary" [value]="data.id">
                 {{ data.name }}
               </mat-option>

@@ -24,11 +24,11 @@
           <div class="primary-form" style="width: 40%"> 
             <mat-form-field>
               <mat-label>{{'packet-upload.singleView.status-txt'|translate}}</mat-label>
-              <input matInput placeholder="{{'packet-upload.singleView.status-txt'|translate}}" value="{{data.status}}" readonly>
+              <input matInput placeholder="{{'packet-upload.singleView.status-txt'|translate}}" id="status" value="{{data.status}}" readonly>
             </mat-form-field> 
             <mat-form-field>
               <mat-label>{{'packet-upload.singleView.uploadedBy-txt'|translate}}</mat-label>
-              <input matInput placeholder="{{'packet-upload.singleView.status-txt'|translate}}" value="{{data.uploadedBy}}" readonly>
+              <input matInput placeholder="{{'packet-upload.singleView.status-txt'|translate}}" id="uploadedBy" value="{{data.uploadedBy}}" readonly>
             </mat-form-field> 
           </div>
           <div style="width: 10%">
@@ -36,11 +36,11 @@
           <div class="primary-form" style="width: 40%">
             <mat-form-field>
               <mat-label>{{'packet-upload.singleView.count-txt'|translate}}</mat-label>
-              <input matInput placeholder="{{'packet-upload.singleView.placeHolder1-txt'|translate}}" value="{{data.count}}" readonly>
+              <input matInput placeholder="{{'packet-upload.singleView.placeHolder1-txt'|translate}}" id="count" value="{{data.count}}" readonly>
             </mat-form-field>
             <mat-form-field>
               <mat-label>{{'packet-upload.singleView.dataAndTime-txt'|translate}}</mat-label>
-              <input matInput placeholder="{{'packet-upload.singleView.placeHolder1-txt'|translate}}" value="{{data.timeStamp | date:'short'}}" readonly>
+              <input matInput placeholder="{{'packet-upload.singleView.placeHolder1-txt'|translate}}" id="timeStamp" value="{{data.timeStamp | date:'short'}}" readonly>
             </mat-form-field> 
           </div> 
           <div style="width: 10%">
@@ -50,7 +50,7 @@
           <div class="primary-form" style="max-width: 90%">
              <mat-form-field>
               <mat-label>{{'packet-upload.singleView.failureDescription-txt'|translate}}</mat-label>
-              <input matInput placeholder="{{'packet-upload.singleView.placeHolder2-txt'|translate}}" value="{{data.statusDescription}}" readonly>
+              <input matInput placeholder="{{'packet-upload.singleView.placeHolder2-txt'|translate}}" id="statusDescription" value="{{data.statusDescription}}" readonly>
             </mat-form-field> 
           </div>
         </mat-card-content>

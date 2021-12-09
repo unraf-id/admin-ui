@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import * as appConstants from '../../app.constants';
 import { RequestModel } from '../models/request.model';
@@ -28,8 +28,8 @@ export class DataStorageService {
     return this.http.get('./assets/entity-spec/'+fileName+'.json');
   }
 
-  getsampletemplate(path:string): Observable<any> {
-    return this.http.get(path);
+  getsampletemplate(path:string): Observable<HttpResponse<Blob>> {
+    return this.http.get<Blob>(path, { observe: 'response', responseType: 'blob' as 'json' });
   }
 
   getImmediateChildren(

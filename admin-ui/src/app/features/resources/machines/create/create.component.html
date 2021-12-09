@@ -29,6 +29,7 @@
                             placeholder="{{
                               'machines.name' | translate
                             }}"
+                            required
                           />
                           <mat-error
                             *ngIf="
@@ -49,6 +50,7 @@
                             placeholder="{{
                               'machines.serialNumber' | translate
                             }}"
+                            required
                           />
                           <mat-error
                             *ngIf="
@@ -69,6 +71,7 @@
                             placeholder="{{
                               'machines.macAddress' | translate
                             }}"
+                            required
                           />
                           <mat-error
                             *ngIf="
@@ -89,6 +92,7 @@
                             placeholder="{{
                               'machines.ipAddress' | translate
                             }}"
+                            required
                           />
                           <mat-error
                             *ngIf="
@@ -106,6 +110,7 @@
                             [matDatepicker]="picker"
                             formControlName="validity"
                             placeholder="{{ 'machines.validity' | translate }}"
+                            required
                           />
                           <mat-datepicker-toggle
                             matSuffix
@@ -127,6 +132,7 @@
                         }}</mat-label>
                         <mat-select
                           formControlName="machineSpecId"
+                          required
                         >
                           <mat-option
                             *ngFor="let data of dropDownValues.machineTypeCode.primary"
@@ -148,6 +154,7 @@
                               'machines.publicKey' | translate
                             }}"
                             rows="3" cols="40"
+                            required
                             ></textarea>
                           <mat-error
                             *ngIf="
@@ -169,6 +176,7 @@
                               'machines.signPublicKey' | translate
                             }}"
                             rows="3" cols="40"
+                            required
                             ></textarea>
                           <mat-error
                             *ngIf="
@@ -183,6 +191,7 @@
                           <mat-label>{{ "machines.zone" | translate }}</mat-label>
                           <mat-select
                             formControlName="zone"
+                            required
                           >
                             <mat-option
                               *ngFor="let data of dropDownValues.zone.primary"

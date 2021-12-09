@@ -9,7 +9,6 @@ import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { HeaderService } from 'src/app/core/services/header.service';
 import { TranslateService } from '@ngx-translate/core';
 
-import { HttpResponse } from '@angular/common/http';
 import { saveAs } from 'file-saver';
 
 @Component({

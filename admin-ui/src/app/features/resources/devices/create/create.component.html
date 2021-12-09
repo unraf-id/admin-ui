@@ -15,19 +15,12 @@
                 class="material-icons">keyboard</i></span>
             <hr />
             <br /><br />
-
+            
             <mat-form-field>
-              <input #keyboardRef #id (focus)="scrollPage(id, 'primary', 'id', 0)" formControlName="id" matInput
-                placeholder="{{
-                              'devices.id' | translate
-                            }}" />
-            </mat-form-field>
-
-            <mat-form-field>
-              <input #keyboardRef #name (focus)="scrollPage(name, 'primary', 'name', 1)" formControlName="name" matInput
+              <input #keyboardRef #name (focus)="scrollPage(name, 'primary', 'name', 0)" formControlName="name" matInput
                 placeholder="{{
                               'devices.name' | translate
-                            }}" />
+                            }}" required />
               <mat-error *ngIf="
                               primary.name.touched && primary.name.hasError('required')
                             ">
@@ -36,10 +29,10 @@
             </mat-form-field>
 
             <mat-form-field>
-              <input #keyboardRef #serialNumber (focus)="scrollPage(serialNumber, 'primary', 'serialNumber', 2)"
+              <input #keyboardRef #serialNumber (focus)="scrollPage(serialNumber, 'primary', 'serialNumber', 1)"
                 formControlName="serialNumber" matInput placeholder="{{
                               'devices.serialNumber' | translate
-                            }}" />
+                            }}" required/>
               <mat-error *ngIf="
                               primary.serialNumber.touched && primary.serialNumber.hasError('required')
                             ">
@@ -48,10 +41,10 @@
             </mat-form-field>
 
             <mat-form-field>
-              <input #keyboardRef #macAddress (focus)="scrollPage(macAddress, 'primary', 'macAddress', 3)"
+              <input #keyboardRef #macAddress (focus)="scrollPage(macAddress, 'primary', 'macAddress', 2)"
                 formControlName="macAddress" matInput placeholder="{{
                               'devices.macAddress' | translate
-                            }}" />
+                            }}" required/>
               <mat-error *ngIf="
                               primary.macAddress.touched && primary.macAddress.hasError('required')
                             ">
@@ -60,7 +53,7 @@
             </mat-form-field>
 
             <mat-form-field>
-              <input #keyboardRef #ipAddress (focus)="scrollPage(ipAddress, 'primary', 'ipAddress', 4)"
+              <input #keyboardRef #ipAddress (focus)="scrollPage(ipAddress, 'primary', 'ipAddress', 3)"
                 formControlName="ipAddress" matInput placeholder="{{
                               'devices.ipAddress' | translate
                             }}" />
@@ -86,7 +79,7 @@
 
             <mat-form-field>
               <mat-label>{{"devices.deviceSpecId" | translate}}</mat-label>
-              <mat-select formControlName="deviceSpecId">
+              <mat-select formControlName="deviceSpecId" required>
                 <mat-option *ngFor="let data of dropDownValues.deviceTypeCode.primary" [value]="data.fieldCode">
                   {{ data.fieldValue }}
                 </mat-option>
@@ -99,7 +92,7 @@
             </mat-form-field>
             <mat-form-field>
               <mat-label>{{ "devices.zone" | translate }}</mat-label>
-              <mat-select formControlName="zone">
+              <mat-select formControlName="zone" required>
                 <mat-option *ngFor="let data of dropDownValues.zone.primary" 
                 (onSelectionChange)="captureDropDownValue($event, data.code, 'primary')" 
                 [value]="data.code">

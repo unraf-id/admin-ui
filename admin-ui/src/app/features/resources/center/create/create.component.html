@@ -20,7 +20,7 @@
             <br /><br />
             <h3>{{ "center.center-details" | translate }}</h3>
             <mat-form-field>
-              <input #keyboardRef #name (focus)="scrollPage(name, 'primary', 'name', 0)" formControlName="name" matInput
+              <input #keyboardRef #name (focus)="scrollPage(name, 'primary', 'name', 0)" formControlName="name" id="name" matInput
                 placeholder="{{
                   'center.registration-center-name' | translate
                 }}" required/>
@@ -39,7 +39,7 @@
               <mat-label>{{
                 "center.registration-center-type" | translate
                 }}</mat-label>
-              <mat-select formControlName="centerTypeCode" required>
+              <mat-select formControlName="centerTypeCode" id="centerTypeCode" required>
                 <mat-option *ngFor="let data of dropDownValues.centerTypeCode.primary" [value]="data.fieldCode">
                   {{ data.fieldValue }}
                 </mat-option>
@@ -57,7 +57,7 @@
             <mat-form-field>
               <input #keyboardRef #contactPerson (focus)="
                   scrollPage(contactPerson, 'primary', 'contactPerson', 1)
-                " formControlName="contactPerson" matInput placeholder="{{ 'center.contact-person' | translate }}" />
+                " formControlName="contactPerson" id="contactPerson" matInput placeholder="{{ 'center.contact-person' | translate }}" />
               <mat-error *ngIf="
                   primary.contactPerson.touched &&
                   primary.contactPerson.hasError('maxlength')
@@ -70,7 +70,7 @@
             </mat-form-field>
             <mat-form-field>
               <input #keyboardRef #contactPhone (focus)="scrollPage(contactPhone, 'primary', 'contactPhone', 2)"
-                formControlName="contactPhone" matInput placeholder="{{ 'center.contact-number' | translate }}" />
+                formControlName="contactPhone" id="contactPhone" matInput placeholder="{{ 'center.contact-number' | translate }}" />
               <mat-error *ngIf="
                   primary.contactPhone.touched &&
                   primary.contactPhone.hasError('maxlength')
@@ -85,7 +85,7 @@
             <h3>{{ "center.location-details" | translate }}</h3>
             <mat-form-field>
               <input #keyboardRef #longitude (focus)="scrollPage(longitude, 'primary', 'longitude', 3)"
-                formControlName="longitude" matInput placeholder="{{ 'center.longitude' | translate }}" required/>
+                formControlName="longitude" id="longitude" matInput placeholder="{{ 'center.longitude' | translate }}" required/>
               <mat-error *ngIf="
                   primary.longitude.touched &&
                   primary.longitude.hasError('required')
@@ -122,7 +122,7 @@
             </mat-form-field>
             <mat-form-field>
               <input #keyboardRef #latitude (focus)="scrollPage(latitude, 'primary', 'latitude', 4)"
-                formControlName="latitude" matInput placeholder="{{ 'center.latitude' | translate }}" required/>
+                formControlName="latitude" id="latitude" matInput placeholder="{{ 'center.latitude' | translate }}" required/>
               <mat-error *ngIf="
                   primary.latitude.touched &&
                   primary.latitude.hasError('required')
@@ -159,7 +159,7 @@
             </mat-form-field>
             <mat-form-field>
               <input #keyboardRef #addressline1 (focus)="scrollPage(addressline1, 'primary', 'addressLine1', 5)"
-                formControlName="addressLine1" matInput placeholder="{{ 'center.address1' | translate }}" required/>
+                formControlName="addressLine1" id="addressLine1" matInput placeholder="{{ 'center.address1' | translate }}" required/>
               <mat-error *ngIf="
                   primary.addressLine1.touched &&
                   primary.addressLine1.hasError('required')
@@ -180,7 +180,7 @@
             </mat-form-field>
             <mat-form-field>
               <input #keyboardRef #addressline2 (focus)="scrollPage(addressline2, 'primary', 'addressLine2', 6)"
-                formControlName="addressLine2" matInput placeholder="{{ 'center.address2' | translate }}" />
+                formControlName="addressLine2" id="addressLine2" matInput placeholder="{{ 'center.address2' | translate }}" />
               <mat-error *ngIf="
                   primary.addressLine2.touched &&
                   primary.addressLine2.hasError('maxlength')
@@ -193,7 +193,7 @@
             </mat-form-field>
             <mat-form-field>
               <input #keyboardRef #addressline3 (focus)="scrollPage(addressline3, 'primary', 'addressLine3', 7)"
-                formControlName="addressLine3" matInput placeholder="{{ 'center.address3' | translate }}" />
+                formControlName="addressLine3" id="addressLine3" matInput placeholder="{{ 'center.address3' | translate }}" />
               <mat-error *ngIf="
                   primary.addressLine3.touched &&
                   primary.addressLine3.hasError('maxlength')
@@ -208,7 +208,7 @@
             <div>
               <mat-form-field *ngFor="let fieldName of locationFieldNameList; let i = index; let odd = odd" [ngClass]="odd ? 'right-sizing-container' : 'left-sizing-container'">
                 <mat-label>{{ fieldName }}</mat-label>
-                <mat-select [value]="dynamicFieldValue[fieldName]" (selectionChange)="
+                <mat-select [value]="dynamicFieldValue[fieldName]" id="fieldName" (selectionChange)="
                     loadLocationDataDynamically($event, i);
                   ">
                   <mat-option *ngFor="let data of dynamicDropDown[fieldName]" [value]="data.code">
@@ -311,7 +311,7 @@
               </mat-form-field> -->
               <mat-form-field class="right-sizing">
                 <mat-label>{{ "center.zone" | translate }}</mat-label>
-                <mat-select formControlName="zone" required>
+                <mat-select formControlName="zone" id="zone" required>
                   <mat-option *ngFor="let data of dropDownValues.zone.primary" [value]="data.code">
                     {{ data.name }}
                   </mat-option>
@@ -327,7 +327,7 @@
             <h3>{{ "center.operational-details" | translate }}</h3>
             <mat-form-field>
               <mat-label>{{ "center.holiday-zone" | translate }}</mat-label>
-              <mat-select formControlName="holidayZone" required>
+              <mat-select formControlName="holidayZone" id="holidayZone" required>
                 <mat-option *ngFor="let data of dropDownValues.holidayZone.primary" [value]="data.code">
                   {{ data.name }}
                 </mat-option>
@@ -343,7 +343,7 @@
             </mat-form-field>
             <div class="flex-display">
               <mat-form-field class="left-sizing">
-                <input formControlName="noKiosk" matInput placeholder="{{ 'center.no-kiosk' | translate }}" />
+                <input formControlName="noKiosk" id="noKiosk" matInput placeholder="{{ 'center.no-kiosk' | translate }}" />
                 <mat-error *ngIf="
                     primary.noKiosk.touched &&
                     primary.noKiosk.hasError('required')
@@ -369,7 +369,7 @@
                 <mat-label>{{
                   "center.per-kiosk-process-time" | translate
                   }}</mat-label>
-                <mat-select formControlName="processingTime" required>
+                <mat-select formControlName="processingTime" id="processingTime" required>
                   <mat-option *ngFor="let data of dropDownValues.processingTime" [value]="data">
                     {{ data }}
                   </mat-option>
@@ -388,7 +388,7 @@
             <div class="flex-display">
               <mat-form-field class="left-sizing">
                 <mat-label>{{ "center.start-time" | translate }}</mat-label>
-                <mat-select formControlName="startTime" (selectionChange)="
+                <mat-select formControlName="startTime" id="startTime" (selectionChange)="
                     updateTimeSlotDropdownOptions(
                       'startTime',
                       'endTime',
@@ -413,7 +413,7 @@
               </mat-form-field>
               <mat-form-field class="right-sizing">
                 <mat-label>{{ "center.end-time" | translate }}</mat-label>
-                <mat-select formControlName="endTime" (selectionChange)="
+                <mat-select formControlName="endTime" id="endTime" (selectionChange)="
                     calculateWorkingHours();
                     updateTimeSlotDropdownOptions(
                       'endTime',
@@ -436,7 +436,7 @@
               </mat-form-field>
             </div>
             <mat-form-field>
-              <input formControlName="workingHours" readonly matInput
+              <input formControlName="workingHours" id="workingHours" readonly matInput
                 placeholder="{{ 'center.working-hrs' | translate }}" />
             </mat-form-field>
 
@@ -445,7 +445,7 @@
                 <mat-label>{{
                   "center.lunch-start-time" | translate
                   }}</mat-label>
-                <mat-select formControlName="lunchStartTime" (selectionChange)="
+                <mat-select formControlName="lunchStartTime" id="lunchStartTime" (selectionChange)="
                     validateAndLoadLunchEndTime();
                   ">
                   <mat-option *ngFor="let data of dropDownValues.lunchStartTime" [value]="data">
@@ -456,7 +456,7 @@
 
               <mat-form-field class="right-sizing">
                 <mat-label>{{ "center.lunch-end-time" | translate }}</mat-label>
-                <mat-select formControlName="lunchEndTime" (selectionChange)="
+                <mat-select formControlName="lunchEndTime" id="lunchEndTime" (selectionChange)="
                     validateAndLoadLunchStartTime();
                   ">
                   <mat-option *ngFor="let data of dropDownValues.lunchEndTime" [value]="data">
@@ -467,7 +467,7 @@
             </div>
             <br />
             <mat-label>{{ "center.workingDays" | translate }} <span style="color: red;">*</span></mat-label>
-            <mat-selection-list formControlName="workingDays">
+            <mat-selection-list formControlName="workingDays" id="workingDays">
               <div style="display: flex; flex-wrap: wrap; margin-left: -15px;">
                 <mat-list-option style="background-color: white" [checkboxPosition]="before" *ngFor="let day of days"
                   [value]="day.code">
@@ -483,7 +483,7 @@
             <mat-label>{{ "center.holidays" | translate }}</mat-label>
             <br /><br />
             <mat-form-field style="width: 70% !important;">
-              <input matInput [(ngModel)]="holidayDate" [min]="minDate" [ngModelOptions]="{ standalone: true }"
+              <input matInput [(ngModel)]="holidayDate" id="holidayDate"  [min]="minDate" [ngModelOptions]="{ standalone: true }"
                 [matDatepicker]="picker" placeholder="{{ 'center.datepicker-placeholder' | translate }}" />
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>

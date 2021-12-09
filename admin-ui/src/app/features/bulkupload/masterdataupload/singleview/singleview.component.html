@@ -24,15 +24,15 @@
           <div class="primary-form" style="width: 40%">
             <mat-form-field>
               <mat-label>Operation</mat-label>
-              <input matInput placeholder="Operation" value="{{data.operation}}" readonly>
+              <input matInput placeholder="Operation" id="operation" value="{{data.operation}}" readonly>
             </mat-form-field> 
             <mat-form-field>
               <mat-label>Status</mat-label>
-              <input matInput placeholder="Status" value="{{data.status}}" readonly>
+              <input matInput placeholder="Status" id="status" value="{{data.status}}" readonly>
             </mat-form-field> 
             <mat-form-field>
               <mat-label>Uploaded BY</mat-label>
-              <input matInput placeholder="Status" value="{{data.uploadedBy}}" readonly>
+              <input matInput placeholder="Status" id="uploadedBy" value="{{data.uploadedBy}}" readonly>
             </mat-form-field> 
           </div>
           <div style="width: 10%">
@@ -40,15 +40,15 @@
           <div class="primary-form" style="width: 40%">
             <mat-form-field>
               <mat-label>Table Name</mat-label>
-              <input matInput placeholder="Table Name" value="{{data.entityName}}" readonly>
+              <input matInput placeholder="Table Name" id="entityName" value="{{data.entityName}}" readonly>
             </mat-form-field> 
             <mat-form-field>
               <mat-label>Count</mat-label>
-              <input matInput placeholder="Table Name" value="{{data.count}}" readonly>
+              <input matInput placeholder="Table Name" id="count" value="{{data.count}}" readonly>
             </mat-form-field>
             <mat-form-field>
               <mat-label>Date and Time</mat-label>
-              <input matInput placeholder="Table Name" value="{{data.timeStamp | date:'short'}}" readonly>
+              <input matInput placeholder="Table Name" id="timeStamp" value="{{data.timeStamp | date:'short'}}" readonly>
             </mat-form-field> 
           </div> 
           <div style="width: 10%">
@@ -58,7 +58,7 @@
           <div class="primary-form" style="max-width: 90%">
              <mat-form-field>
               <mat-label>Failure Description</mat-label>
-              <input matInput placeholder="Operation" value="{{data.statusDescription}}" readonly>
+              <input matInput placeholder="Operation" id="statusDescription" value="{{data.statusDescription}}" readonly>
             </mat-form-field> 
           </div>
         </mat-card-content>

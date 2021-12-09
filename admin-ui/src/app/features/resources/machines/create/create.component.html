@@ -25,6 +25,7 @@
                             #name
                             (focus)="scrollPage(name, 'primary', 'name', 0)"
                             formControlName="name"
+                            id="name"
                             matInput
                             placeholder="{{
                               'machines.name' | translate
@@ -46,6 +47,7 @@
                             #serialNumber
                             (focus)="scrollPage(serialNumber, 'primary', 'serialNumber', 1)"
                             formControlName="serialNumber"
+                            id="serialNumber"
                             matInput
                             placeholder="{{
                               'machines.serialNumber' | translate
@@ -67,6 +69,7 @@
                             #macAddress
                             (focus)="scrollPage(macAddress, 'primary', 'macAddress', 2)"
                             formControlName="macAddress"
+                            id="macAddress"
                             matInput
                             placeholder="{{
                               'machines.macAddress' | translate
@@ -88,6 +91,7 @@
                             #ipAddress
                             (focus)="scrollPage(ipAddress, 'primary', 'ipAddress', 3)"
                             formControlName="ipAddress"
+                            id="ipAddress"
                             matInput
                             placeholder="{{
                               'machines.ipAddress' | translate
@@ -109,6 +113,7 @@
                             [min]="minDate"
                             [matDatepicker]="picker"
                             formControlName="validity"
+                            id="validity"
                             placeholder="{{ 'machines.validity' | translate }}"
                             required
                           />
@@ -132,6 +137,7 @@
                         }}</mat-label>
                         <mat-select
                           formControlName="machineSpecId"
+                          id="machineSpecId"
                           required
                         >
                           <mat-option
@@ -149,6 +155,7 @@
                             #publicKey
                             (focus)="scrollPage(publicKey, 'primary', 'publicKey', 0)"
                             formControlName="publicKey"
+                            id="publicKey"
                             matInput
                             placeholder="{{
                               'machines.publicKey' | translate
@@ -171,6 +178,7 @@
                             #signPublicKey
                             (focus)="scrollPage(signPublicKey, 'primary', 'signPublicKey', 0)"
                             formControlName="signPublicKey"
+                            id="signPublicKey"
                             matInput
                             placeholder="{{
                               'machines.signPublicKey' | translate
@@ -191,6 +199,7 @@
                           <mat-label>{{ "machines.zone" | translate }}</mat-label>
                           <mat-select
                             formControlName="zone"
+                            id="zone"
                             required
                           >
                             <mat-option
@@ -212,7 +221,7 @@
                         <mat-form-field>
                         <mat-label>{{ "center.center-name" | translate }}</mat-label>
                         <mat-select
-                          formControlName="regCenterId">
+                          formControlName="regCenterId" id="regCenterId">
                           <mat-option *ngFor="let data of dropDownValues.regCenterCode.primary" [value]="data.id">
                             {{ data.name }}
                           </mat-option>

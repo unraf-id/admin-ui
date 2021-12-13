@@ -160,6 +160,7 @@ export class DataStorageService {
 
   getridDetails(request: RequestModel): Observable<any> {
     delete request['request']['languageCode'];
+    request['request'].filters.push({"columnName":"statusCode","type":"equals","value":"PAUSED"});    
     return this.http.post(this.BASE_URL + appConstants.URL["rid-status"], request);
   }
 

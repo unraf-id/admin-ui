@@ -33,6 +33,8 @@ export class LostRidStatusComponent implements OnInit {
   errorMessages: any;
   noData = false;
   filtersApplied = false;
+  popupMessages: any;
+  serverError: any;
 
   constructor(
     private dataStroageService: DataStorageService,
@@ -61,6 +63,12 @@ export class LostRidStatusComponent implements OnInit {
 
   ngOnInit() {
     this.auditService.audit(5, 'ADM-045');
+    this.translateService
+      .getTranslation(this.primaryLang)
+      .subscribe(response => {
+        this.popupMessages = response;
+        this.serverError = response.serverError;
+      });
   }
 
   getlostridConfigs() {
@@ -121,36 +129,44 @@ export class LostRidStatusComponent implements OnInit {
     this.dataStroageService
       .getlostridDetails(this.requestModel)
       .subscribe(({ response, errors }) => {        
-        if (response != null) {
+        if (!errors) {
           this.paginatorOptions.totalEntries = 0;
           this.paginatorOptions.pageIndex = 0;
           this.paginatorOptions.pageSize = 0;
           if (response.data.length) {
             this.datas = [...response.data];
-            console.log("this.datas>>>"+this.datas);
           } else {
             this.noData = true;
          }
       } else {
-        this.dialog
-          .open(DialogComponent, {
-             data: {
-              case: 'MESSAGE',
-              title: this.errorMessages.technicalError.title,
-              message: this.errorMessages.technicalError.message,
-              btnTxt: this.errorMessages.technicalError.btnTxt
-             } ,
-            width: '700px'
-          })
-          .afterClosed()
-          .subscribe(result => {
-            console.log('dialog is closed from view component');
+        this.noData = true;
+        let message = "";
+        if(errors[0].errorCode === "KER-MSD-999"){
+          errors.forEach((element) => {
+            message = message + element.message.toString() +"\n\n";
           });
+          message = this.serverError[errors[0].errorCode] +"\n\n"+ message;
+        }else{
+          message = this.serverError[errors[0].errorCode];
+        }
+        this.showErrorPopup(message);
       }
-
+    });
+  }
+  showErrorPopup(message: string) {
+    this.dialog
+      .open(DialogComponent, {
+        width: '650px',
+        data: {
+          case: 'MESSAGE',
+          title: this.popupMessages.genericmessage.errorLabel,
+          message: message,
+          btnTxt: this.popupMessages.genericmessage.successButton
+        },
+        disableClose: true
       });
   }
-// tslint:disable-next-line:align
+
 ngOnDestroy() {
     this.subscribed.unsubscribe();
   }

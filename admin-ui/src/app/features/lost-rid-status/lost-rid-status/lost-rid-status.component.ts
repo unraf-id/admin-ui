@@ -126,32 +126,35 @@ export class LostRidStatusComponent implements OnInit {
     }
     this.requestModel = new RequestModel(null, null, filters);
     console.log(JSON.stringify(this.requestModel));
-    this.dataStroageService
-      .getlostridDetails(this.requestModel)
-      .subscribe(({ response, errors }) => {        
-        if (!errors) {
-          this.paginatorOptions.totalEntries = 0;
-          this.paginatorOptions.pageIndex = 0;
-          this.paginatorOptions.pageSize = 0;
-          if (response.data.length) {
-            this.datas = [...response.data];
-          } else {
-            this.noData = true;
-         }
-      } else {
-        this.noData = true;
-        let message = "";
-        if(errors[0].errorCode === "KER-MSD-999"){
-          errors.forEach((element) => {
-            message = message + element.message.toString() +"\n\n";
-          });
-          message = this.serverError[errors[0].errorCode] +"\n\n"+ message;
-        }else{
-          message = this.serverError[errors[0].errorCode];
+    if (filters.filters.length > 0)
+      this.dataStroageService
+        .getlostridDetails(this.requestModel)
+        .subscribe(({ response, errors }) => {        
+          if (!errors) {
+            this.paginatorOptions.totalEntries = 0;
+            this.paginatorOptions.pageIndex = 0;
+            this.paginatorOptions.pageSize = 0;
+            if (response.data.length) {
+              this.datas = [...response.data];
+            } else {
+              this.noData = true;
+           }
+        } else {
+          this.noData = true;
+          let message = "";
+          if(errors[0].errorCode === "KER-MSD-999"){
+            errors.forEach((element) => {
+              message = message + element.message.toString() +"\n\n";
+            });
+            message = this.serverError[errors[0].errorCode] +"\n\n"+ message;
+          }else{
+            message = this.serverError[errors[0].errorCode];
+          }
+          this.showErrorPopup(message);
         }
-        this.showErrorPopup(message);
-      }
-    });
+      });
+    else
+      this.noData = true;
   }
   showErrorPopup(message: string) {
     this.dialog

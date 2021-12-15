@@ -426,6 +426,7 @@ export class DialogComponent implements OnInit {
         this.activatedRoute.snapshot.queryParams,
         this.headerService.getUserPreferredLanguage()
       );
+      filters.pagination.pageStart = 0;
       filters.filters = this.existingFilters;
       const url = Utils.convertFilterToUrl(filters);
       this.dialog.closeAll();

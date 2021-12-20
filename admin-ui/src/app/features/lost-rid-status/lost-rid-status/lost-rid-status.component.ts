@@ -1,5 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RequestModel } from 'src/app/core/models/request.model';
+import { FilterRequest } from 'src/app/core/models/filter-request.model';
+import { FilterValuesModel } from 'src/app/core/models/filter-values.model';
+import { OptionalFilterValuesModel } from 'src/app/core/models/optional-filter-values.model';
 import { SortModel } from 'src/app/core/models/sort.model';
 import { DataStorageService } from 'src/app/core/services/data-storage.service';
 import { AppConfigService } from 'src/app/app-config.service';
@@ -20,6 +23,7 @@ import { HeaderService } from 'src/app/core/services/header.service';
 })
 export class LostRidStatusComponent implements OnInit {
   displayedColumns = [];
+  filterColumns = [];
   actionButtons = [];
   actionEllipsis = [];
   paginatorOptions: any;
@@ -28,6 +32,8 @@ export class LostRidStatusComponent implements OnInit {
   pagination = new PaginationModel();
   centerRequest = {} as CenterRequest;
   requestModel: RequestModel;
+  filtersRequest: FilterRequest;
+  filterModel: FilterValuesModel;
   datas = [];
   subscribed: any;
   errorMessages: any;
@@ -35,6 +41,14 @@ export class LostRidStatusComponent implements OnInit {
   filtersApplied = false;
   popupMessages: any;
   serverError: any;
+  filterOptions: any = {};
+  fieldNameList: any = {};
+
+  initialLocationCode: "";
+  locationFieldNameList: string[] = [];  
+  dynamicDropDown = {};
+  dynamicFieldValue = {};
+  locCode = 0;
 
   constructor(
     private dataStroageService: DataStorageService,
@@ -63,6 +77,10 @@ export class LostRidStatusComponent implements OnInit {
 
   ngOnInit() {
     this.auditService.audit(5, 'ADM-045');
+    this.initialLocationCode = this.appService.getConfig()['countryCode'];
+    this.locCode = this.appService.getConfig()['locationHierarchyLevel'];
+    this.getLocationHierarchyLevels();  
+    this.getCenterDetails();  
     this.translateService
       .getTranslation(this.primaryLang)
       .subscribe(response => {
@@ -76,47 +94,113 @@ export class LostRidStatusComponent implements OnInit {
       .getSpecFileForMasterDataEntity("lost-rid-status")
       .subscribe(response => {
         this.displayedColumns = response.columnsToDisplay;
+        this.filterColumns = response.filterColumns;        
         this.actionButtons = response.actionButtons.filter(
           value => value.showIn.toLowerCase() === 'ellipsis'
         );
         this.actionEllipsis = response.actionButtons.filter(
           value => value.showIn.toLowerCase() === 'button'
         );
+        this.filterColumns.forEach
+        for(let value of this.filterColumns) {
+          this.fieldNameList[value.filtername] = "";
+        }
         this.paginatorOptions = response.paginator;
         this.auditService.audit(3, response.auditEventIds[0], 'lost-rid-status');
         this.getlostridDetails();
       });
   }
 
-  pageEvent(event: any) {
-    const filters = Utils.convertFilter(this.activatedRoute.snapshot.queryParams, this.primaryLang);
-    filters.pagination.pageFetch = event.pageSize;
-    filters.pagination.pageStart = event.pageIndex;
-    const url = Utils.convertFilterToUrl(filters);
-    this.router.navigateByUrl(`admin/lost-rid-status/view?${url}`);
+  getLocationHierarchyLevels() {
+    let self = this;
+    let fieldNameData = {};
+    this.dataStroageService.getLocationHierarchyLevels(this.primaryLang).subscribe(response => {
+      response.response.locationHierarchyLevels.forEach(function (value) {
+        if(value.hierarchyLevel != 0)
+          if(value.hierarchyLevel <= self.locCode)          
+            self.locationFieldNameList.push(value.hierarchyLevelName);          
+      });  
+      for(let value of this.locationFieldNameList) {
+        self.dynamicDropDown[value] = []; 
+        self.dynamicFieldValue[value] = "";
+      }
+      self.loadLocationDataDynamically("", 0);
+    });      
   }
 
-  getSortColumn(event: SortModel) {    
-    this.sortFilter.forEach(element => {
-      if (element.sortField === event.sortField) {
-        const index = this.sortFilter.indexOf(element);
-        this.sortFilter.splice(index, 1);
-      }
-    });
-    if (event.sortType != null) {
-      this.sortFilter.push(event);
+  loadLocationDataDynamically(event:any, index: any) {
+    let locationCode = ""; 
+    let fieldName = "";   
+    let self = this;    
+    if(event === "") {
+      fieldName = this.locationFieldNameList[parseInt(index)];
+      locationCode = this.initialLocationCode;         
+    }else{    
+      fieldName = this.locationFieldNameList[parseInt(index)+1];
+      locationCode = event.value; 
+      this.dynamicFieldValue[this.locationFieldNameList[parseInt(index)]] = event.value;
     }
-    const filters = Utils.convertFilter(this.activatedRoute.snapshot.queryParams, this.primaryLang);
-    filters.sort = this.sortFilter.slice(1);
-    const url = Utils.convertFilterToUrl(filters);
-    this.router.navigateByUrl('admin/lost-rid-status/view?' + url);
+    this.dataStroageService
+    .getImmediateChildren(locationCode, this.primaryLang)
+    .subscribe(response => {
+      if(response['response'])
+        self.dynamicDropDown[fieldName] = response['response']['locations'];
+    });
+  }
+
+  getCenterDetails() {    
+    this.dataStroageService
+      .getLoggedInUserZone(this.headerService.getUsername(), this.headerService.getUserPreferredLanguage())
+      .subscribe(response => {
+        if (response.response) {
+          console.log(response.response.zoneCode);
+          this.dataStroageService
+            .getFiltersCenterDetailsBasedonZone(this.primaryLang, response.response.zoneCode)
+            .subscribe(response => {
+              if(!response.errors){
+                this.dynamicDropDown["centerId"] = response.response.registrationCenters;
+              }else{
+                this.dynamicDropDown["centerId"] = [];
+              }
+            });          
+        }
+      });    
+  }
+
+  captureValue(event: any, formControlName: string) {
+    this.fieldNameList[formControlName] = event.target.value;
+  }
+
+  captureDatePickerValue(event: any, formControlName: string) {
+    let dateFormat = new Date(event.target.value);
+    let formattedDate = dateFormat.getFullYear() + "-" + ("0"+(dateFormat.getMonth()+1)).slice(-2) + "-" + ("0" + dateFormat.getDate()).slice(-2);
+    this.fieldNameList[formControlName] = formattedDate;
+  }
+
+  captureDropDownValue(event: any, formControlName: string) {    
+    if (event.source.selected) {
+      this.fieldNameList[formControlName] = event.source.value;
+    }
   }
 
   getlostridDetails() {
+    let filter = [];
+    for(let value of this.filterColumns) {
+      if(this.fieldNameList[value.filtername])
+        if(value.dropdown !== 'true' && value.datePicker !== 'true'){
+          filter.push({"columnName": value.fieldName,"type": "contains","value": this.fieldNameList[value.filtername]});
+        }else if(value.dropdown === 'true' && value.fieldName === 'postalCode'){
+          filter.push({"columnName": "locCode","type": "equals","value": this.dynamicFieldValue[this.locationFieldNameList[this.locCode-1]]});
+        }else if(value.datePicker === 'true' && value.filterType === 'between'){
+          filter.push({"columnName": value.fieldName,"type": "between","value": "", "fromValue": this.fieldNameList["registrationDateFrom"], "toValue":this.fieldNameList["registrationDateTo"]});
+        }
+    }
+    filter.splice(0,1);
     this.datas = [];
     this.noData = false;
     this.filtersApplied = false;
     const filters = Utils.convertFilter(this.activatedRoute.snapshot.queryParams, this.primaryLang);
+    filters.filters = filter;
     if (filters.filters.length > 0) {
       this.filtersApplied = true;
     }
@@ -130,7 +214,7 @@ export class LostRidStatusComponent implements OnInit {
       this.dataStroageService
         .getlostridDetails(this.requestModel)
         .subscribe(({ response, errors }) => {        
-          if (!errors) {
+          if (errors.length === 0) {
             this.paginatorOptions.totalEntries = 0;
             this.paginatorOptions.pageIndex = 0;
             this.paginatorOptions.pageSize = 0;

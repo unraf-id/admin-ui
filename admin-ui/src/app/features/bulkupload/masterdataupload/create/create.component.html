@@ -23,6 +23,7 @@
               >
                 <mat-option
                   *ngFor="let data of labelanddatas.operationCtrl"
+                  [id]="data.value"
                   [value]="data.value"
                 >
                   {{data.label | translate }}

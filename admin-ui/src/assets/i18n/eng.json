@@ -720,6 +720,10 @@
         "fieldValidation":"This field is required",
         "fieldNameValidation":" is required"
     },
+    "lostridstatus": {
+        "title": "Retrieve Lost RID",
+        "button":"Show RID"
+    },
     "genericbutton":{
         "save":"Save"
     },

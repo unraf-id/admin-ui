@@ -25,6 +25,7 @@ export class PacketStatusComponent implements OnInit {
   showTimeline = false;
   messages: any;
   statusCheck: string;
+  serverMessage:any;
 
   id = '';
   error = false;
@@ -43,6 +44,7 @@ export class PacketStatusComponent implements OnInit {
     .subscribe(response => {
       console.log(response);
       this.messages = response['packet-status'];
+      this.serverMessage = response['serverError'];
     });
   }
 

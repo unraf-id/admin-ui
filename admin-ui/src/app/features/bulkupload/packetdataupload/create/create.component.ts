@@ -183,7 +183,9 @@ export class CreateComponent {
       data
     });
     dialogRef.afterClosed().subscribe(response => {
-      if (uploadResponse.response.status === 'FAILED') {
+      if(uploadResponse.errors.length>0){
+        self.uploadForm.get('fileName').setValue('');
+        document.getElementById("fileName").focus();
       } else {
         self.location.back();
       }

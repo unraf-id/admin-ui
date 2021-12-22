@@ -25,6 +25,8 @@ export class PacketStatusComponent implements OnInit {
   showTimeline = false;
   messages: any;
   statusCheck: string;
+  serverMessage:any;
+  languageCode:any;
 
   id = '';
   error = false;
@@ -37,12 +39,14 @@ export class PacketStatusComponent implements OnInit {
     private headerService: HeaderService,
     public dialog: MatDialog
   ) {
+    this.languageCode = this.headerService.getUserPreferredLanguage();
     translate.use(this.headerService.getUserPreferredLanguage());
     this.translate
     .getTranslation(this.headerService.getUserPreferredLanguage())
     .subscribe(response => {
       console.log(response);
       this.messages = response['packet-status'];
+      this.serverMessage = response['serverError'];
     });
   }
 

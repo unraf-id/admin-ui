@@ -1,23 +1,76 @@
 <ng-container>
-<span><h3 class="header"></h3></span>
-<mat-card class="mat-elevation-z5">
-  <app-toolbar
-    *ngIf="
-      actionEllipsis && actionEllipsis  && paginatorOptions
-    "
-    [buttonList]="actionEllipsis"
-    [paginationOptions]="paginatorOptions"
-    [filtersAppliedFlag]="filtersApplied"
-    (pageEvent)="pageEvent($event)"
-  ></app-toolbar>
-  <app-table
-    *ngIf="datas && displayedColumns && actionButtons"
-    [data]="datas"
-    [displayedColumns]="displayedColumns"
-    [buttonList]="actionButtons"
-    [sortData]="sortFilter"
-    [noDataFlag]="noData"
-    (sort)="getSortColumn($event)"
-  ></app-table>
+<span><h3 class="header">{{'lostridstatus.title' | translate}}</h3></span>
+<div id="flex-single-view" style="padding-top: 12px;padding-bottom: 10px;">
+<div id="flex-container">
+<div id="myDiv" class="flex-body" *ngIf="displayedColumns && actionEllipsis">
+  <mat-card>
+    <div class="example-container">
+      <div *ngFor="let field of filterColumns; let i = index" style="display:inline-flex;">
+        <mat-form-field *ngIf="field.dropdown === 'false' && field.datePicker!== 'true'" style="padding: 10px;width: 255px;">
+          <input
+            #{{field.filtername}}
+            id="{{field.filtername}}"
+            (blur)="captureValue($event, field.filtername)"
+            matInput
+            placeholder="{{field.filterlabel[primaryLang] | translate}}"
+          />
+        </mat-form-field>
+
+        <mat-form-field *ngIf="field.dropdown !== 'true' && field.datePicker === 'true'" style="padding: 10px;width: 255px;">
+          <input
+            matInput
+            [matDatepicker]="picker"
+            placeholder="{{field.filterlabel[primaryLang] | translate}}"
+            id="{{field.filtername}}"
+            (dateChange)="captureDatePickerValue($event, field.filtername)"
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="field.dropdown === 'true' && field.datePicker !== 'true' && field.filtername !== 'postalCode'" style="padding: 10px;width: 255px;">
+          <mat-select 
+            id="{{field.filtername}}"
+            placeholder="{{field.filterlabel[primaryLang] | translate}}">
+            <mat-option *ngFor="let data of dynamicDropDown[field.filtername]" 
+            (onSelectionChange)="captureDropDownValue($event, field.filtername)" 
+            [value]="data.code">
+              {{ data.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div *ngFor="let field of filterColumns; let i = index">
+        <div *ngIf="field.dropdown === 'true' && field.datePicker !== 'true' && field.filtername === 'postalCode'" style="padding-left: 10px;">
+          <mat-form-field *ngFor="let fieldName of locationFieldNameList; let i = index; let odd = odd" [ngClass]="odd ? 'right-sizing-container' : 'left-sizing-container'" style="width: 240px;">
+            <mat-label>{{ fieldName }}</mat-label>
+            <mat-select [value]="dynamicFieldValue[fieldName]" id="dynamicFieldValue[fieldName]" (selectionChange)="
+                loadLocationDataDynamically($event, i);
+              ">
+              <mat-option *ngFor="let data of dynamicDropDown[fieldName]" [value]="data.code">
+                {{ data.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div> 
+      </div>
+
+      <button id="createButton" mat-raised-button (click)="getlostridDetails()" style="text-align:right;">
+        {{actionEllipsis[0].buttonName[primaryLang] | translate}}
+      </button>
+    </div>
+  </mat-card>
+</div>
+</div>
+</div>
+<mat-card class="mat-elevation-z5" *ngIf="this.datas">
+  <table *ngFor="let data of datas; let i = index">
+    <tr>
+      <td>{{data.registrationId}}</td>
+      <td>{{data.registartionDate}}</td>
+    </tr>
+  </table>
+
 </mat-card>
 </ng-container>

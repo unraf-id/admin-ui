@@ -86,7 +86,7 @@ export class CreateComponent {
     this.dataStorageService
     .getsampletemplate(buildURL).subscribe(
       data => {
-        var fileName = "report.xlsx";
+        var fileName = this.tableName+".csv";
         const contentDisposition = data.headers.get('Content-Disposition');
         if (contentDisposition) {
           const fileNameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
@@ -101,10 +101,7 @@ export class CreateComponent {
         console.error(err);
       });
   }
-
-
-  /**/
-
+  
   onFileSelect(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -217,7 +214,7 @@ export class CreateComponent {
       data
     });
     dialogRef.afterClosed().subscribe(response => {   
-      if(uploadResponse.response.status == "FAILED"){
+      if(uploadResponse.errors.length>0){
         self.uploadForm.get('fileName').setValue('');
         document.getElementById("fileName").focus();
       }else{

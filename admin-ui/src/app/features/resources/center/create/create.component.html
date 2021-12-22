@@ -488,7 +488,7 @@
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>&nbsp;&nbsp;&nbsp;&nbsp;
-            <button [disabled]="disableForms" mat-raised-button (click)="createExceptionalHoliday()">
+            <button [disabled]="disableForms" id ="createExceptionalHoliday" mat-raised-button (click)="createExceptionalHoliday()">
               {{ "center.add-button" | translate }}
             </button>
             <div style="display: flex; flex-wrap: wrap;">

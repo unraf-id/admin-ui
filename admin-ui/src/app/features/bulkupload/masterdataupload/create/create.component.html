@@ -23,6 +23,7 @@
               >
                 <mat-option
                   *ngFor="let data of labelanddatas.operationCtrl"
+                  [id]="data.value"
                   [value]="data.value"
                 >
                   {{data.label | translate }}
@@ -38,6 +39,7 @@
                 <mat-select formControlName="tableName" id="tableName" (selectionChange)="captureDropDownValue($event)" >
                   <mat-option
                     *ngFor="let data of labelanddatas.tableNames"
+                    [id]="data.id"
                     [value]="data.id"
                   >
                     {{data.value | translate }}

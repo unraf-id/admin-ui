@@ -78,6 +78,7 @@
           mat-icon-button
           [matMenuTriggerFor]="menu"
           (click)="ellipsisAction(data)"
+          id="ellipsis-button{{i}}"
         >
           <mat-icon class="ellipsis-button">more_vert</mat-icon>
         </button>
@@ -88,6 +89,7 @@
             mat-menu-item
             *ngFor="let button of ellipsisList"
             (click)="selectedRow(data, button)"
+            id={{button.buttonName.eng}}{{i}}
           >
             <span>{{ button.buttonName[lang] }}</span>
           </button>
@@ -98,6 +100,7 @@
             mat-menu-item
             *ngFor="let button of ellipsisList[i]"
             (click)="selectedRow(data, button)"
+            id={{button.buttonName.eng}}{{i}}
           >
             <span>{{ button.buttonName[lang] }}</span>
           </button>

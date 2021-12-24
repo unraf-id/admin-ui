@@ -155,12 +155,12 @@ export class LostRidStatusComponent implements OnInit {
   }
 
   getlocationDetails() {    
-    const filterObject = new FilterValuesModel('locationCode', 'unique', '');
-    let optinalFilterObject = [{"columnName":"isActive","type":"equals","value":"true"}];
+    const filterObject = new FilterValuesModel('code', 'unique', '');
+    let optinalFilterObject = [{"columnName":"hierarchyLevel","type":"equals","value":this.locCode.toString()}];
     let filterRequest = new FilterRequest([filterObject], this.primaryLang, optinalFilterObject);
     let request = new RequestModel('', null, filterRequest);
     this.dataStroageService
-      .getFiltersForAllMaterDataTypes('registrationcenters', request)
+      .getFiltersForAllMaterDataTypes('locations', request)
       .subscribe(response => {
         if(!response.errors){
           this.dynamicDropDown["locationCode"] = response.response.filters;
@@ -172,7 +172,7 @@ export class LostRidStatusComponent implements OnInit {
 
   getCenterDetails(locCode) {    
     const filterObject = new FilterValuesModel('name', 'unique', '');
-    let optinalFilterObject = [{"columnName":"locationCode","type":"equals","value":locCode}, {"columnName":"isActive","type":"equals","value":"true"}];
+    let optinalFilterObject = [{"columnName":"locationCode","type":"equals","value":locCode}];
     let filterRequest = new FilterRequest([filterObject], this.primaryLang, optinalFilterObject);
     let request = new RequestModel('', null, filterRequest);
     this.dataStroageService
@@ -197,12 +197,14 @@ export class LostRidStatusComponent implements OnInit {
   }
 
   captureDropDownValue(event: any, formControlName: string) {    
-    if (event.source.selected) {
-      this.fieldNameList[formControlName] = event.source.value;
+    if (event.source.selected) {      
       if(formControlName === "locationCode"){
+        this.fieldNameList[formControlName] = event.source.value;
         this.dynamicDropDown["centerId"] = [];
-        this.getCenterDetails(event.source.value);
-      }        
+        this.getCenterDetails(event.source.viewValue);
+      }else{
+        this.fieldNameList[formControlName] = event.source.value;
+      }   
     }
   }
 
@@ -267,28 +269,31 @@ export class LostRidStatusComponent implements OnInit {
         .getlostridDetails(this.requestModel)
         .subscribe(({ response, errors }) => {        
           if (errors.length === 0) {
-            this.paginatorOptions.totalEntries = 0;
-            this.paginatorOptions.pageIndex = 0;
-            this.paginatorOptions.pageSize = 0;
-            this.showTable = true;
-            if (response.data.length) {
-              this.datas = [...response.data];
-            } else {
-              this.noData = true;
-           }
-        } else {
-          this.noData = true;
-          let message = "";
-          if(errors[0].errorCode === "KER-MSD-999"){
-            errors.forEach((element) => {
-              message = message + element.message.toString() +"\n\n";
-            });
-            message = this.serverError[errors[0].errorCode] +"\n\n"+ message;
-          }else{
-            message = this.serverError[errors[0].errorCode];
+              this.paginatorOptions.totalEntries = 0;
+              this.paginatorOptions.pageIndex = 0;
+              this.paginatorOptions.pageSize = 0;              
+              if (response.data.length) {
+                this.datas = [...response.data];
+                this.datas.forEach((element, index) => {
+                  this.datas[index]["name"] = element.additionalInfo.name;
+                }); 
+                this.showTable = true;
+              } else {
+                this.noData = true;
+             }
+          } else {
+            this.noData = true;
+            let message = "";
+            if(errors[0].errorCode === "KER-MSD-999"){
+              errors.forEach((element) => {
+                message = message + element.message.toString() +"\n\n";
+              });
+              message = this.serverError[errors[0].errorCode] +"\n\n"+ message;
+            }else{
+              message = this.serverError[errors[0].errorCode];
+            }
+            this.showErrorPopup(message);
           }
-          this.showErrorPopup(message);
-        }
       });
     else
       this.noData = true;

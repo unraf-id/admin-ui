@@ -43,7 +43,7 @@
             [value]="fieldNameList[field.filtername]">
             <mat-option *ngFor="let data of dynamicDropDown[field.filtername]" 
             (onSelectionChange)="captureDropDownValue($event, field.filtername)" 
-            [value]="data.fieldCode">
+            [value]="data.fieldValue">
               {{ data.fieldValue }}
             </mat-option>
           </mat-select>

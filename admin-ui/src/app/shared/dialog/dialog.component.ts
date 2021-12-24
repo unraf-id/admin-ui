@@ -146,8 +146,7 @@ export class DialogComponent implements OnInit {
               self.FilterData[index].filterlabel["eng"] = values.filtername;
           });     
       });
-    });      
-    console.log("self.FilterData>>>"+JSON.stringify(self.FilterData));
+    });
   }
 
   getMissingData(input: any) {

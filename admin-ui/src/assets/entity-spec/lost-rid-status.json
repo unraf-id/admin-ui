@@ -22,7 +22,8 @@
       "sortOrder": "3",
       "showAsLink": "",
       "linkType": "",
-      "LinkURL": ""
+      "LinkURL": "",
+      "noSort": "true"
     },
     {
       "name": "registartionDate",
@@ -31,7 +32,19 @@
       "sortOrder": "3",
       "showAsLink": "",
       "linkType": "",
-      "LinkURL": ""
+      "LinkURL": "",
+      "noSort": "true"
+    },
+    {
+      "name": "name",
+      "showInListView": "true",
+      "showInSingleView": "true",
+      "label": {"eng": "Name","ara": "اسم","fra": "prénom","tam": "பெயர்","hin": "नाम","kan": "ಹೆಸರು"},
+      "sortOrder": "3",
+      "showAsLink": "",
+      "linkType": "",
+      "LinkURL": "",
+      "noSort": "true"
     }
   ],
   "paginator": {},
@@ -132,7 +145,7 @@
       "autocomplete": "false",
       "dropdown": "true",
       "datePicker": "false",
-      "apiName": "registrationcenters",
+      "apiName": "locations",
       "fieldName": "locationCode",
       "methodCallName": "",
       "ismandatory": "true"

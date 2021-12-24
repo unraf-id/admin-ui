@@ -506,6 +506,7 @@
             "input-text2":"ارفع ملفك",
             "upload-btn":"تحميل",
             "cancel-btn":"إلغاء",
+            "center": "مركز",
             "popupMessaages":{
                 "popup1":{
                     "uploadConfirm":"تأكيد تحميل الحزمة",
@@ -715,6 +716,13 @@
     "isActive":{
         "Active":"نشيط",
         "InActive":"غير نشط"
+    },
+    "lostRID":{
+        "titleTxt":"استرداد Lost RID",
+        "subtitleenrollment":"تفاصيل التسجيل",
+        "subtitlelocation":"موقع",
+        "searchbtn":"بحث",
+        "clearbtn":"صافي"
     },
     "generatecsr": {
         "title": "توليد CSR",

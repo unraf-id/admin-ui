@@ -506,6 +506,7 @@
           "input-text2":"Téléchargez votre fichier",
           "upload-btn":"TÉLÉCHARGER",
           "cancel-btn":"ANNULER",
+          "center": "Centre",
           "popupMessaages":{
               "popup1":{
                   "uploadConfirm":"Confirmer le téléchargement des paquets",
@@ -664,6 +665,13 @@
     "isActive":{
         "Active":"ACTIVE",
         "InActive":"INACTIVE"
+    },
+    "lostRID":{
+        "titleTxt":"Récupérer le RID perdu",
+        "subtitleenrollment":"Détails de l'inscription",
+        "subtitlelocation":"Emplacement",
+        "searchbtn":"Chercher",
+        "clearbtn":"Dégager"
     },
     "generatecsr": {
         "title": "Générer la RSE",

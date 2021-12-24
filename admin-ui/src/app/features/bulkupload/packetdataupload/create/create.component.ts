@@ -9,6 +9,10 @@ import { HeaderService } from 'src/app/core/services/header.service';
 import { DataStorageService } from 'src/app/core/services/data-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 
+import { FilterRequest } from 'src/app/core/models/filter-request.model';
+import { FilterValuesModel } from 'src/app/core/models/filter-values.model';
+import { RequestModel } from 'src/app/core/models/request.model';
+
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
@@ -29,6 +33,8 @@ export class CreateComponent {
   fileNameError:boolean = false;
   buttonalignment = 'ltr';
   serverError:any;
+  dynamicDropDown = {};
+
   constructor(
   private bulkuploadService: BulkuploadService,
   private location: Location,
@@ -64,9 +70,27 @@ export class CreateComponent {
   initializeForm() {
     this.uploadForm = this.formBuilder.group({
       category : ['packet'],
+      centerId: [''],
       files: ['', [Validators.required]],
       fileName: ['', [Validators.required]]
     });
+    this.getCenterDetails();
+  }
+
+  getCenterDetails() {    
+    const filterObject = new FilterValuesModel('name', 'unique', '');
+    let optinalFilterObject = [{"columnName":"isActive","type":"equals","value":"true"}];
+    let filterRequest = new FilterRequest([filterObject], this.primaryLangCode, optinalFilterObject);
+    let request = new RequestModel('', null, filterRequest);
+    this.dataService
+      .getFiltersForAllMaterDataTypes('registrationcenters', request)
+      .subscribe(response => {
+        if(!response.errors){
+          this.dynamicDropDown["centerList"] = response.response.filters;
+        }else{
+          this.dynamicDropDown["centerList"] = [];
+        }
+      });        
   }
 
   onFileSelect(event) {
@@ -78,6 +102,12 @@ export class CreateComponent {
       this.fileCount = event.target.files.length;
       document.getElementById("fileName").classList.remove('addredborder');
       this.fileNameError = false;
+    }
+  }
+
+  captureDropDownValue(event: any, formControlName: string) {    
+    if (event.source.selected) {
+      this.uploadForm.get(formControlName).setValue(event.source.value);
     }
   }
 
@@ -129,6 +159,7 @@ export class CreateComponent {
     }
 
     formData.append('category', self.uploadForm.get('category').value);
+    formData.append('centerId', self.uploadForm.get('centerId').value);
     formData.append('operation', '');
     formData.append('tableName', '');
     self.bulkuploadService.uploadData(formData).subscribe(uploadResponse => {

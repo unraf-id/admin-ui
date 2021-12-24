@@ -85,6 +85,14 @@ export const navItems = [
     roles: ['REGISTRATION_ADMIN']
   },
   {
+    displayName: 'menuItems.item8.title',
+    icon: './assets/images/id-card.svg',
+    route: '/admin/lost-rid-status',
+    children: null,
+    auditEventId: 'ADM-009',
+    roles: ['REGISTRATION_ADMIN']
+  },
+  {
     displayName: 'menuItems.item3.title',
     icon: './assets/images/id-card.svg',
     route: '/admin/masterdata',

@@ -10,32 +10,32 @@
     	 "setExcludedGroups": 
     	    	"BL,BU,CTR,CT,DS,D,DT,DOC,DOCT,DF,H,MS,M,MT"
     	    	,
-    "langcode": [
-        {
-          "language": "tam",
-          "value": "à®¤à®®à®¿à®´à¯�"
-        },
-        {
-            "language": "kan",
-            "value": "à²•à²¨à³�à²¨à²¡"
-          },
-          {
-              "language": "hin",
-              "value": "à¤¹à¤¿à¤‚à¤¦à¥€"
-            },
-            {
-                "language": "eng",
-                "value": "English"
-              },
-              {
-                  "language": "fra",
-                  "value": "FranÃ§ais"
-                },
-                {
-                    "language": "ara",
-                    "value": "Arabic"
-                  }
-      ],
+    	    	  "langcode": [
+    	    	        {
+    	    	          "language": "tam",
+    	    	          "value": "தமிழ்"
+    	    	        },
+    	    	        {
+    	    	            "language": "kan",
+    	    	            "value": "ಕನ್ನಡ"
+    	    	          },
+    	    	          {
+    	    	              "language": "hin",
+    	    	              "value": "हिंदी"
+    	    	            },
+    	    	            {
+    	    	                "language": "eng",
+    	    	                "value": "English"
+    	    	              },
+    	    	              {
+    	    	                  "language": "fra",
+    	    	                  "value": "Français"
+    	    	                },
+    	    	                {
+    	    	                    "language": "ara",
+    	    	                    "value": "Arabic"
+    	    	                  }
+    	    	      ],
     
   }
 }

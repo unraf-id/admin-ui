@@ -507,6 +507,7 @@
             "input-text2": "உங்கள் கோப்பை பதிவேற்றவும்",
             "upload-btn": "பதிவேற்று",
             "cancel-btn": "ரத்துசெய்",
+            "center": "மையம்",
             "popupMessaages": {
                 "popup1": {
                     "uploadConfirm": "பாக்கெட் பதிவேற்றத்தை உறுதிப்படுத்தவும்",
@@ -793,6 +794,13 @@
     "isActive": {
         "Active": "செயலில்",
         "InActive": "செயலற்றது"
+    },
+    "lostRID":{
+        "titleTxt":"இழந்த RID ஐ மீட்டெடுக்கவும்",
+        "subtitleenrollment":"பதிவு விவரங்கள்",
+        "subtitlelocation":"இடம்",
+        "searchbtn":"தேடு",
+        "clearbtn":"தெளிவு"
     },
     "generatecsr": {
         "title": "சி.எஸ்.ஆரை உருவாக்குங்கள்",

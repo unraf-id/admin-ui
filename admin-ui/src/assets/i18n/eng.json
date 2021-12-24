@@ -510,6 +510,7 @@
         "input-text2":"Upload Your File",
         "upload-btn":"UPLOAD",
         "cancel-btn":"CANCEL",
+        "center": "Center",
         "popupMessaages":{
             "popup1":{
                 "uploadConfirm":"Confirm Packet Upload",
@@ -667,6 +668,13 @@
     "isActive":{
         "Active":"ACTIVE",
         "InActive":"INACTIVE"
+    },
+    "lostRID":{
+        "titleTxt":"Retrieve Lost RID",
+        "subtitleenrollment":"Enrollment Details",
+        "subtitlelocation":"Location",
+        "searchbtn":"Search",
+        "clearbtn":"Clear"
     },
     "generatecsr": {
         "title": "Generate CSR",

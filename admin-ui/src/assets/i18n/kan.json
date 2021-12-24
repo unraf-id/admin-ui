@@ -507,6 +507,7 @@
 			"input-text2": "ನಿಮ್ಮ ಫೈಲ್ ಅನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ",
 			"upload-btn": "ಅಪ್‌ಲೋಡ್ ಮಾಡಿ",
 			"cancel-btn": "ರದ್ದುಗೊಳಿಸಿ",
+			"center": "ಕೇಂದ್ರ",
 			"popupMessaages": {
 				"popup1": {
 					"uploadConfirm": "ಪ್ಯಾಕೆಟ್ ಅಪ್‌ಲೋಡ್ ಅನ್ನು ದೃ irm ೀಕರಿಸಿ",
@@ -799,6 +800,13 @@
 		"Active": "ಸಕ್ರಿಯ",
 		"InActive": "ನಿಷ್ಕ್ರಿಯ"
 	},
+    "lostRID":{
+        "titleTxt":"ಕಳೆದುಹೋದ RID ಅನ್ನು ಹಿಂಪಡೆಯಿರಿ",
+        "subtitleenrollment":"ದಾಖಲಾತಿ ವಿವರಗಳು",
+        "subtitlelocation":"ಸ್ಥಳ",
+        "searchbtn":"ಹುಡುಕಿ",
+        "clearbtn":"ಸ್ಪಷ್ಟ"
+    },
 	"generatecsr": {
 		"title": "ಸಿಎಸ್ಆರ್ ರಚಿಸಿ",
 		"applicationId": "ಅಪ್ಲಿಕೇಶನ್ ಐಡಿ",

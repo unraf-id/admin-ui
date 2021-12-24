@@ -1,0 +1,41 @@
+{
+  "identity": {
+	  "BELOW_ARE_STATIC_KEYWORDS":"",
+   
+	  
+    "BELOW_ARE_THE_SCHEMA_LEVEL_ID's_DATA":"",
+    "setExcludedGroups1": 
+    	"BL,BU,CTR,CT,DS,D,DT,DOC,DOCT,DF,H,MS,M,MT,T"
+    	,
+    	 "setExcludedGroups": 
+    	    	"BL,BU,CTR,CT,DS,D,DT,DOC,DOCT,DF,H,MS,M,MT"
+    	    	,
+    	    	  "langcode": [
+    	    	        {
+    	    	          "language": "tam",
+    	    	          "value": "தமிழ்"
+    	    	        },
+    	    	        {
+    	    	            "language": "kan",
+    	    	            "value": "ಕನ್ನಡ"
+    	    	          },
+    	    	          {
+    	    	              "language": "hin",
+    	    	              "value": "हिंदी"
+    	    	            },
+    	    	            {
+    	    	                "language": "eng",
+    	    	                "value": "English"
+    	    	              },
+    	    	              {
+    	    	                  "language": "fra",
+    	    	                  "value": "Français"
+    	    	                },
+    	    	                {
+    	    	                    "language": "ara",
+    	    	                    "value": "Arabic"
+    	    	                  }
+    	    	      ]
+    
+  }
+}

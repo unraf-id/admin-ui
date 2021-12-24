@@ -43,6 +43,7 @@ export class LostRidStatusComponent implements OnInit {
   serverError: any;
   filterOptions: any = {};
   fieldNameList: any = {};
+  showTable = false;
 
   initialLocationCode: "";
   locationFieldNameList: string[] = [];  
@@ -79,8 +80,8 @@ export class LostRidStatusComponent implements OnInit {
     this.auditService.audit(5, 'ADM-045');
     this.initialLocationCode = this.appService.getConfig()['countryCode'];
     this.locCode = this.appService.getConfig()['locationHierarchyLevel'];
-    this.getLocationHierarchyLevels();  
-    this.getCenterDetails();  
+    //this.getLocationHierarchyLevels();  
+    this.getlocationDetails();
     this.translateService
       .getTranslation(this.primaryLang)
       .subscribe(response => {
@@ -135,10 +136,15 @@ export class LostRidStatusComponent implements OnInit {
     if(event === "") {
       fieldName = this.locationFieldNameList[parseInt(index)];
       locationCode = this.initialLocationCode;         
-    }else{    
+    }else{ 
       fieldName = this.locationFieldNameList[parseInt(index)+1];
-      locationCode = event.value; 
+      locationCode = event.value;     
       this.dynamicFieldValue[this.locationFieldNameList[parseInt(index)]] = event.value;
+      if((parseInt(index)+1) === this.locationFieldNameList.length){
+        this.getCenterDetails(event.value); 
+      }else{
+        this.dynamicDropDown["centerId"] = "";
+      }
     }
     this.dataStroageService
     .getImmediateChildren(locationCode, this.primaryLang)
@@ -148,23 +154,36 @@ export class LostRidStatusComponent implements OnInit {
     });
   }
 
-  getCenterDetails() {    
+  getlocationDetails() {    
+    const filterObject = new FilterValuesModel('locationCode', 'unique', '');
+    let optinalFilterObject = [{"columnName":"isActive","type":"equals","value":"true"}];
+    let filterRequest = new FilterRequest([filterObject], this.primaryLang, optinalFilterObject);
+    let request = new RequestModel('', null, filterRequest);
     this.dataStroageService
-      .getLoggedInUserZone(this.headerService.getUsername(), this.headerService.getUserPreferredLanguage())
+      .getFiltersForAllMaterDataTypes('registrationcenters', request)
       .subscribe(response => {
-        if (response.response) {
-          console.log(response.response.zoneCode);
-          this.dataStroageService
-            .getFiltersCenterDetailsBasedonZone(this.primaryLang, response.response.zoneCode)
-            .subscribe(response => {
-              if(!response.errors){
-                this.dynamicDropDown["centerId"] = response.response.registrationCenters;
-              }else{
-                this.dynamicDropDown["centerId"] = [];
-              }
-            });          
+        if(!response.errors){
+          this.dynamicDropDown["locationCode"] = response.response.filters;
+        }else{
+          this.dynamicDropDown["locationCode"] = [];
         }
-      });    
+      });        
+  }
+
+  getCenterDetails(locCode) {    
+    const filterObject = new FilterValuesModel('name', 'unique', '');
+    let optinalFilterObject = [{"columnName":"locationCode","type":"equals","value":locCode}, {"columnName":"isActive","type":"equals","value":"true"}];
+    let filterRequest = new FilterRequest([filterObject], this.primaryLang, optinalFilterObject);
+    let request = new RequestModel('', null, filterRequest);
+    this.dataStroageService
+      .getFiltersForAllMaterDataTypes('registrationcenters', request)
+      .subscribe(response => {
+        if(!response.errors){
+          this.dynamicDropDown["centerId"] = response.response.filters;
+        }else{
+          this.dynamicDropDown["centerId"] = [];
+        }
+      });        
   }
 
   captureValue(event: any, formControlName: string) {
@@ -180,22 +199,56 @@ export class LostRidStatusComponent implements OnInit {
   captureDropDownValue(event: any, formControlName: string) {    
     if (event.source.selected) {
       this.fieldNameList[formControlName] = event.source.value;
+      if(formControlName === "locationCode"){
+        this.dynamicDropDown["centerId"] = [];
+        this.getCenterDetails(event.source.value);
+      }        
+    }
+  }
+
+  resetForm(){
+    let self = this;
+    for (let property in self.fieldNameList) {
+      self.fieldNameList[property] = "";
+    }
+  }
+
+  submit() {
+    let self = this;
+    let mandatoryFieldName = [];
+    let mandatoryFieldLabel = [];
+    for (let i = 0; i < self.filterColumns.length; i++) {
+      if(self.filterColumns[i].ismandatory === "true"){
+        mandatoryFieldName.push(self.filterColumns[i].filtername);  
+        mandatoryFieldLabel.push(self.filterColumns[i].filterlabel[this.primaryLang]);          
+      }
+    }
+    let len = mandatoryFieldName.length;
+    for (let i = 0; i < len; i++) {
+      if(!self.fieldNameList[mandatoryFieldName[i]]){
+        this.showErrorPopup(mandatoryFieldLabel[i]+this.popupMessages.genericerror.fieldNameValidation);
+        break;
+      }else if(len === (i+1)){
+        self.getlostridDetails();
+      }
     }
   }
 
   getlostridDetails() {
     let filter = [];
     for(let value of this.filterColumns) {
-      if(this.fieldNameList[value.filtername])
+      if(this.fieldNameList[value.filtername]){
         if(value.dropdown !== 'true' && value.datePicker !== 'true'){
           filter.push({"columnName": value.fieldName,"type": "contains","value": this.fieldNameList[value.filtername]});
-        }else if(value.dropdown === 'true' && value.fieldName === 'postalCode'){
-          filter.push({"columnName": "locCode","type": "equals","value": this.dynamicFieldValue[this.locationFieldNameList[this.locCode-1]]});
         }else if(value.datePicker === 'true' && value.filterType === 'between'){
+          if(filter.length > 0)
+            filter.splice(0,1);
           filter.push({"columnName": value.fieldName,"type": "between","value": "", "fromValue": this.fieldNameList["registrationDateFrom"], "toValue":this.fieldNameList["registrationDateTo"]});
+        }else if(value.dropdown === 'true'){
+          filter.push({"columnName": value.fieldName,"type": "equals","value": this.fieldNameList[value.filtername]});
         }
-    }
-    filter.splice(0,1);
+      }        
+    }    
     this.datas = [];
     this.noData = false;
     this.filtersApplied = false;
@@ -209,7 +262,6 @@ export class LostRidStatusComponent implements OnInit {
       this.sortFilter.push({"sortType":"desc","sortField":"registrationDate"});      
     }
     this.requestModel = new RequestModel(null, null, filters);
-    console.log(JSON.stringify(this.requestModel));
     if (filters.filters.length > 0)
       this.dataStroageService
         .getlostridDetails(this.requestModel)
@@ -218,6 +270,7 @@ export class LostRidStatusComponent implements OnInit {
             this.paginatorOptions.totalEntries = 0;
             this.paginatorOptions.pageIndex = 0;
             this.paginatorOptions.pageSize = 0;
+            this.showTable = true;
             if (response.data.length) {
               this.datas = [...response.data];
             } else {

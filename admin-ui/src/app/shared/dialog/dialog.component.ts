@@ -84,7 +84,7 @@ export class DialogComponent implements OnInit {
       this.existingFilters = Utils.convertFilter(
         this.activatedRoute.snapshot.queryParams,
         this.headerService.getUserPreferredLanguage()
-      ).filters;
+      ).filters;      
       await this.getFilterMappings();
     }
     if (this.input.case === 'missingData') {
@@ -109,7 +109,7 @@ export class DialogComponent implements OnInit {
     this.dialog.closeAll();
   }
 
-  getFilterMappings() {
+  async getFilterMappings() {
     return new Promise((resolve, reject) => {
       this.routeParts = this.router.url.split('/')[3];
       let specFileName = "";
@@ -124,11 +124,30 @@ export class DialogComponent implements OnInit {
         .subscribe(response => {
           // tslint:disable-next-line:no-string-literal
           this.FilterData = [...response['filterColumns']];
-          // tslint:disable-next-line:no-string-literal
+          this.FilterData.forEach(values => {
+            if(values.filtername === "locationCode")
+              this.getLocationHierarchyLevels();
+          });
           this.settingUpFilter(response['filterColumns']);
+          // tslint:disable-next-line:no-string-literal          
           resolve(true);
         });
     });
+  }
+
+  getLocationHierarchyLevels() {
+    let self = this;
+    let fieldNameData = {};
+    this.dataStorageService.getLocationHierarchyLevels(this.primaryLangCode).subscribe(response => {
+      response.response.locationHierarchyLevels.forEach(function (value) {
+        if(value.hierarchyLevel == self.config.getConfig()['locationHierarchyLevel'])            
+          self.FilterData.forEach((values, index) => {
+            if(values.filtername === self.primaryLangCode)
+              self.FilterData[index].filterlabel["eng"] = values.filtername;
+          });     
+      });
+    });      
+    console.log("self.FilterData>>>"+JSON.stringify(self.FilterData));
   }
 
   getMissingData(input: any) {

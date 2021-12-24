@@ -506,6 +506,7 @@
 			"input-text2": "अपनी फाइल अपलोड करें",
 			"upload-btn": "अपलोड",
 			"cancel-btn": "रद्द करें",
+			"center": "केंद्र",
 			"popupMessaages": {
 				"popup1": {
 					"uploadConfirm": "पैकेट अपलोड की पुष्टि करें",
@@ -792,6 +793,13 @@
 		"Active": "सक्रिय",
 		"InActive": "निष्क्रिय"
 	},
+    "lostRID":{
+        "titleTxt":"खोई हुई RID को पुनः प्राप्त करें",
+        "subtitleenrollment":"नामांकन विवरण",
+        "subtitlelocation":"स्थान",
+        "searchbtn":"खोज",
+        "clearbtn":"स्पष्ट"
+    },
 	"generatecsr": {
 		"title": "सीएसआर उत्पन्न करें",
 		"applicationId": "एप्लिकेशन आईडी",

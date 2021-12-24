@@ -347,7 +347,7 @@ export class CommonService {
   resumeprocessingandremovehotlistedtag(data: any, url: string, idKey: string) {
     this.confirmationPopup('resumeprocessingandremovehotlistedtag', data).afterClosed().subscribe(res => {
       if (res) {
-        let dynamicObject = {"workflowAction": "RESUME_PROCESSING_AND_REMOVE_HOTLISTED_TAG", "workflowId": data.workflowId};
+        let dynamicObject = {"workflowAction": "RESUME_PROCESSING", "workflowId": data.workflowId};
         this.performAction('resumeprocessingandremovehotlistedtag', dynamicObject, data);
       } else {
         this.auditService.audit(19, 'ADM-101', 'activate');

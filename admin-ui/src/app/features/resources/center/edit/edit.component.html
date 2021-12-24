@@ -22,10 +22,10 @@
             <h3>{{ "center.center-details" | translate }}</h3>
             <div class="flex-display">
               <mat-form-field>
-                <input #keyboardRef #name (focus)="scrollPage(name, 'primary', 'name', 0)" formControlName="name"
+                <input #keyboardRef #name (focus)="scrollPage(name, 'primary', 'name', 0)" formControlName="name" id="name"
                   matInput placeholder="{{
                       'center.registration-center-name' | translate
-                    }}" />
+                    }}" required/>
                 <mat-error *ngIf="
                       primary.name.touched && primary.name.hasError('required')
                     ">
@@ -40,7 +40,7 @@
               <mat-form-field>
                 <input #keyboardRef #contactPerson (focus)="
                       scrollPage(contactPerson, 'primary', 'contactPerson', 1)
-                    " formControlName="contactPerson" matInput
+                    " formControlName="contactPerson" id="contactPerson" matInput
                   placeholder="{{ 'center.contact-person' | translate }}" />
                 <mat-error *ngIf="
                       primary.contactPerson.touched &&
@@ -56,7 +56,7 @@
             <h3>{{ "center.location-details" | translate }}</h3>
             <mat-form-field>
               <input #keyboardRef #addressline1 (focus)="scrollPage(addressline1, 'primary', 'addressLine1', 2)"
-                formControlName="addressLine1" matInput placeholder="{{ 'center.address1' | translate }}" />
+                formControlName="addressLine1" id="addressLine1" matInput placeholder="{{ 'center.address1' | translate }}" required/>
               <mat-error *ngIf="
                       primary.addressLine1.touched &&
                       primary.addressLine1.hasError('required')
@@ -78,7 +78,7 @@
             <div class="flex-display">
               <mat-form-field>
                 <input #keyboardRef #addressline2 (focus)="scrollPage(addressline2, 'primary', 'addressLine2', 3)"
-                  formControlName="addressLine2" matInput placeholder="{{ 'center.address2' | translate }}" />
+                  formControlName="addressLine2" id="addressLine2" matInput placeholder="{{ 'center.address2' | translate }}" />
                 <mat-error *ngIf="
                       primary.addressLine2.touched &&
                       primary.addressLine2.hasError('maxlength')
@@ -91,7 +91,7 @@
               </mat-form-field>
               <mat-form-field>
                 <input #keyboardRef #addressline3 (focus)="scrollPage(addressline3, 'primary', 'addressLine3', 4)"
-                  formControlName="addressLine3" matInput placeholder="{{ 'center.address3' | translate }}" />
+                  formControlName="addressLine3" id="addressLine3" matInput placeholder="{{ 'center.address3' | translate }}" />
                 <mat-error *ngIf="
                       primary.addressLine3.touched &&
                       primary.addressLine3.hasError('maxlength')
@@ -110,7 +110,7 @@
               <button id="createButton" mat-raised-button *ngIf="data.length == 0" (click)="submitPrimaryPanel()">
                 {{ "center.create" | translate }}
               </button>
-              <button mat-raised-button (click)="cancel()" *ngIf="secondaryLang">
+              <button mat-raised-button id="cancel" (click)="cancel()" *ngIf="secondaryLang">
                 {{ "center.cancel" | translate }}
               </button>
             </mat-card-actions>
@@ -120,7 +120,7 @@
             [ngClass]="isSecondaryLangRTL ? 'secondary-form' : 'secondary-form-ltr'">
             <mat-form-field style="padding-bottom: 10px;">
               <mat-label><b>{{ "center.selectLanguage" | translate }}</b></mat-label>
-              <mat-select formControlName="selectLanguage"
+              <mat-select formControlName="selectLanguage" id="selectLanguage"
                 (selectionChange)="handleChangeSecondaryLang('selectLanguage')">
                 <mat-option *ngFor="let data of selectLanguagesArr" [value]="data.code">
                   <strong>{{ data.value }}</strong>
@@ -139,9 +139,9 @@
             <div class="flex-display">
               <mat-form-field>
                 <input #keyboardRef #nameSecondary (focus)="scrollPage(nameSecondary, 'secondary', 'name', 5)"
-                  formControlName="name" matInput placeholder="{{
+                  formControlName="name" id="name" matInput placeholder="{{
                     secondaryLanguageLabels['registration-center-name']
-                  }}" />
+                  }}" required/>
                 <mat-error *ngIf="
                     secondary.name.touched && secondary.name.hasError('required')
                   ">
@@ -169,7 +169,7 @@
                       'contactPerson',
                       6
                     )
-                  " formControlName="contactPerson" matInput
+                  " formControlName="contactPerson" id="contactPerson" matInput
                   placeholder="{{ secondaryLanguageLabels['contact-person'] }}" />
                 <mat-error *ngIf="
                     secondary.contactPerson.touched &&
@@ -192,7 +192,7 @@
                       'addressLine1',
                       7
                     )
-                  " formControlName="addressLine1" matInput placeholder="{{ secondaryLanguageLabels['address1'] }}" />
+                  " formControlName="addressLine1" id="addressLine1" matInput placeholder="{{ secondaryLanguageLabels['address1'] }}" required/>
               <mat-error *ngIf="
                     secondary.addressLine1.touched &&
                     secondary.addressLine1.hasError('required')
@@ -223,7 +223,7 @@
                       'addressLine2',
                       8
                     )
-                  " formControlName="addressLine2" matInput placeholder="{{ secondaryLanguageLabels['address2'] }}" />
+                  " formControlName="addressLine2" id="addressLine2" matInput placeholder="{{ secondaryLanguageLabels['address2'] }}" />
                 <mat-error *ngIf="
                     secondary.addressLine2.touched &&
                     secondary.addressLine2.hasError('maxlength')
@@ -243,7 +243,7 @@
                       'addressLine3',
                       9
                     )
-                  " formControlName="addressLine3" matInput placeholder="{{ secondaryLanguageLabels['address3'] }}" />
+                  " formControlName="addressLine3" id="addressLine3" matInput placeholder="{{ secondaryLanguageLabels['address3'] }}" />
                 <mat-error *ngIf="
                     secondary.addressLine3.touched &&
                     secondary.addressLine3.hasError('maxlength')
@@ -265,7 +265,7 @@
                 (click)="submitSecondaryPanel()">
                 {{ "center.create" | translate }}
               </button>
-              <button mat-raised-button (click)="cancel()">
+              <button mat-raised-button id="cancel" (click)="cancel()">
                 {{ "center.cancel" | translate }}
               </button>
             </mat-card-actions>
@@ -281,7 +281,7 @@
                 <mat-label>{{
                   "center.registration-center-type" | translate
                   }}</mat-label>
-                <mat-select formControlName="centerTypeCode">
+                <mat-select formControlName="centerTypeCode" id="centerTypeCode" required>
                   <mat-option *ngFor="let data of dropDownValues.centerTypeCode.primary" [value]="data.fieldCode">
                     {{ data.fieldValue }}
                   </mat-option>
@@ -297,7 +297,7 @@
                 </mat-error>
               </mat-form-field>
               <mat-form-field>
-                <input #keyboardRef #contactPhone formControlName="contactPhone" matInput
+                <input #keyboardRef #contactPhone formControlName="contactPhone" id="contactPhone" matInput
                   placeholder="{{ 'center.contact-number' | translate }}" />
                 <mat-error *ngIf="
                     common.contactPhone.touched &&
@@ -314,8 +314,8 @@
             <h3>{{ "center.location-details" | translate }}</h3>
             <div class="flex-display">
               <mat-form-field>
-                <input #keyboardRef #longitude formControlName="longitude" matInput
-                  placeholder="{{ 'center.longitude' | translate }}" />
+                <input #keyboardRef #longitude formControlName="longitude" id="longitude" matInput
+                  placeholder="{{ 'center.longitude' | translate }}" required />
                 <mat-error *ngIf="
                   common.longitude.touched &&
                   common.longitude.hasError('required')
@@ -351,8 +351,8 @@
                 </mat-error>
               </mat-form-field>
               <mat-form-field>
-                <input #keyboardRef #latitude formControlName="latitude" matInput
-                  placeholder="{{ 'center.latitude' | translate }}" />
+                <input #keyboardRef #latitude formControlName="latitude" id="latitude" matInput
+                  placeholder="{{ 'center.latitude' | translate }}" required />
                 <mat-error *ngIf="
                   common.latitude.touched &&
                   common.latitude.hasError('required')
@@ -486,7 +486,7 @@
               </mat-form-field> -->
               <mat-form-field>
                 <mat-label>{{ "center.zone" | translate }}</mat-label>
-                <mat-select formControlName="zone">
+                <mat-select formControlName="zone" id="zone" required>
                   <mat-option *ngFor="let data of dropDownValues.zone.primary" [value]="data.code">
                     {{ data.name }}
                   </mat-option>
@@ -502,7 +502,7 @@
             <h3>{{ "center.operational-details" | translate }}</h3>
             <mat-form-field>
               <mat-label>{{ "center.holiday-zone" | translate }}</mat-label>
-              <mat-select formControlName="holidayZone">
+              <mat-select formControlName="holidayZone" id="holidayZone" required>
                 <mat-option *ngFor="let data of dropDownValues.holidayZone.primary" [value]="data.code">
                   {{ data.name }}
                 </mat-option>
@@ -518,7 +518,7 @@
             </mat-form-field>
             <div class="flex-display">
               <mat-form-field>
-                <input formControlName="noKiosk" matInput placeholder="{{ 'center.no-kiosk' | translate }}" />
+                <input formControlName="noKiosk" id="noKiosk" matInput placeholder="{{ 'center.no-kiosk' | translate }}" required/>
                 <mat-error *ngIf="
                     common.noKiosk.touched &&
                     common.noKiosk.hasError('required')
@@ -544,7 +544,7 @@
                 <mat-label>{{
                   "center.per-kiosk-process-time" | translate
                   }}</mat-label>
-                <mat-select formControlName="processingTime">
+                <mat-select formControlName="processingTime" id="processingTime" required>
                   <mat-option *ngFor="let data of dropDownValues.processingTime" [value]="data">
                     {{ data }}
                   </mat-option>
@@ -563,7 +563,7 @@
             <div class="flex-display">
               <mat-form-field>
                 <mat-label>{{ "center.start-time" | translate }}</mat-label>
-                <mat-select formControlName="startTime" (selectionChange)="
+                <mat-select formControlName="startTime" id="startTime" (selectionChange)="
                     updateTimeSlotDropdownOptions(
                       'startTime',
                       'endTime',
@@ -572,7 +572,7 @@
                     calculateWorkingHours();
                     validateAndLoadLunchStartTime();
                     validateAndLoadLunchEndTime();
-                  ">
+                  " required>
                   <mat-option *ngFor="let data of dropDownValues.startTime" [value]="data">
                     {{ data }}
                   </mat-option>
@@ -588,7 +588,7 @@
               </mat-form-field>
               <mat-form-field>
                 <mat-label>{{ "center.end-time" | translate }}</mat-label>
-                <mat-select formControlName="endTime" (selectionChange)="
+                <mat-select formControlName="endTime" id="endTime" (selectionChange)="
                     calculateWorkingHours();
                     updateTimeSlotDropdownOptions(
                       'endTime',
@@ -597,7 +597,7 @@
                     );
                     validateAndLoadLunchStartTime();
                     validateAndLoadLunchEndTime();
-                  ">
+                  " required>
                   <mat-option *ngFor="let data of dropDownValues.endTime" [value]="data">
                     {{ data }}
                   </mat-option>
@@ -611,7 +611,7 @@
               </mat-form-field>
             </div>
             <mat-form-field>
-              <input formControlName="workingHours" readonly matInput
+              <input formControlName="workingHours" id="workingHours" readonly matInput
                 placeholder="{{ 'center.working-hrs' | translate }}" />
             </mat-form-field>
 
@@ -620,7 +620,7 @@
                 <mat-label>{{
                   "center.lunch-start-time" | translate
                   }}</mat-label>
-                <mat-select formControlName="lunchStartTime" (selectionChange)="
+                <mat-select formControlName="lunchStartTime" id="lunchStartTime" (selectionChange)="
                     validateAndLoadLunchEndTime();
                   ">
                   <mat-option *ngFor="let data of dropDownValues.lunchStartTime" [value]="data">
@@ -631,7 +631,7 @@
 
               <mat-form-field>
                 <mat-label>{{ "center.lunch-end-time" | translate }}</mat-label>
-                <mat-select formControlName="lunchEndTime" (selectionChange)="
+                <mat-select formControlName="lunchEndTime" id="lunchEndTime" (selectionChange)="
                     validateAndLoadLunchStartTime();
                   ">
                   <mat-option *ngFor="let data of dropDownValues.lunchEndTime" [value]="data">
@@ -641,8 +641,8 @@
               </mat-form-field>
             </div>
             <br />
-            <mat-label>{{ "center.workingDays" | translate }} </mat-label>
-            <mat-selection-list formControlName="workingDays">              
+            <mat-label>{{ "center.workingDays" | translate }} <span style="color: red;">*</span></mat-label>
+            <mat-selection-list formControlName="workingDays" id="workingDays">              
               <div style="display: flex; flex-wrap: wrap; margin-left: -15px;">
                 <mat-list-option style="background-color: white" [checkboxPosition]="before" *ngFor="let day of days"
                   [value]="day.code">
@@ -658,12 +658,12 @@
             <mat-label>{{ "center.holidays" | translate }}</mat-label>
             <br /><br />
             <mat-form-field style="width: 70% !important;">
-              <input matInput [(ngModel)]="holidayDate" [min]="minDate" [ngModelOptions]="{ standalone: true }"
+              <input matInput [(ngModel)]="holidayDate" id="holidayDate" [min]="minDate" [ngModelOptions]="{ standalone: true }"
                 [matDatepicker]="picker" placeholder="{{ 'center.datepicker-placeholder' | translate }}" />
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>&nbsp;&nbsp;&nbsp;&nbsp;
-            <button [disabled]="disablePrimaryForm" mat-raised-button (click)="createExceptionalHoliday()">
+            <button [disabled]="disablePrimaryForm" id ="createExceptionalHoliday" mat-raised-button (click)="createExceptionalHoliday()">
               {{ "center.add-button" | translate }}
             </button>
             <div style="display: flex; flex-wrap: wrap;">
@@ -688,7 +688,7 @@
           <button id="createButton" mat-raised-button (click)="submitCommonPanel()">
             {{ "center.update" | translate }}
           </button>
-          <button mat-raised-button (click)="cancel()">
+          <button mat-raised-button id="cancel" (click)="cancel()">
             {{ "center.cancel" | translate }}
           </button>
         </mat-card-actions>

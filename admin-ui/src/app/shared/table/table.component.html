@@ -6,7 +6,7 @@
         *ngFor="let columnName of displayedColumns; let i = index"
         class="mat-header-cell table-header sticky-header"
       >
-        <span class="columnName-sort-span"
+        <span class="columnName-sort-span" 
           ><span
             matTooltip="{{ 'center.devices-tooltip' | translate }}"
             [matTooltipPosition]="'above'"
@@ -14,7 +14,7 @@
             >{{ columnName.label[lang] }}</span
           >
           <span
-            *ngIf="columnsOfTableData[i] != 'fieldVal'"
+            *ngIf="!columnName.noSort"
             (click)="sortColumn(columnName.name, i)"
             ><img
               *ngIf="sortIconTrackerArray[i] === 0"
@@ -78,6 +78,7 @@
           mat-icon-button
           [matMenuTriggerFor]="menu"
           (click)="ellipsisAction(data)"
+          id="ellipsis-button{{i}}"
         >
           <mat-icon class="ellipsis-button">more_vert</mat-icon>
         </button>
@@ -88,6 +89,7 @@
             mat-menu-item
             *ngFor="let button of ellipsisList"
             (click)="selectedRow(data, button)"
+            id={{button.buttonName.eng}}{{i}}
           >
             <span>{{ button.buttonName[lang] }}</span>
           </button>
@@ -98,6 +100,7 @@
             mat-menu-item
             *ngFor="let button of ellipsisList[i]"
             (click)="selectedRow(data, button)"
+            id={{button.buttonName.eng}}{{i}}
           >
             <span>{{ button.buttonName[lang] }}</span>
           </button>

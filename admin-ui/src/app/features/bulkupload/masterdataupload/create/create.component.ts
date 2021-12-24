@@ -9,6 +9,8 @@ import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { HeaderService } from 'src/app/core/services/header.service';
 import { TranslateService } from '@ngx-translate/core';
 
+import { saveAs } from 'file-saver';
+
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
@@ -80,13 +82,26 @@ export class CreateComponent {
   }
 
   downloadExcel(){
-    let buildURL = window.location.origin+"/admin-ui/templates/"+this.tableName+".csv"
+    let buildURL = window.location.origin +"/admin-ui/templates/"+this.tableName+".csv"
     this.dataStorageService
-    .getsampletemplate(buildURL)
-    .subscribe(() => {      
-    });
+    .getsampletemplate(buildURL).subscribe(
+      data => {
+        var fileName = this.tableName+".csv";
+        const contentDisposition = data.headers.get('Content-Disposition');
+        if (contentDisposition) {
+          const fileNameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+          const matches = fileNameRegex.exec(contentDisposition);
+          if (matches != null && matches[1]) {
+            fileName = matches[1].replace(/['"]/g, '');
+          }
+        }
+        saveAs(data.body, fileName);
+      },
+      err => {
+        console.error(err);
+      });
   }
-
+  
   onFileSelect(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -199,7 +214,7 @@ export class CreateComponent {
       data
     });
     dialogRef.afterClosed().subscribe(response => {   
-      if(uploadResponse.response.status == "FAILED"){
+      if(uploadResponse.errors.length>0){
         self.uploadForm.get('fileName').setValue('');
         document.getElementById("fileName").focus();
       }else{

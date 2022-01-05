@@ -1,5 +1,5 @@
 <div id="flex-single-view" style="padding-top: 12px;">
-  <div id="flex-container">
+  <div id="flex-container" *ngIf="popUpMessages">
    <div class="card">
       <mat-card>
         <div class="item1">
@@ -32,6 +32,59 @@
                 {{'genericerror.fieldValidation' | translate}}
               </mat-error>
             </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>{{'packet-upload.createView.sourceLabel' | translate}}</mat-label>
+              <mat-select formControlName="source" id="source">
+                <mat-option
+                  *ngFor="let data of dynamicDropDown['source']"
+                  (onSelectionChange)="captureDropDownValue($event, 'source')" 
+                  [id]="data.value"
+                  [value]="data.value"
+                >
+                  {{ data.label }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="uploadForm.controls.source.touched">
+                {{'genericerror.fieldValidation' | translate}}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>{{'packet-upload.createView.processLabel' | translate}}</mat-label>
+              <mat-select formControlName="process" id="process">
+                <mat-option
+                  *ngFor="let data of dynamicDropDown['process']"
+                  (onSelectionChange)="captureDropDownValue($event, 'process')" 
+                  [id]="data.value"
+                  [value]="data.value"
+                >
+                  {{ data.label }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="uploadForm.controls.process.touched">
+                {{'genericerror.fieldValidation' | translate}}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>{{'packet-upload.createView.supervisorStatusLabel' | translate}}</mat-label>
+              <mat-select formControlName="supervisorStatus" id="supervisorStatus">
+                <mat-option
+                  *ngFor="let data of dynamicDropDown['supervisorStatus']"
+                  (onSelectionChange)="captureDropDownValue($event, 'supervisorStatus')" 
+                  [id]="data.value"
+                  [value]="data.value"
+                >
+                  {{ data.label }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="uploadForm.controls.supervisorStatus.touched">
+                {{'genericerror.fieldValidation' | translate}}
+              </mat-error>
+            </mat-form-field>
+
+
             <div class="custom-file-input">
               <input type="button" *ngIf="buttonalignment === 'rtl'" value="{{'packet-upload.createView.input-btn-text' | translate}}" class="browseInput">
               <input type="file" multiple="multiple" #fileInput (click)="onFileClick($event)" (change)="onFileSelect($event)" placeholder="{{'packet-upload.createView.input-text1' | translate}}" />

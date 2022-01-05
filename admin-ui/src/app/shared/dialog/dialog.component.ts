@@ -172,10 +172,12 @@ export class DialogComponent implements OnInit {
     const id = appConstants.ListViewIdKeyMapping[`${currentRouteType}`];
     this.auditService.audit(7, id.auditEventId, currentRouteType);
     this.dialog.closeAll();
-    this.router.navigate([
+    this.router.navigateByUrl(`${currentRoute}/single-view/`+data["id"]+'?langCode='+data.langCode);
+    /*this.router.navigate([
       `${currentRoute}/single-view`,
-      data["id"]
-    ]);
+      data["id"], 
+      {"langCode": data.langCode}
+    ]);*/
   }
 
   settingUpFilter(filterNames: any) {

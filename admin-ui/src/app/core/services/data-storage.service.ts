@@ -46,8 +46,18 @@ export class DataStorageService {
     );
   }
 
-  getStubbedDataForDropdowns(langCode: string): Observable<any> {
-    return this.http.get(this.BASE_URL + appConstants.MASTERDATA_BASE_URL + 'locations/level/' + langCode);
+  getUniqueLocation(data: RequestModel): Observable<any> {
+    return this.http.post(
+      this.BASE_URL + appConstants.MASTERDATA_BASE_URL + 'locations/filtervalues',
+      data
+    );
+  }
+
+  getStubbedDataForDropdowns(data: RequestModel): Observable<any> {
+    return this.http.post(
+      this.BASE_URL + appConstants.MASTERDATA_BASE_URL + 'holidays/filtervalues',
+      data
+    );
   }
 
   getLocationHierarchyLevels(langCode: string): Observable<any> {

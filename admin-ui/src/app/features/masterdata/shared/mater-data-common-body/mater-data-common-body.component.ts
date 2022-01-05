@@ -47,6 +47,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
   secondaryForm: FormGroup;
   popupMessages: any;
   pageName: string;
+  queryParamLangCode: string = "";
   disableForms: boolean;
   copyPrimaryWord: any;
   copySecondaryWord: any;
@@ -112,6 +113,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
         this.fieldsCount++;
       }        
     });
+    this.queryParamLangCode = this.activatedRoute.snapshot.queryParamMap.get('langCode');
     this.activatedRoute.params.subscribe(response => {
       this.id = response.id;
       this.masterdataType = response.type;
@@ -141,7 +143,10 @@ export class MaterDataCommonBodyComponent implements OnInit {
       this.primaryLang === this.secondaryLang ? this.showSecondaryForm = false : this.showSecondaryForm = true;
     }else{
       this.showSecondaryForm = false;
-    }  
+    }   
+    if(this.queryParamLangCode){
+      this.secondaryLang = this.queryParamLangCode;
+    }   
     this.isCreateForm = false;
     this.disableForms = false;
     this.primaryKeyboard = defaultJson.keyboardMapping[this.primaryLang];
@@ -201,7 +206,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
       }else if(url === "holiday"){
         this.pageName = "Holiday";
         this.primaryData = {"holidayName":"","holidayDesc":"","holidayDate":"","locationCode": "","langCode":this.primaryLang,"isActive":true};
-        this.loadLocationData(this.appConfigService.getConfig()['countryCode']);
+        this.getUniqueLocation();
       }else if(url === "dynamicfields"){
         this.pageName = "Dynamic Field";  
         let name = "";      
@@ -256,7 +261,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
         this.pageName = "Document Category";
       }else if(url === "holiday"){
         this.pageName = "Holiday";
-        this.loadLocationData(this.appConfigService.getConfig()['countryCode']);
+        this.getUniqueLocation();
       }else if(url === "dynamicfields"){
         this.pageName = "Dynamic Field";
         this.primaryData["code"] = JSON.parse(this.primaryData.fieldVal)["code"];
@@ -335,6 +340,13 @@ export class MaterDataCommonBodyComponent implements OnInit {
                 this.saveSecondaryForm = false;
                 this.secondaryData = response.response.data[0];
                 this.setSecondaryFrom("");
+                if(this.queryParamLangCode){
+                  document.getElementById("code").setAttribute("disabled", "true");
+                  document.getElementById("code"+this.queryParamLangCode).setAttribute("disabled", "true");
+                  if(!this.primaryData.code){
+                    this.primaryData.code = this.secondaryData.code;
+                  }
+                }
               }else{
                 this.secondaryData = null;
                 this.saveSecondaryForm = true;
@@ -367,7 +379,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
           this.secondaryData.code = this.primaryData.code;
       }else if(this.url === "holiday"){
         this.secondaryData = {"holidayName":"","holidayDesc":"","holidayDate":"","locationCode": "","langCode":this.secondaryLang,"isActive":true};
-        this.loadLocationData(this.appConfigService.getConfig()['countryCode']);
+        this.getUniqueLocation();
       }else if(this.url === "templates"){
         this.secondaryData = {"name":"","description":"","fileFormatCode":"","model":"","fileText":"","moduleId":"","moduleName":"","templateTypeCode":"","langCode":this.secondaryLang,"isActive":true,id:""};
         this.getTemplateFileFormat();
@@ -439,7 +451,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
         this.pageName = "Document Category";
       }else if(this.url === "holiday"){
         this.pageName = "Holiday";
-        this.loadLocationData(this.appConfigService.getConfig()['countryCode']);
+        this.getUniqueLocation();
       }else if(this.url === "dynamicfields"){
         this.pageName = "Dynamic Field";
         this.secondaryData["code"] = this.secondaryData.fieldVal["code"];
@@ -591,6 +603,32 @@ export class MaterDataCommonBodyComponent implements OnInit {
       .subscribe(response => {
         this.dropDownValues.hierarchyLevelCode.secondary = response.response.locations.sort((a, b) => { return a.locationHierarchylevel - b.locationHierarchylevel;});
       });*/
+  }
+
+  getUniqueLocation(){
+    let filterObject = new FilterValuesModel('name', 'unique', '');
+    let optinalFilterObject = new OptionalFilterValuesModel('isActive', 'equals', 'true');
+    let filterRequest = new FilterRequest([filterObject], this.primaryLang, [optinalFilterObject]);
+    let request = new RequestModel('', null, filterRequest);
+
+    this.dataStorageService
+      .getUniqueLocation(request)
+      .subscribe(response => {
+        this.dropDownValues['locationCode'].primary =
+          response['response']['filters'];
+    });
+
+    if(this.secondaryLang){
+      let filterRequest = new FilterRequest([filterObject], this.secondaryLang, [optinalFilterObject]);
+      let request = new RequestModel('', null, filterRequest);
+
+      this.dataStorageService
+      .getUniqueLocation(request)
+      .subscribe(response => {
+        this.dropDownValues['locationCode'].secondary =
+          response['response']['filters'];
+      });
+    }   
   }
 
   loadLocationData(locationCode: string) {

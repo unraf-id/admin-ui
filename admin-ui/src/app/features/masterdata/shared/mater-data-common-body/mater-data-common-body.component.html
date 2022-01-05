@@ -123,8 +123,8 @@
                           required={{field.ismandatory}}>
                           <mat-option *ngFor="let data of dropDownValues['locationCode']['primary']" 
                           (onSelectionChange)="captureDropDownValue($event, field.name, 'primary')" 
-                          [value]="data.code">
-                            {{ data.name }}
+                          [value]="data.fieldCode">
+                            {{ data.fieldValue }}
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
@@ -295,7 +295,7 @@
                       <input
                         #keyboardRef
                         #{{field.name}}
-                        id="{{field.name}}"
+                        id="{{field.name}}{{secondaryLang}}"
                         (blur)="captureValue($event, field.name, 'secondary')"
                         (focus)="scrollPage(field.name, 'secondary', field.name, ii + this.fieldsCount)"
                         matInput
@@ -310,7 +310,7 @@
                       <input
                         #keyboardRef
                         #{{field.name}}
-                        id="{{field.name}}"
+                        id="{{field.name}}{{secondaryLang}}"
                         (blur)="captureValue($event, field.name, 'secondary')"
                         (focus)="scrollPage(field.name, 'secondary', field.name, ii + this.fieldsCount)"
                         matInput
@@ -324,7 +324,7 @@
                       <input
                         #keyboardRef
                         #{{field.name}}
-                        id="{{field.name}}"
+                        id="{{field.name}}{{secondaryLang}}"
                         (blur)="captureValue($event, field.name, 'secondary')"
                         (focus)="scrollPage(field.name, 'secondary', field.name, ii + this.fieldsCount)"
                         matInput
@@ -340,7 +340,7 @@
                       <input
                         #keyboardRef
                         #{{field.name}}
-                        id="{{field.name}}"
+                        id="{{field.name}}{{secondaryLang}}"
                         (blur)="captureValue($event, field.name, 'secondary')"
                         (focus)="scrollPage(field.name, 'secondary', field.name, ii + this.fieldsCount)"
                         matInput
@@ -354,7 +354,7 @@
                       <textarea
                         #keyboardRef
                         #{{field.name}}
-                        id="{{field.name}}"
+                        id="{{field.name}}{{secondaryLang}}"
                         (blur)="captureValue($event, field.name, 'secondary')"
                         (focus)="scrollPage(field.name, 'secondary', field.name, ii + this.fieldsCount)"
                         matInput
@@ -370,7 +370,7 @@
                         matInput
                         [min]="tomorrow"
                         [matDatepicker]="picker1"
-                        id="{{field.name}}"
+                        id="{{field.name}}{{secondaryLang}}"
                         (dateChange)="captureDatePickerValue($event, field.name, 'secondary')"
                         placeholder="{{field.label[secondaryLang] | translate}}"
                         [value]="secondaryData[field.name]"
@@ -386,13 +386,13 @@
                     <div *ngIf="field.showInSingleView === 'true' && field.inputType === 'dropdown' && field.name === 'locationCode'">
                       <mat-form-field>
                         <mat-select 
-                          id="{{field.name}}"
+                          id="{{field.name}}{{secondaryLang}}"
                           [value]="secondaryData[field.name]"
                           placeholder="{{ field.label[secondaryLang] }}">
                           <mat-option *ngFor="let data of dropDownValues['locationCode']['secondary']" 
                           (onSelectionChange)="captureDropDownValue($event, field.name, 'secondary')" 
-                          [value]="data.code">
-                            {{ data.name }}
+                          [value]="data.fieldCode">
+                            {{ data.fieldValue }}
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
@@ -401,7 +401,7 @@
                       <mat-form-field *ngIf="field.showInSingleView === 'true' && field.inputType === 'dropdown' && field.name !== 'locationCode'">
                       <div *ngIf="field.name === 'deviceTypeCode'">
                        <mat-select
-                        id="{{field.name}}"
+                        id="{{field.name}}{{secondaryLang}}"
                         [value]="secondaryData[field.name]"
                         placeholder="{{ field.label[secondaryLang] }}"
                       >
@@ -418,7 +418,7 @@
                       </div>
                       <div *ngIf="field.name === 'machineTypeCode'">
                        <mat-select
-                        id="{{field.name}}"
+                        id="{{field.name}}{{secondaryLang}}"
                         [value]="secondaryData[field.name]"
                         placeholder="{{ field.label[secondaryLang] }}"
                       >
@@ -435,7 +435,7 @@
                       </div>
                       <div *ngIf="field.name === 'fileFormatCode'">
                         <mat-select
-                          id="{{field.name}}"
+                          id="{{field.name}}{{secondaryLang}}"
                           [value]="secondaryData[field.name]"
                           placeholder="{{ field.label[secondaryLang] }}"
                         >
@@ -452,7 +452,7 @@
                         </div>
                         <div *ngIf="field.name === 'templateTypeCode'">
                         <mat-select
-                          id="{{field.name}}"
+                          id="{{field.name}}{{secondaryLang}}"
                           [value]="secondaryData[field.name]"
                           placeholder="{{ field.label[secondaryLang] }}"
                         >
@@ -469,7 +469,7 @@
                         </div>
                         <div *ngIf="field.name === 'moduleId'">
                         <mat-select
-                          id="{{field.name}}"
+                          id="{{field.name}}{{secondaryLang}}"
                           [value]="secondaryData[field.name]"
                           placeholder="{{ field.label[secondaryLang] }}"
                         >
@@ -487,7 +487,7 @@
                      
                       <div *ngIf="field.name === 'hierarchyLevel'">
                       <mat-select
-                        id="{{field.name}}"
+                        id="{{field.name}}{{secondaryLang}}"
                         [value]="secondaryData[field.name]" 
                         placeholder="{{ field.label[secondaryLang] }}"
                         disabled = true              
@@ -507,7 +507,7 @@
 
                       <div *ngIf="field.name === 'isActive'">
                       <mat-select
-                        id="{{field.name}}"
+                        id="{{field.name}}{{secondaryLang}}"
                         placeholder="{{ field.label[secondaryLang] }}"
                         [value]="secondaryData[field.name]"
                         >

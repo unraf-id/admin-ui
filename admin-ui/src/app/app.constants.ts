@@ -48,7 +48,7 @@ export const navItems = [
         icon: null,
         route: '/admin/resources/machines',
         auditEventId: 'ADM-007',
-        roles: ['REGISTRATION_ADMIN']
+        roles: ['ZONAL_ADMIN']
       },
       {
         displayName: 'menuItems.item2.subItem4',

@@ -474,11 +474,17 @@ export class CreateComponent {
   }
 
   getStubbedData() {
-    this.getRegistrationCenterTypes();    
-    this.dataStorageService.getStubbedDataForDropdowns(this.primaryLang).subscribe(response => {
-      if (response.response.locations) {
+    this.getRegistrationCenterTypes();  
+
+    let filterObject = new FilterValuesModel('locationCode', 'unique', '');
+    let optinalFilterObject = new OptionalFilterValuesModel('isActive', 'equals', 'true');
+    let filterRequest = new FilterRequest([filterObject], this.primaryLang, [optinalFilterObject]);
+    let request = new RequestModel('', null, filterRequest);
+
+    this.dataStorageService.getStubbedDataForDropdowns(request).subscribe(response => {
+      if (response.response.filters) {
         this.dropDownValues.holidayZone.primary =
-        response.response.locations;
+        response.response.filters;
       }
     });
   }

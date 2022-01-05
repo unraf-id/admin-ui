@@ -64,6 +64,9 @@ export class CreateComponent {
          .subscribe((response) => {
            this.popUpMessages = response['packet-upload']['createView']['popupMessaages'];
            this.serverError = response['serverError'];
+           this.dynamicDropDown['source'] = response['packet-upload']['createView']['source'];
+           this.dynamicDropDown['process'] = response['packet-upload']['createView']['process'];
+           this.dynamicDropDown['supervisorStatus'] = response['packet-upload']['createView']['supervisorStatus'];
          });
   }
 
@@ -71,6 +74,9 @@ export class CreateComponent {
     this.uploadForm = this.formBuilder.group({
       category : ['packet'],
       centerId: [''],
+      source: [''],
+      process: [''],
+      supervisorStatus: [''],
       files: ['', [Validators.required]],
       fileName: ['', [Validators.required]]
     });
@@ -160,6 +166,9 @@ export class CreateComponent {
 
     formData.append('category', self.uploadForm.get('category').value);
     formData.append('centerId', self.uploadForm.get('centerId').value);
+    formData.append('source', self.uploadForm.get('source').value);
+    formData.append('process', self.uploadForm.get('process').value);
+    formData.append('supervisorStatus', self.uploadForm.get('supervisorStatus').value);
     formData.append('operation', '');
     formData.append('tableName', '');
     self.bulkuploadService.uploadData(formData).subscribe(uploadResponse => {

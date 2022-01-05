@@ -328,8 +328,8 @@
             <mat-form-field>
               <mat-label>{{ "center.holiday-zone" | translate }}</mat-label>
               <mat-select formControlName="holidayZone" id="holidayZone" required>
-                <mat-option *ngFor="let data of dropDownValues.holidayZone.primary" [value]="data.code">
-                  {{ data.name }}
+                <mat-option *ngFor="let data of dropDownValues.holidayZone.primary" [value]="data.fieldCode">
+                  {{ data.fieldValue }}
                 </mat-option>
               </mat-select>
               <mat-error *ngIf="

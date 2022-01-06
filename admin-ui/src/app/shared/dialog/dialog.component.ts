@@ -479,14 +479,14 @@ export class DialogComponent implements OnInit {
       'unique',
       value === undefined || value === null ? '' : value
     );
-    let optinalFilterObject = new OptionalFilterValuesModel('isActive', 'equals', 'true');
+    //let optinalFilterObject = new OptionalFilterValuesModel('isActive', 'equals', 'true');
     this.filters = [this.filterModel];
     this.filtersRequest = new FilterRequest(
       this.filters,
       this.routeParts === 'blocklisted-words'
         ? 'all'
         : this.headerService.getUserPreferredLanguage(),
-      [optinalFilterObject]
+      []
     );
     this.requestModel = new RequestModel('', null, this.filtersRequest);
     this.dataStorageService

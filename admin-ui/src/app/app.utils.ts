@@ -20,11 +20,14 @@ export default class Utils {
 
 
   static getCurrentDate() {
-    const now = new Date();
+    let now = new Date();
+    let isoDate = new Date(now).toISOString();
+
+   /* const now = new Date();
     const pipe = new DatePipe('en-US');
     let formattedDate = pipe.transform(now, 'yyyy-MM-ddTHH:mm:ss.SSS');
-    formattedDate = formattedDate + 'Z';
-    return formattedDate;
+    formattedDate = formattedDate + 'Z';*/
+    return isoDate;
   }
   static getTimeSlots(interval: number): string[] {
     const intervalInHours = interval / 60;

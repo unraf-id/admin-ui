@@ -147,6 +147,7 @@
                   <mat-option
                     style="font-size: x-small;"
                     *ngFor="let option of filterOptions[filter.filtername]"
+                    [id]="option.fieldValue"
                     [value]="option.fieldValue"
                   >
                     {{ option.fieldValue | status }}

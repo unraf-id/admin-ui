@@ -91,7 +91,7 @@ export class ListViewComponent implements OnDestroy {
         }
       });
       this.masterData = data;      
-      this.paginatorOptions.totalEntries = this.masterData.length;
+      //this.paginatorOptions.totalEntries = this.masterData.length;
       resolve(true);
     });
   }

@@ -115,7 +115,7 @@
                     </mat-form-field>
 
                     <div *ngIf="field.showInSingleView === 'true' && field.inputType === 'dropdown' && field.name === 'locationCode'">
-                      <!-- <mat-form-field>
+                      <mat-form-field>
                         <mat-select 
                           id="{{field.name}}"
                           [value]="primaryData[field.name]"
@@ -127,20 +127,6 @@
                             {{ data.fieldValue }}
                           </mat-option>
                         </mat-select>
-                      </mat-form-field> -->
-
-                      <mat-form-field>
-                        <input matInput placeholder="{{ field.label[primaryLang] }}" [matAutocomplete]="auto" [formControl]="searchMoviesCtrl">
-                        <mat-autocomplete #auto="matAutocomplete">
-                          <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
-                          <ng-container *ngIf="!isLoading">
-                             <mat-option *ngFor="let data of dropDownValues['locationCode']['primary']" 
-                              (onSelectionChange)="captureDropDownValue($event, field.name, 'primary')" 
-                              [value]="data.fieldCode">
-                                {{ data.fieldValue }}
-                              </mat-option>
-                          </ng-container>
-                        </mat-autocomplete>
                       </mat-form-field>
                     </div>
 

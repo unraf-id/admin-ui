@@ -34,9 +34,6 @@ import defaultJson from "../../../../../assets/i18n/default.json";
 import { HeaderService } from 'src/app/core/services/header.service';
 import { TranslateService } from '@ngx-translate/core';
 
-import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
-
 @Component({
   selector: 'app-mater-data-common-body',
   templateUrl: './mater-data-common-body.component.html'
@@ -88,11 +85,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
   primaryLangCode:string;
   isPrimaryLangRTL:boolean = false;
 
-  searchMoviesCtrl = new FormControl();
-  isLoading = false;
-
   constructor(
-    private http: HttpClient,
     private location: Location,
     private activatedRoute: ActivatedRoute,
     private dataStorageService: DataStorageService,
@@ -108,32 +101,6 @@ export class MaterDataCommonBodyComponent implements OnInit {
   }
 
   ngOnInit() {
-   this.searchMoviesCtrl.valueChanges
-    .subscribe(value => {
-      if(value.length >= 1){
-        let filterObject = new FilterValuesModel('name', 'unique', '');
-        let optinalFilterObject = new OptionalFilterValuesModel('name', 'contains', this.searchMoviesCtrl.value);
-        let filterRequest = new FilterRequest([filterObject], this.primaryLang, [optinalFilterObject]);
-        let request = new RequestModel('', null, filterRequest);
-
-        this.dataStorageService.getUniqueLocation(request).subscribe(response => {
-          this.dropDownValues['locationCode'].primary = response['response']['filters'];
-        });
-      }else if(value.length == 0){
-        let filterObject = new FilterValuesModel('name', 'unique', '');
-        let optinalFilterObject = new OptionalFilterValuesModel('isActive', 'equals', 'true');
-        let filterRequest = new FilterRequest([filterObject], this.primaryLang, [optinalFilterObject]);
-        let request = new RequestModel('', null, filterRequest);
-
-        this.dataStorageService.getUniqueLocation(request).subscribe(response => {
-          this.dropDownValues['locationCode'].primary = response['response']['filters'];
-        });
-      }
-      else {
-        return null;
-      }
-    });
-
     this.fieldsCount = 0;
     this.primaryLangCode = this.headerService.getUserPreferredLanguage();
     if(this.primaryLang === "ara"){

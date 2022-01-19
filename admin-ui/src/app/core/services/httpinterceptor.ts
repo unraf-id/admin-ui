@@ -88,6 +88,23 @@ export class AuthInterceptor implements HttpInterceptor {
                     disableClose: true
                   });
                 });
+            }else if (err.status === 413) {
+              this.translateService
+                .getTranslation(this.appService.getConfig().primaryLangCode)
+                .subscribe(response => {
+                  this.errorMessages = response.errorPopup;
+                  this.dialog.open(DialogComponent, {
+                    width: '868px',
+                    height: '190px',
+                    data: {
+                      case: 'MESSAGE',
+                      title: this.errorMessages.payloadtoolarge.title,
+                      message: this.errorMessages.payloadtoolarge.message,
+                      btnTxt: this.errorMessages.payloadtoolarge.btnTxt
+                    },
+                    disableClose: true
+                  });
+                });
             } else {
               if (err.url.includes('validateToken')) {
 

@@ -186,7 +186,7 @@ export class CreateComponent {
         data = {
           case: 'MESSAGE',
           title: this.popupMessages['popup3'].title,
-          message: this.popupMessages['popup3'].message+" "+uploadResponse.response.transcationId,
+          message: this.popupMessages['popup3'].message +" "+uploadResponse.response.transcationId,
           btnTxt: this.popupMessages['popup3'].btnTxt
         };
       }

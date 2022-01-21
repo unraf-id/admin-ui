@@ -37,6 +37,7 @@ public class Commons {
 		Commons.click(driver, By.id("Filter")); 
 	
 		Commons.dropdowncenter(driver, by, data); 
+		
 		Commons.click(driver, By.id("applyTxt")); 
 	}
 	public  static void click(WebDriver driver, By by) {
@@ -118,7 +119,7 @@ public class Commons {
 				Thread.sleep(500);
 			   String val="'"+value +"'";
 		   
-		    click( driver,By.xpath("//span[contains(text(),"+val+")]"));//span[contains(text(),'Z2021122417471')]"));Z2021122417471
+		    click( driver,By.xpath("//span[contains(text(),"+val+")]"));
 		    try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
@@ -141,7 +142,7 @@ public class Commons {
 				Thread.sleep(500);
 			   String val="'"+value +"'";
 		   
-		    click( driver,By.xpath("(//span[contains(text(),"+val+")])[4]"));//span[contains(text(),'Z2021122417471')]"));Z2021122417471
+		    click( driver,By.id(value));
 		    try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {

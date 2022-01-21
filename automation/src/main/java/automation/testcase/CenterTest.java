@@ -84,16 +84,16 @@ public class CenterTest extends BaseClass{
     Commons.click(driver, By.id("createExceptionalHoliday"));
     
     Commons.createRes(driver);
-   	Commons.filterCenter(driver, By.id(data), data);
+   	Commons.filterCenter(driver, By.id("name"), data);
    	
 
    	Commons.editCenter(driver,data+1,By.id("name"));
    	
-   	Commons.filterCenter(driver, By.id(data+1), data+1);
+   	Commons.filterCenter(driver, By.id("name"), data+1);
    	
    	Commons.activate(driver);
    	Commons.editCenter(driver,data+2,By.id("name"));
-   	Commons.filterCenter(driver, By.id(data+2), data+2);
+   	Commons.filterCenter(driver, By.id("name"), data+2);
    	Commons.deactivate(driver);
    	Commons.decommission(driver);
   }

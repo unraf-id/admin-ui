@@ -16,6 +16,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -57,6 +58,13 @@ public class BaseClass {
 		System.out.println(System.getProperty("user.dir"));
 		String configFilePath = System.getProperty("user.dir") + "\\chromedriver\\chromedriver.exe";
 		System.setProperty("webdriver.chrome.driver", configFilePath);
+		
+//		ChromeOptions options = new ChromeOptions();
+//		options.addArguments("--headless");
+//		driver = new ChromeDriver(options);
+		
+		
+		
 		driver = new ChromeDriver();
 		js = (JavascriptExecutor) driver;
 		vars = new HashMap<String, Object>();
@@ -70,7 +78,7 @@ public class BaseClass {
 			language1 = Commons.getFieldData("langcode");
 
 			System.out.println(language1);
-			if(!language1.isEmpty())
+			if(!language1.equals("sin"))
 			{Commons.click(driver, By.xpath("//*[@class='kc-dropdown']"));
 			String var = "//*[@class='kc-dropdown-item']/a[contains(text(),'" + language1 + "')]";
 			Commons.click(driver, By.xpath(var));

@@ -74,7 +74,7 @@ public class JsonUtil {
             if (lang.equalsIgnoreCase(PropertiesUtil.getKeyValue(idfield)))
             	return val;
         }
-        return "";
+        return "sin";
     }
 
     public static LinkedHashMap<String, String> JsonObjSimpleParsingWithCode(String jsonIdentity, String idfield)

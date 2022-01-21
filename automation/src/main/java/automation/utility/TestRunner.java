@@ -11,6 +11,7 @@ import automation.testcase.*;
 public class TestRunner {
 	static TestListenerAdapter tla = new TestListenerAdapter();
 
+	
 	static TestNG testNg;
 	
 	public static void main(String[] args) throws Exception {
@@ -34,7 +35,7 @@ public class TestRunner {
 			BulkUploadTest.class
 		
 		});
-		testNg.addListener(tla);
+	//	testNg.addListener(tla);
 		testNg.run();
 		
 	}

@@ -106,7 +106,18 @@ public class BulkUploadTest extends BaseClass {
     
     Commons.click(driver,By.xpath("//button[@id='createButton']"));
     Commons.click(driver,By.id("confirmpopup")); 
-	Commons.click(driver, By.id("confirmmessagepopup")); 
+    
+    String divText=driver.findElement(By.xpath("//div[@class='mat-dialog-content']//div")).getText();
+    String divTextArr[]=divText.split(":");
+    System.out.println(divTextArr[1].trim());
+    
+    Commons.click(driver,By.id("confirmmessagepopup")); //DONE
+    Thread.sleep(Long.parseLong(PropertiesUtil.getKeyValue("bulkwait")));
+
+    String transId=driver.findElement(By.xpath("//table[@class='mat-table']//tr[2]//td[1]")).getText();
+    String status=driver.findElement(By.xpath("//table[@class='mat-table']//tr[2]//td[5]")).getText();
+  Assert.assertTrue(transId.equals(divTextArr[1].trim()));
+  Assert.assertTrue(status.equalsIgnoreCase("COMPLETED"),"Status Should be COMPLETED");
 }
  }
 }

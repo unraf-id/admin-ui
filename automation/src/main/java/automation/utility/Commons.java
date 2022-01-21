@@ -32,6 +32,13 @@ public class Commons {
 		Commons.click(driver, By.id("applyTxt")); 
 	}
 	
+	public  static void filterCenter(WebDriver driver, By by,String data) {
+		
+		Commons.click(driver, By.id("Filter")); 
+	
+		Commons.dropdowncenter(driver, by, data); 
+		Commons.click(driver, By.id("applyTxt")); 
+	}
 	public  static void click(WebDriver driver, By by) {
 		try {
 			(new WebDriverWait(driver, 20)).until(ExpectedConditions.elementToBeClickable(by));
@@ -111,7 +118,30 @@ public class Commons {
 				Thread.sleep(500);
 			   String val="'"+value +"'";
 		   
-		    click( driver,By.xpath("//span[contains(text(),"+val+")]"));
+		    click( driver,By.xpath("//span[contains(text(),"+val+")]"));//span[contains(text(),'Z2021122417471')]"));Z2021122417471
+		    try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		 }catch(Exception e)
+		 
+		 {
+			 e.getMessage();
+		 }
+	  }
+	
+	public static void dropdowncenter(WebDriver driver, By by,String value)
+	  {
+		  
+		 try {
+			 Thread.sleep(500);
+			 click(driver,by);
+				Thread.sleep(500);
+			   String val="'"+value +"'";
+		   
+		    click( driver,By.xpath("(//span[contains(text(),"+val+")])[4]"));//span[contains(text(),'Z2021122417471')]"));Z2021122417471
 		    try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {

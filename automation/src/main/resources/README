@@ -7,7 +7,7 @@ How To run :
 
 TestData Setup:
 	Config.properties
-		langcode:eng -- This is Admin login page language selection
+		langcode:eng -- This is Admin login page language selection description placed in TestData.json
 		bulkwait:10000 -- This is Bulk upload wait
 	TestData.json
 		Keep setExcludedGroups="" -- To run all the scenario mentioned below

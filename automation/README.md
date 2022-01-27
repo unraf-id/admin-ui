@@ -1,7 +1,7 @@
 # Admin automation
 
 ## Overview
-Admin automation covers CRUD(create, read, update and delete) operation performed on UI framework includes TestNg, Selenium
+Admin automation covers CRUD(create, read, update and delete) operation performed on UI, framework includes TestNg, Selenium webdriver
 
 ## Build
 1. Build jar `mvn clean install`

@@ -19,22 +19,22 @@ Admin automation covers CRUD(create, read, update and delete) operation performe
 
 3. Chrome driver place under working directory inside folder name chromedriver
 
-## Below are the scenarios and their tags
+## Below tags with scenarios
 * blocklistedwordsCRUD: BL
-* bulkUploadCRUD": BU
-* centerCRUD": CTR
-* centerTypeCRUD": CT
-* deviceSpecCRUD": DS
-* deviceCRUD": D
-* deviceTypesCRUD": DT
-* documentCategoriesCRUD": DOC
-* documentTypesCRUD": DOCT
-* dynamicFieldCRUD": DF
-* holidaysCRUD": H
-* machineSpecCRUD": MS
-* machineCRUD": M
-* machineTypesCRUD": MT
-* templateCRUD": T
+* bulkUploadCRUD: BU
+* centerCRUD: CTR
+* centerTypeCRUD: CT
+* deviceSpecCRUD: DS
+* deviceCRUD: D
+* deviceTypesCRUD: DT
+* documentCategoriesCRUD: DOC
+* documentTypesCRUD: DOCT
+* dynamicFieldCRUD: DF
+* holidaysCRUD: H
+* machineSpecCRUD: MS
+* machineCRUD: M
+* machineTypesCRUD: MT
+* templateCRUD: T
 
 ## Execution result and logs
 1. Verify the failure in the logs file `\logs\AutomationLogs.log`

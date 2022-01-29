@@ -1,7 +1,7 @@
-# Admin automation
+# Admin Automation
 
 ## Overview
-Admin automation covers CRUD(create, read, update and delete) operation performed on UI, framework includes TestNg, Selenium webdriver
+Admin automation covers CRUD(create, read, update and delete) operation performed on UI, framework includes TestNg, Selenium webdriver.
 
 ## Build
 1. Build jar `mvn clean install`
@@ -41,5 +41,5 @@ Admin automation covers CRUD(create, read, update and delete) operation performe
 1. Execution results present under test-output folder file `emailable-report.html`
 
 ## License
-This project is licensed under the terms of [Mozilla Public License 2.0]
+This project is licensed under the terms of [Mozilla Public License 2.0](../LICENSE).
 

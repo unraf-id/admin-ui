@@ -1,4 +1,4 @@
-package io.mosip.admintest.testcase;
+package io.mosip.test.admintest.testcase;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -23,38 +23,41 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import io.mosip.admintest.utility.BaseClass;
-import io.mosip.admintest.utility.Commons;
+import io.mosip.test.admintest.utility.BaseClass;
+import io.mosip.test.admintest.utility.Commons;
 
-public class HolidaysTest extends BaseClass{
+public class DynamicFieldTest extends BaseClass{
  
-  @Test(groups = "H")
-  public void holidaysCRUD() {
-	String listofholidays="admin/masterdata/holiday/view";
-	
+ 
+  @Test(groups = "DF")
+  public void dynamicFieldCRUD() {
+	 
+   
     Commons.click(driver,By.xpath("//a[@href='#/admin/masterdata']"));
    
-    Commons.click(driver,By.id(listofholidays));
-    Commons.click(driver,By.id("Create"));
+    Commons.click(driver,By.id("createDynamicField"));
     
   
-    Commons.enter(driver,By.id("holidayName"),data);
-    Commons.enter(driver,By.id("holidayDesc"),data);
-    Commons.enter(driver,By.id("holidayDate"),"12/27/2021");
-    Commons.dropdown(driver,By.id("locationCode"));
-        
+  
+    Commons.enter(driver,By.id("code"),data);
     
+    Commons.enter(driver,By.id("name"),"Automation");
+    Commons.enter(driver,By.id("description"),data);
+
+    Commons.enter(driver,By.id("value"),data);
+    
+
     Commons.create(driver);
-	Commons.filter(driver, By.id("holidayName"), data);
+	Commons.filter(driver, By.id("description"), data);
 	
 
-	Commons.edit(driver,data+1,By.id("holidayName"));
-	Commons.filter(driver, By.id("holidayName"), data+1);
+	Commons.edit(driver,data+1,By.id("description"));
+	Commons.filter(driver, By.id("description"), data+1);
 	
 	Commons.activate(driver);
-	Commons.edit(driver,data+2,By.id("holidayName"));
-	Commons.filter(driver, By.id("holidayName"), data+2);
+	Commons.edit(driver,data+2,By.id("description"));
+	Commons.filter(driver, By.id("description"), data+2);
 	Commons.deactivate(driver);
 
-    }
+  }
 }

@@ -1,4 +1,4 @@
-package io.mosip.admintest.testcase;
+package io.mosip.test.admintest.testcase;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -26,10 +26,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import io.mosip.admintest.utility.BaseClass;
-import io.mosip.admintest.utility.Commons;
-import io.mosip.admintest.utility.PropertiesUtil;
-import io.mosip.admintest.utility.SetTestName;
+import io.mosip.test.admintest.utility.BaseClass;
+import io.mosip.test.admintest.utility.Commons;
+import io.mosip.test.admintest.utility.PropertiesUtil;
+import io.mosip.test.admintest.utility.SetTestName;
 
 import java.awt.AWTException;
 import java.awt.Robot;

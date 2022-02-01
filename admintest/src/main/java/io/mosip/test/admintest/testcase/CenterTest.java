@@ -1,4 +1,4 @@
-package io.mosip.admintest.testcase;
+package io.mosip.test.admintest.testcase;
 import static org.testng.Assert.assertNotEquals;
 
 import java.util.HashMap;
@@ -20,8 +20,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import io.mosip.admintest.utility.BaseClass;
-import io.mosip.admintest.utility.Commons;
+import io.mosip.test.admintest.utility.BaseClass;
+import io.mosip.test.admintest.utility.Commons;
 public class CenterTest extends BaseClass{
 
 	@Test(groups = "CTR")

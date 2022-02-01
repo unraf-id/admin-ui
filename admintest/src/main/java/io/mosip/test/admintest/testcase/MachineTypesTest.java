@@ -1,4 +1,4 @@
-package io.mosip.admintest.testcase;
+package io.mosip.test.admintest.testcase;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -23,41 +23,36 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import io.mosip.admintest.utility.BaseClass;
-import io.mosip.admintest.utility.Commons;
+import io.mosip.test.admintest.utility.BaseClass;
+import io.mosip.test.admintest.utility.Commons;
 
-public class DeviceSpecificationTest extends BaseClass{
+public class MachineTypesTest extends BaseClass{
  
- 
-  @Test(groups = "DS")
-  public void deviceSpecCRUD() {
-	  String devicespec="admin/masterdata/device-specs/view";
-	    
+  @Test(groups = "MT")
+  public void machineTypesCRUD() {
+	  String machinetypes="admin/masterdata/machine-type/view" ;  
     Commons.click(driver,By.xpath("//a[@href='#/admin/masterdata']"));
    
-    Commons.click(driver,By.id(devicespec));
+    Commons.click(driver,By.id(machinetypes));
     Commons.click(driver,By.id("Create"));
-    
+ 
   
+    Commons.enter(driver,By.id("code"),data);
     Commons.enter(driver,By.id("name"),data);
     Commons.enter(driver,By.id("description"),data);
-    Commons.enter(driver,By.id("brand"),data);
-    Commons.enter(driver,By.id("model"),data);
-    Commons.enter(driver,By.id("minDriverversion"),data);
-    Commons.dropdown(driver,By.id("deviceTypeCode"));
-  
-  
+    
+ 
     Commons.create(driver);
-   	Commons.filter(driver, By.id("name"), data);
-   	
+	Commons.filter(driver, By.id("name"), data);
+	
 
-   	Commons.edit(driver,data+1,By.id("name"));
-   	Commons.filter(driver, By.id("name"), data+1);
-   	
-   	Commons.activate(driver);
-   	Commons.edit(driver,data+2,By.id("name"));
-   	Commons.filter(driver, By.id("name"), data+2);
-   	Commons.deactivate(driver);
+	Commons.edit(driver,data+1,By.id("name"));
+	Commons.filter(driver, By.id("name"), data+1);
+	
+	Commons.activate(driver);
+	Commons.edit(driver,data+2,By.id("name"));
+	Commons.filter(driver, By.id("name"), data+2);
+	Commons.deactivate(driver);
 
-       }
-   }
+  }
+}

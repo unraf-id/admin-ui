@@ -1,4 +1,4 @@
-package io.mosip.admintest.testcase;
+package io.mosip.test.admintest.testcase;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -23,36 +23,34 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import io.mosip.admintest.utility.BaseClass;
-import io.mosip.admintest.utility.Commons;
+import io.mosip.test.admintest.utility.BaseClass;
+import io.mosip.test.admintest.utility.Commons;
+public class CenterTypeTest extends BaseClass{
+   @Test(groups = "CT")
+  public void centerTypeCRUD() {
 
-public class DocumentTypes extends BaseClass{
-  @Test(groups = "DOCT")
-  public void documentTypesCRUD() {
-	  String documentTypes="admin/masterdata/document-type/view"; 
+	  String idCenterTypeCard="admin/masterdata/center-type/view";
+   
     Commons.click(driver,By.xpath("//a[@href='#/admin/masterdata']"));
    
-    Commons.click(driver,By.id(documentTypes));
-    
+    Commons.click(driver,By.id(idCenterTypeCard));
     Commons.click(driver,By.id("Create"));
-
+    
     Commons.enter(driver,By.id("code"),data);
     Commons.enter(driver,By.id("name"),data);
-    Commons.enter(driver,By.id("description"),data);
-    
- 
+    Commons.enter(driver,By.id("descr"),data);
+        
+	Commons.create(driver);
+	Commons.filter(driver, By.id("name"), data);
+	
 
-    Commons.create(driver);
-   	Commons.filter(driver, By.id("name"), data);
-   	
+	Commons.edit(driver,data+1,By.id("name"));
+	Commons.filter(driver, By.id("name"), data+1);
+	
+	Commons.activate(driver);
+	Commons.edit(driver,data+2,By.id("name"));
+	Commons.filter(driver, By.id("name"), data+2);
+	Commons.deactivate(driver);
 
-   	Commons.edit(driver,data+1,By.id("name"));
-   	Commons.filter(driver, By.id("name"), data+1);
-   	
-   	Commons.activate(driver);
-   	Commons.edit(driver,data+2,By.id("name"));
-   	Commons.filter(driver, By.id("name"), data+2);
-   	Commons.deactivate(driver);
-
-       }
-   }
+    }
+}

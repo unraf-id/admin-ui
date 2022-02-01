@@ -1,4 +1,4 @@
-package io.mosip.admintest.utility;
+package io.mosip.test.admintest.utility;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

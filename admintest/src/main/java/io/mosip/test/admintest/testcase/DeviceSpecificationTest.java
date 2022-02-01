@@ -1,4 +1,4 @@
-package io.mosip.admintest.testcase;
+package io.mosip.test.admintest.testcase;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -23,23 +23,30 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import io.mosip.admintest.utility.BaseClass;
-import io.mosip.admintest.utility.Commons;
+import io.mosip.test.admintest.utility.BaseClass;
+import io.mosip.test.admintest.utility.Commons;
 
-public class DocumentCategoriesTest extends BaseClass{
-  @Test(groups = "DOC")
-  public void documentCategoriesCRUD() {
-	   String documentCategories="admin/masterdata/document-categories/view";
+public class DeviceSpecificationTest extends BaseClass{
+ 
+ 
+  @Test(groups = "DS")
+  public void deviceSpecCRUD() {
+	  String devicespec="admin/masterdata/device-specs/view";
+	    
     Commons.click(driver,By.xpath("//a[@href='#/admin/masterdata']"));
    
-    Commons.click(driver,By.id(documentCategories));
+    Commons.click(driver,By.id(devicespec));
     Commons.click(driver,By.id("Create"));
-   
-    Commons.enter(driver,By.id("code"),data);
+    
+  
     Commons.enter(driver,By.id("name"),data);
     Commons.enter(driver,By.id("description"),data);
-    
- 
+    Commons.enter(driver,By.id("brand"),data);
+    Commons.enter(driver,By.id("model"),data);
+    Commons.enter(driver,By.id("minDriverversion"),data);
+    Commons.dropdown(driver,By.id("deviceTypeCode"));
+  
+  
     Commons.create(driver);
    	Commons.filter(driver, By.id("name"), data);
    	

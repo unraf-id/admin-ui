@@ -1,4 +1,4 @@
-package io.mosip.admintest.testcase;
+package io.mosip.test.admintest.testcase;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -24,8 +24,8 @@ import org.testng.annotations.Test;
 
 import com.paulhammant.ngwebdriver.NgWebDriver;
 
-import io.mosip.admintest.utility.BaseClass;
-import io.mosip.admintest.utility.Commons;
+import io.mosip.test.admintest.utility.BaseClass;
+import io.mosip.test.admintest.utility.Commons;
 public class DeviceTest extends BaseClass{
    @Test(groups = "D")
   public void deviceCRUD() throws InterruptedException {

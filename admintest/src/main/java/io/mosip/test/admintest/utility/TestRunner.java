@@ -1,11 +1,11 @@
-package io.mosip.admintest.utility;
+package io.mosip.test.admintest.utility;
 
 import java.util.List;
 
 import org.testng.TestListenerAdapter;
 import org.testng.TestNG;
 
-import io.mosip.admintest.testcase.*;
+import io.mosip.test.admintest.testcase.*;
 
 
 public class TestRunner {

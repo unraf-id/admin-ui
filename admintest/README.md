@@ -1,7 +1,7 @@
-#Admin Automation.
+#Admin Automation
 
 ## Overview
-Selenium webdriver based Admin Portal Automation covers CRUD(create, read, update and delete) operation performed via UI with Chrome driver.
+Selenium webdriver based Admin Portal Automation covers CRUD(create, read, update and delete) operation performed via UI with Chrome driver
 
 ## Build
 1. Build jar `mvn clean install`

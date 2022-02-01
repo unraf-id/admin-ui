@@ -1,5 +1,5 @@
 #Admin Portal Automation.
-Selenium webdriver based Admin Portal Automation covers CRUD(create, read, update and delete operation performed via UI with Chrome driver.
+Selenium webdriver based Admin Portal Automation covers CRUD(create, read, update and delete) operation performed via UI with Chrome driver.
 
 ## Build : 
 

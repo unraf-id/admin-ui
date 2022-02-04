@@ -1,22 +1,34 @@
-# mosip-ref-impl
-This repository contains components that can be customized by a country. For example, pre-registration-ui that builds on top of the Pre-Registration services can be customized by a country as per their needs.
+# Admin Portal
 
+## Overview
+See [overview and portal user guide](https://docs.mosip.io/1.2.0/modules/administration/admin-portal-user-guide).
 
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.3.
 
----
-### About MOSIP
-To know about MOSIP check out our [Platform Documentation](https://github.com/mosip/mosip-docs/wiki)
+## Development server
 
-### Contribute
-You can contribute to MOSIP! 
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-We want to engage constructively with the community.  If you find a **vulnerability** or issue, please file a bug with the respective repository.  We welcome pull requests with fixes too.  Please see the [Contributor Guide](https://github.com/mosip/mosip-docs/wiki/Contributor-Guide) on how to file bugs, contribute code, and more.
+## Code scaffolding
 
-### License
-This project is licensed under the terms of [Mozilla Public License 2.0](https://github.com/mosip/mosip-platform/blob/master/LICENSE)
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-### Communication
-Join the [developer mailing list](https://groups.io/g/mosip-dev)
+## Build
 
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-You may also be interested in joining our community room on Gitter via [![Gitter](https://badges.gitter.im/mosip-community/community.svg)](https://gitter.im/mosip-community/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)  where you could get some great community support
+## Running unit tests
+
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## License
+This project is licensed under the terms of [Mozilla Public License 2.0](../LICENSE).
+

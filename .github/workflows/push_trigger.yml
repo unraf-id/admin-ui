@@ -4,6 +4,8 @@ name: Maven Package upon a push
 on:
   push:
     branches:
+      - '!release-branch'
+      - release-1*
       - master
       - 1.0.*
       - develop
@@ -74,17 +76,14 @@ jobs:
           IMAGE_ID=$NAMESPACE/$SERVICE_NAME
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-          VERSION=$BRANCH_NAME
+          if [[ $BRANCH_NAME == master ]]; then
+            VERSION=latest
+          else
+            VERSION=$BRANCH_NAME
+          fi
           echo "push version $VERSION"
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
           docker tag $SERVICE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
-#      - uses: 8398a7/action-slack@v3
-#        with:
-#          status: ${{ job.status }}
-#          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took # selectable (default: repo,message)
-#        env:
-#          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} # required
-#        if: failure() # Pick up events even if the job fails or is canceled.
 

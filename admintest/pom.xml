@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.mosip.test</groupId>
   <artifactId>admintest</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.2.0</version>
   <name>admin-ui-automation</name>
   <description>admin-ui-automation</description>
   <properties>

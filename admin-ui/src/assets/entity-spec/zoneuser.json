@@ -109,7 +109,9 @@
       "sortOrder": "3",
       "showAsLink": "",
       "linkType": "",
-      "LinkURL": ""
+      "LinkURL": "",
+      "noSort": "true"
+
     },
     {
       "name": "zoneName",
@@ -125,7 +127,8 @@
       "sortOrder": "",
       "showAsLink": "",
       "linkType": "",
-      "LinkURL": ""
+      "LinkURL": "",
+      "noSort": "true"
     },
     {
       "name": "createdBy",

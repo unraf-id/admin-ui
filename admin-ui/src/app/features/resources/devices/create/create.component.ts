@@ -224,6 +224,9 @@ export class CreateComponent{
       .subscribe(response => {           
         if(!response.errors){
           this.dropDownValues.regCenterCode.primary = response.response.registrationCenters;
+          if(this.data[0].regCenterId){
+            this.primaryForm.controls.regCenterId.setValue(this.data[0].regCenterId);
+          }          
         }else{
           this.dropDownValues.regCenterCode.primary = [];
         }     
@@ -516,7 +519,6 @@ export class CreateComponent{
     this.primaryForm.controls.serialNumber.setValue(this.data[0].serialNum);
     this.primaryForm.controls.ipAddress.setValue(this.data[0].ipAddress);
     this.primaryForm.controls.deviceSpecId.setValue(this.data[0].deviceSpecId);
-    this.primaryForm.controls.regCenterId.setValue(this.data[0].regCenterId);
     this.primaryForm.controls.id.setValue(this.data[0].id);
   }
 

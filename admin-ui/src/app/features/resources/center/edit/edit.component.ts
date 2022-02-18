@@ -129,8 +129,9 @@ export class EditComponent {
     
     //load all supported languages
     this.supportedLanguages = [];
+    let self = this;
     let supportedLanguagesArr = this.appConfigService.getConfig()['supportedLanguages'].split(',');
-    supportedLanguagesArr.map(lang => this.supportedLanguages.push(lang.trim()));
+    supportedLanguagesArr.map(function(lang){if(lang.trim()){self.supportedLanguages.push(lang.trim())}});
 
     let userPreferredLanguage = this.headerService.getUserPreferredLanguage();
     console.log(`constructor -- userPreferredLanguage: ${userPreferredLanguage}`);
@@ -144,7 +145,9 @@ export class EditComponent {
     this.translateService.use(this.primaryLang);    
     //Set the "Select Language" dropdown options
     this.selectLanguagesArr = [];
-    let otherLangsArr = this.supportedLanguages.filter(lang => lang !== this.primaryLang);
+    let self = this;
+    let otherLangsArr = this.supportedLanguages.filter(function(lang){if(lang.trim() && lang.trim() !== self.primaryLang.trim()){return lang.trim()}}); 
+    console.log("otherLangsArr>>>"+otherLangsArr);
     if(otherLangsArr.length > 0){
       otherLangsArr.forEach((language) => {
         if (defaultJson.languages && defaultJson.languages[language]) {
@@ -391,7 +394,7 @@ export class EditComponent {
             this.secondaryForm.controls.selectLanguage.setValue(
               this.secondaryLang
             );
-            this.disableSecondaryForm = true;
+            this.disableSecondaryForm = true;            
             this.getSecondaryPanelData(this.secondaryLang);
           }
         } else {
@@ -427,7 +430,7 @@ export class EditComponent {
     this.centerService
       .getRegistrationCentersDetails(request)
       .subscribe(secondaryResponse => {
-        if (secondaryResponse.response.data) {
+        if (secondaryResponse.response) {
           this.showUpdateButton = true;
           this.data[1] = secondaryResponse.response.data
             ? secondaryResponse.response.data[0]

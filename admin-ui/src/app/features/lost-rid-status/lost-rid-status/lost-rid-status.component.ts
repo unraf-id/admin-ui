@@ -102,7 +102,6 @@ export class LostRidStatusComponent implements OnInit {
         this.actionEllipsis = response.actionButtons.filter(
           value => value.showIn.toLowerCase() === 'button'
         );
-        this.filterColumns.forEach
         for(let value of this.filterColumns) {
           this.fieldNameList[value.filtername] = "";
         }

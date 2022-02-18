@@ -29,19 +29,23 @@ export class ToolbarComponent extends MatPaginatorIntl implements OnInit {
     private translateService: TranslateService
   ) {
     super();
+
     let self = this;     
     this.translateService.getTranslation(this.headerService.getUserPreferredLanguage()).subscribe(response => {
       self.itemsPerPageLabel = response.paginationLabel.showRows;
-    });
+      this.ngOnInit();
+    });    
   }
 
-  ngOnInit() {
-    this.lang = this.headerService.getUserPreferredLanguage();
-    this.pageSize = Number(this.paginationOptions.pageSize);
+  ngOnInit() { 
+    this.lang = this.headerService.getUserPreferredLanguage();   
+    this.showMissingDataBtn(); 
+    if(this.paginationOptions){
+      this.pageSize = Number(this.paginationOptions.pageSize);  
+    } 
   }
 
   actionEvent(buttonAction) {
-    console.log(buttonAction);
     if (buttonAction.actionListType === 'action') {
       this.auditService.audit(9, 'ADM-082', {
         buttonName: buttonAction.buttonName.eng,
@@ -65,6 +69,7 @@ export class ToolbarComponent extends MatPaginatorIntl implements OnInit {
       }      
     }
   }
+
   openFilterDialog(action): void {
     const dialogRef = this.dialog
       .open(DialogComponent, {
@@ -100,6 +105,16 @@ export class ToolbarComponent extends MatPaginatorIntl implements OnInit {
       });
     }
     this.pageEvent.emit(event);
+    this.showMissingDataBtn();
+  }
+
+  showMissingDataBtn(){
+    let supportedLanguages = this.appConfig.getConfig()['supportedLanguages'].split(',');
+    let self = this;
+    let otherLangsArr = supportedLanguages.filter(function(lang){if(lang.trim() && lang.trim() !== self.headerService.getUserPreferredLanguage().trim()){return lang.trim()}}); 
+    if(otherLangsArr.length == 0 && this.buttonList){
+      this.buttonList = this.buttonList.filter(function(el) { return el.actionURL.case != "missingData"; });
+    }
   }
 
   export() {

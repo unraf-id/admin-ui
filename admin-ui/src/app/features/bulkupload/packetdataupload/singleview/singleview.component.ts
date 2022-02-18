@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { BulkuploadService } from 'src/app/core/services/bulkupload.service';
 
 @Component({
+  selector: 'app-view',
   templateUrl: './singleview.component.html',
   styleUrls: ['./singleview.component.css'],
   encapsulation: ViewEncapsulation.None

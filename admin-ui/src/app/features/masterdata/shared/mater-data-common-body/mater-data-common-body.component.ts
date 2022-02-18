@@ -127,8 +127,8 @@ export class MaterDataCommonBodyComponent implements OnInit {
         this.serverError = response.serverError;
       });
     let supportedLanguages = this.appConfigService.getConfig()['supportedLanguages'].split(',');
-
-    let otherLangsArr = supportedLanguages.filter(lang => lang.trim() !== this.primaryLang.trim());
+    let self = this;
+    let otherLangsArr = supportedLanguages.filter(function(lang){if(lang.trim() && lang.trim() !== self.primaryLang.trim()){return lang.trim()}});    
     if(otherLangsArr.length > 0){
       this.selectLanguagesArr = [];
       this.secondaryLang = otherLangsArr[0].trim();
@@ -143,7 +143,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
       this.primaryLang === this.secondaryLang ? this.showSecondaryForm = false : this.showSecondaryForm = true;
     }else{
       this.showSecondaryForm = false;
-    }   
+    }
     if(this.queryParamLangCode){
       this.secondaryLang = this.queryParamLangCode;
     }   
@@ -215,7 +215,6 @@ export class MaterDataCommonBodyComponent implements OnInit {
         }
         //this.primaryData = {"name":name,"description":"","dataType":"","fieldVal": '{"value":"", "code":""}',"langCode":this.primaryLang};
         this.primaryData = {"name":name,"description":"","dataType":"string","value":"", "code":"","langCode":this.primaryLang};
-        this.showPanel(this.pageName);
       }
     }else{  
 
@@ -266,7 +265,6 @@ export class MaterDataCommonBodyComponent implements OnInit {
         this.pageName = "Dynamic Field";
         this.primaryData["code"] = JSON.parse(this.primaryData.fieldVal)["code"];
         this.primaryData["value"] = JSON.parse(this.primaryData.fieldVal)["value"];
-        this.showPanel(this.pageName);
       }
     }
     this.setSecondaryFrom("");
@@ -402,8 +400,6 @@ export class MaterDataCommonBodyComponent implements OnInit {
         this.secondaryData = {"code":"","name":"","description":"","langCode":this.secondaryLang,"isActive":true};
         if(type === "setValue")
           this.secondaryData.code = this.primaryData.code;
-      }else if(this.url === "device-specs"){
-        this.secondaryData = {"name":"","brand":"","model":"","deviceTypeCode":"","minDriverversion":"","description":"","langCode":this.secondaryLang,"isActive":true,"id":""};
       }else if(this.url === "dynamicfields"){
         //this.secondaryData = {"name":"","description":"","dataType":"","fieldVal": '{"value":"","code":""}',"langCode":this.primaryLang};
         this.secondaryData = {"name":"","description":"","dataType":"string","value":"","code":"","langCode":this.secondaryLang};
@@ -456,7 +452,6 @@ export class MaterDataCommonBodyComponent implements OnInit {
         this.pageName = "Dynamic Field";
         this.secondaryData["code"] = this.secondaryData.fieldVal["code"];
         this.secondaryData["value"] = this.secondaryData.fieldVal["value"];
-        this.showPanel(this.pageName);
       }
     }
   }
@@ -791,7 +786,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
           if (!updateResponse.errors) {
             if(textToValidate){       
               this.secondaryData["code"] = updateResponse.response.code;       
-              if(updateResponse.response.id && url !== "dynamicfields"){                 
+              if(updateResponse.response.id && url !== "dynamicfields" && !this.secondaryData["id"]){                 
                 this.secondaryData["id"] = updateResponse.response.id; 
               }else if(url === "dynamicfields"){
                 this.secondaryData["code"] = updateResponse.response.fieldVal.code; 
@@ -958,7 +953,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
             if(textToValidate){    
               this.secondaryData["code"] = updateResponse.response.code;           
               if(updateResponse.response.id && url !== "dynamicfields"){                
-                this.secondaryData["id"] = updateResponse.response.id; 
+                //this.secondaryData["id"] = updateResponse.response.id; 
               }else if(url === "dynamicfields"){
                 this.secondaryData["code"] = updateResponse.response.fieldVal.code; 
               }

@@ -442,9 +442,9 @@ export const ListViewIdKeyMapping = {
   'gender-type': { idKey: 'code', auditEventId: 'ADM-078' },
   'center-type': { idKey: 'code', auditEventId: 'ADM-079' },
   holiday: { idKey: 'holidayId', auditEventId: 'ADM-080' },
-  masterdataupload : { idKey: 'transcationId', auditEventId: 'ADM-081' },
+  masterdataupload : { idKey: 'transcationId', auditEventId: 'ADM-331' },
   packetupload : { idKey: 'transcationId', auditEventId: 'ADM-082' },
-  getcertificate : { idKey: 'applicationId', auditEventId: 'ADM-083' },
+  getcertificate : { idKey: 'applicationId', auditEventId: 'ADM-331' },
   dynamicfields : { idKey: 'id', auditEventId: 'ADM-084' },
   'rid-status' : { idKey: 'workflowId', auditEventId: 'ADM-085' }
   

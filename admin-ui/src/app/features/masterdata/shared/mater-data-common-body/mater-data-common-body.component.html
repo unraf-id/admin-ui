@@ -15,21 +15,72 @@
                 <hr />
                 <br /><br />
                 <div *ngFor="let field of fields; let i = index" class="mat-form1">
-                    <mat-form-field *ngIf="field.showInSingleView === 'true' && field.inputType === 'text' && field.name !== 'code'">
-                      <input
-                        #keyboardRef
-                        #{{field.name}}
-                        id="{{field.name}}"
-                        (blur)="captureValue($event, field.name, 'primary')"
-                        (focus)="scrollPage(field.name, 'primary', field.name, i)"
-                        matInput
-                        placeholder="{{
-                          field.label[primaryLang] | translate
-                        }}"
-                        [value]="primaryData[field.name]"                        
-                        required={{field.ismandatory}}
-                        *ngIf="field.name !== 'fieldVal'"
-                      />
+                    <mat-form-field *ngIf="field.showInSingleView === 'true' && field.inputType === 'text' && field.name !== 'code'">           
+                      <span *ngIf="pageName === 'Dynamic Field' && primaryData[field.name] !== '' && field.name === 'name'">
+                        <input
+                          #keyboardRef
+                          #{{field.name}}
+                          id="{{field.name}}"
+                          (blur)="captureValue($event, field.name, 'primary')"
+                          (focus)="scrollPage(field.name, 'primary', field.name, i)"
+                          matInput
+                          placeholder="{{
+                            field.label[primaryLang] | translate
+                          }}"
+                          [value]="primaryData[field.name]"                        
+                          required={{field.ismandatory}}
+                          *ngIf="field.name !== 'fieldVal'"
+                          readonly = true
+                        />
+                      </span>
+                      <span *ngIf="pageName === 'Dynamic Field' && primaryData[field.name] === '' && field.name === 'name'">
+                        <input
+                          #keyboardRef
+                          #{{field.name}}
+                          id="{{field.name}}"
+                          (blur)="captureValue($event, field.name, 'primary')"
+                          (focus)="scrollPage(field.name, 'primary', field.name, i)"
+                          matInput
+                          placeholder="{{
+                            field.label[primaryLang] | translate
+                          }}"
+                          [value]="primaryData[field.name]"                        
+                          required={{field.ismandatory}}
+                          *ngIf="field.name !== 'fieldVal'"
+                        />
+                      </span>
+                      <span *ngIf="pageName === 'Dynamic Field' && field.name !== 'name'">
+                        <input
+                          #keyboardRef
+                          #{{field.name}}
+                          id="{{field.name}}"
+                          (blur)="captureValue($event, field.name, 'primary')"
+                          (focus)="scrollPage(field.name, 'primary', field.name, i)"
+                          matInput
+                          placeholder="{{
+                            field.label[primaryLang] | translate
+                          }}"
+                          [value]="primaryData[field.name]"                        
+                          required={{field.ismandatory}}
+                          *ngIf="field.name !== 'fieldVal'"
+                        />
+                      </span>
+                      <span *ngIf="pageName !== 'Dynamic Field'">
+                        <input
+                          #keyboardRef
+                          #{{field.name}}
+                          id="{{field.name}}"
+                          (blur)="captureValue($event, field.name, 'primary')"
+                          (focus)="scrollPage(field.name, 'primary', field.name, i)"
+                          matInput
+                          placeholder="{{
+                            field.label[primaryLang] | translate
+                          }}"
+                          [value]="primaryData[field.name]"                        
+                          required={{field.ismandatory}}
+                          *ngIf="field.name !== 'fieldVal'"
+                        />
+                      </span>
                     </mat-form-field>
                     <mat-form-field *ngIf="field.showInSingleView === 'true' && field.inputType === 'text' && field.name === 'code' && isCreateForm">
                       <input
@@ -81,6 +132,40 @@
                       />
                     </mat-form-field>
                     <mat-form-field *ngIf="field.showInSingleView === 'true' && field.inputType === 'textarea'">
+                      <span *ngIf="pageName === 'Dynamic Field' && primaryData[field.name] !== '' && field.name === 'description'">
+                        <textarea
+                        #keyboardRef
+                        #{{field.name}}
+                        id="{{field.name}}"
+                        (blur)="captureValue($event, field.name, 'primary')"
+                        (focus)="scrollPage(field.name, 'primary', field.name, i)"
+                        matInput
+                        placeholder="{{
+                          field.label[primaryLang] | translate
+                        }}"
+                        [value]="primaryData[field.name]"
+                        required={{field.ismandatory}}
+                        rows="3" cols="40"
+                        readonly = true
+                      ></textarea>
+                      </span>
+                      <span *ngIf="pageName === 'Dynamic Field' && primaryData[field.name] === '' && field.name === 'description'">
+                        <textarea
+                        #keyboardRef
+                        #{{field.name}}
+                        id="{{field.name}}"
+                        (blur)="captureValue($event, field.name, 'primary')"
+                        (focus)="scrollPage(field.name, 'primary', field.name, i)"
+                        matInput
+                        placeholder="{{
+                          field.label[primaryLang] | translate
+                        }}"
+                        [value]="primaryData[field.name]"
+                        required={{field.ismandatory}}
+                        rows="3" cols="40"
+                      ></textarea>
+                      </span>
+                      <span *ngIf="pageName !== 'Dynamic Field'">
                       <textarea
                         #keyboardRef
                         #{{field.name}}
@@ -95,6 +180,7 @@
                         required={{field.ismandatory}}
                         rows="3" cols="40"
                       ></textarea>
+                      </span>
                     </mat-form-field>
                     <mat-form-field *ngIf="field.showInSingleView === 'true' && field.inputType === 'calendar'">
                       <input
@@ -292,19 +378,67 @@
                 <br /><br />
                 <div *ngFor="let field of fields; let ii = index" class="mat-form2" [ngStyle]="{'text-align': (secondaryLang==='ara') ? 'right' : 'left'}">
                     <mat-form-field *ngIf="field.showInSingleView === 'true' && field.inputType === 'text' && field.name !== 'code'">
-                      <input
-                        #keyboardRef
-                        #{{field.name}}
-                        id="{{field.name}}{{secondaryLang}}"
-                        (blur)="captureValue($event, field.name, 'secondary')"
-                        (focus)="scrollPage(field.name, 'secondary', field.name, ii + this.fieldsCount)"
-                        matInput
-                        placeholder="{{
-                          field.label[secondaryLang]
-                        }}"
-                        [value]="secondaryData[field.name]"
-                        *ngIf="field.name !== 'fieldVal'"
-                      />
+                      <span *ngIf="pageName === 'Dynamic Field' && secondaryData[field.name] !== '' && field.name === 'name'">
+                        <input
+                          #keyboardRef
+                          #{{field.name}}
+                          id="{{field.name}}{{secondaryLang}}"
+                          (blur)="captureValue($event, field.name, 'secondary')"
+                          (focus)="scrollPage(field.name, 'secondary', field.name, ii + this.fieldsCount)"
+                          matInput
+                          placeholder="{{
+                            field.label[secondaryLang]
+                          }}"
+                          [value]="secondaryData[field.name]"
+                          *ngIf="field.name !== 'fieldVal'"
+                          readonly = true
+                        />
+                      </span>
+                      <span *ngIf="pageName === 'Dynamic Field' && secondaryData[field.name] === '' && field.name === 'name'">
+                        <input
+                          #keyboardRef
+                          #{{field.name}}
+                          id="{{field.name}}{{secondaryLang}}"
+                          (blur)="captureValue($event, field.name, 'secondary')"
+                          (focus)="scrollPage(field.name, 'secondary', field.name, ii + this.fieldsCount)"
+                          matInput
+                          placeholder="{{
+                            field.label[secondaryLang]
+                          }}"
+                          [value]="secondaryData[field.name]"
+                          *ngIf="field.name !== 'fieldVal'"
+                        />
+                      </span>
+                      <span *ngIf="pageName === 'Dynamic Field' && field.name !== 'name'">
+                        <input
+                           #keyboardRef
+                          #{{field.name}}
+                          id="{{field.name}}{{secondaryLang}}"
+                          (blur)="captureValue($event, field.name, 'secondary')"
+                          (focus)="scrollPage(field.name, 'secondary', field.name, ii + this.fieldsCount)"
+                          matInput
+                          placeholder="{{
+                            field.label[secondaryLang]
+                          }}"
+                          [value]="secondaryData[field.name]"
+                          *ngIf="field.name !== 'fieldVal'"
+                        />
+                      </span>
+                      <span *ngIf="pageName !== 'Dynamic Field'">
+                        <input
+                          #keyboardRef
+                          #{{field.name}}
+                          id="{{field.name}}{{secondaryLang}}"
+                          (blur)="captureValue($event, field.name, 'secondary')"
+                          (focus)="scrollPage(field.name, 'secondary', field.name, ii + this.fieldsCount)"
+                          matInput
+                          placeholder="{{
+                            field.label[secondaryLang]
+                          }}"
+                          [value]="secondaryData[field.name]"
+                          *ngIf="field.name !== 'fieldVal'"
+                        />
+                      </span>
                     </mat-form-field>
                     <mat-form-field *ngIf="field.showInSingleView === 'true' && field.inputType === 'text' && field.name === 'code' && isCreateForm">
                       <input
@@ -351,19 +485,52 @@
                       />
                     </mat-form-field>
                     <mat-form-field *ngIf="field.showInSingleView === 'true' && field.inputType === 'textarea'">
-                      <textarea
-                        #keyboardRef
-                        #{{field.name}}
-                        id="{{field.name}}{{secondaryLang}}"
-                        (blur)="captureValue($event, field.name, 'secondary')"
-                        (focus)="scrollPage(field.name, 'secondary', field.name, ii + this.fieldsCount)"
-                        matInput
-                        placeholder="{{
-                          field.label[secondaryLang]
-                        }}"
-                        [value]="secondaryData[field.name]"
-                        rows="3" cols="40"
-                      ></textarea>
+                      <span *ngIf="pageName === 'Dynamic Field' && secondaryData[field.name] !== '' && field.name === 'description'">
+                        <textarea
+                          #keyboardRef
+                          #{{field.name}}
+                          id="{{field.name}}{{secondaryLang}}"
+                          (blur)="captureValue($event, field.name, 'secondary')"
+                          (focus)="scrollPage(field.name, 'secondary', field.name, ii + this.fieldsCount)"
+                          matInput
+                          placeholder="{{
+                            field.label[secondaryLang]
+                          }}"
+                          [value]="secondaryData[field.name]"
+                          rows="3" cols="40"
+                          readonly = true
+                        ></textarea>
+                      </span>
+                      <span *ngIf="pageName === 'Dynamic Field' && secondaryData[field.name] === '' && field.name === 'description'">
+                        <textarea
+                          #keyboardRef
+                          #{{field.name}}
+                          id="{{field.name}}{{secondaryLang}}"
+                          (blur)="captureValue($event, field.name, 'secondary')"
+                          (focus)="scrollPage(field.name, 'secondary', field.name, ii + this.fieldsCount)"
+                          matInput
+                          placeholder="{{
+                            field.label[secondaryLang]
+                          }}"
+                          [value]="secondaryData[field.name]"
+                          rows="3" cols="40"
+                        ></textarea>
+                      </span>
+                      <span *ngIf="pageName !== 'Dynamic Field'">
+                        <textarea
+                          #keyboardRef
+                          #{{field.name}}
+                          id="{{field.name}}{{secondaryLang}}"
+                          (blur)="captureValue($event, field.name, 'secondary')"
+                          (focus)="scrollPage(field.name, 'secondary', field.name, ii + this.fieldsCount)"
+                          matInput
+                          placeholder="{{
+                            field.label[secondaryLang]
+                          }}"
+                          [value]="secondaryData[field.name]"
+                          rows="3" cols="40"
+                        ></textarea>
+                      </span>
                     </mat-form-field>
                     <mat-form-field *ngIf="field.showInSingleView === 'true' && field.inputType === 'calendar'">
                       <input

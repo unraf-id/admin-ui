@@ -29,6 +29,7 @@ export default class Utils {
     formattedDate = formattedDate + 'Z';*/
     return isoDate;
   }
+  
   static getTimeSlots(interval: number): string[] {
     const intervalInHours = interval / 60;
     const slots = [];

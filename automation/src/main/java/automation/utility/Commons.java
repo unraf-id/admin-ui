@@ -13,11 +13,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 public class Commons {
+	private static final org.slf4j.Logger logger= org.slf4j.LoggerFactory.getLogger(Commons.class);
 
 	public static String appendDate="Z"+getDateTime();
 	
 	public static String getDateTime()
 	  {
+		
 	
 	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
 	   LocalDateTime now = LocalDateTime.now();
@@ -25,14 +27,23 @@ public class Commons {
 	  }
 	
 	public  static void filter(WebDriver driver, By by,String data) {
-	
+		logger.info("Inside Filter " + by + data);
 		Commons.click(driver, By.id("Filter")); 
 	
 		Commons.enter(driver, by, data); 
 		Commons.click(driver, By.id("applyTxt")); 
 	}
 	
+	public  static void filterCenter(WebDriver driver, By by,String data) {
+		logger.info("Inside filterCenter " + by + data);
+		Commons.click(driver, By.id("Filter")); 
+	
+		Commons.dropdowncenter(driver, by, data); 
+		
+		Commons.click(driver, By.id("applyTxt")); 
+	}
 	public  static void click(WebDriver driver, By by) {
+		logger.info("Clicking " + by );
 		try {
 			(new WebDriverWait(driver, 20)).until(ExpectedConditions.elementToBeClickable(by));
 			Thread.sleep(500);
@@ -59,6 +70,7 @@ public class Commons {
 	  }}
   
 	public static void enter(WebDriver driver, By by,String value) {
+		logger.info("Entering " + by +value);
 			try {
 				(new WebDriverWait(driver, 20)).until(ExpectedConditions.visibilityOfElementLocated(by));
 				driver.findElement(by).clear();
@@ -80,6 +92,7 @@ public class Commons {
 	
 	public static void dropdown(WebDriver driver, By by)
 	  {
+		logger.info("Selecting DropDown Index Zero Value " + by );
 		  
 		 try {
 			 Thread.sleep(500);
@@ -104,6 +117,7 @@ public class Commons {
 	
 	public static void dropdown(WebDriver driver, By by,String value)
 	  {
+		logger.info("Selecting DropDown By Value " + by +value );
 		  
 		 try {
 			 Thread.sleep(500);
@@ -125,8 +139,33 @@ public class Commons {
 		 }
 	  }
 	
+	public static void dropdowncenter(WebDriver driver, By by,String value)
+	  {
+		logger.info("Selecting DropDown By Value " + by +value );
+		  
+		 try {
+			 Thread.sleep(500);
+			 click(driver,by);
+				Thread.sleep(500);
+			   String val="'"+value +"'";
+		   
+		    click( driver,By.id(value));
+		    try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		 }catch(Exception e)
+		 
+		 {
+			 e.getMessage();
+		 }
+	  }
+	
 	public static void dropdown(WebDriver driver, By by,By value)
 	  {
+		logger.info("Selecting DropDown By Value " + by +value );
 		 try {  
 			 Thread.sleep(500);
 			 click(driver,by);
@@ -152,11 +191,11 @@ public class Commons {
 	}
 
 	public static void clickSpan(WebDriver driver,String key) throws Exception {
-	
+		
 		String val=Commons.getFieldData(key);
 		String var="//span[contains(text(),'"+ val+ "')]";
 		  Commons.click(driver,By.xpath(var)); 
-		  
+		  logger.info("clickSpan" + var );
 	}
 
 	public static void deactivate(WebDriver driver) {
@@ -165,7 +204,7 @@ public class Commons {
 
 	    Commons.click(driver,By.id("confirmpopup")); 
 		Commons.click(driver, By.id("confirmmessagepopup")); 
-		
+		 logger.info("Click deactivate and Confirm");
 	}
 
 	public static void activate(WebDriver driver) {
@@ -174,7 +213,7 @@ public class Commons {
 
 	    Commons.click(driver,By.id("confirmpopup")); 
 		Commons.click(driver, By.id("confirmmessagepopup")); 
-		
+		 logger.info("Click activate and Confirm");
 	}
 
 	public static void edit(WebDriver driver,String data,By by) {
@@ -190,7 +229,7 @@ public class Commons {
 		Commons.click(driver, By.id("createButton"));
 		Commons.click(driver, By.id("confirmmessagepopup")); 
 
-		
+		 logger.info("Click Edit and Confirm" + by + data);
 	}
 
 	public static void editRes(WebDriver driver,String data,By by) {
@@ -208,7 +247,7 @@ public class Commons {
 	    Commons.click(driver,By.id("confirmpopup")); 
 			Commons.click(driver, By.id("confirmmessagepopup")); 
 
-		
+			 logger.info("Click Edit and Confirm" + by + data);
 	}
 	public static void editCenter(WebDriver driver,String data,By by) {
 		Commons.click(driver,By.id("ellipsis-button0"));
@@ -227,18 +266,20 @@ public class Commons {
 
 			Commons.click(driver,  By.xpath("(//*[@id='cancel'])[1]"));
 			Commons.click(driver,  By.xpath("(//*[@id='cancel'])[1]"));
+			 logger.info("Click editCenter and Confirm" + by + data);
 	}
 	
 	public static void create(WebDriver driver) {
 		Commons.click(driver, By.xpath("//button[@id='createButton']")); 
 		Commons.click(driver, By.id("confirmmessagepopup")); 
 		
+		logger.info("Click create");
 	}
 	public static void createRes(WebDriver driver) {
 		Commons.click(driver, By.xpath("//button[@id='createButton']")); 
 		 Commons.click(driver,By.id("confirmpopup")); 
 		Commons.click(driver, By.id("confirmmessagepopup")); 
-		
+		logger.info("Click and confirm");
 	}
 
 	public static void decommission(WebDriver driver) {
@@ -247,7 +288,7 @@ public class Commons {
 
 		    Commons.click(driver,By.id("confirmpopup")); 
 			Commons.click(driver, By.id("confirmmessagepopup")); 
-		
+			logger.info("Click decommission and confirm");
 	}
 	
 	

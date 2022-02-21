@@ -54,15 +54,12 @@
           <div style="width: 10%">
           </div>
         </mat-card-content>
-        <mat-card-content class="forms-container" *ngIf="data.statusDescription">
-          <div class="primary-form" style="max-width: 90%">
-             <mat-form-field>
-              <mat-label>Failure Description</mat-label>
-              <textarea matInput id="statusDescription" value="{{data.statusDescription}}" rows="3" cols="40" readonly></textarea>
-            </mat-form-field> 
-          </div>
-        </mat-card-content>
+        <div class="primary-form" style="max-width: 90%;padding: 25px;">
+          <mat-label style="color: rgba(0, 0, 0, 0.54);padding: 10px;font-size: 11px;font-weight: 600;">Status Description</mat-label>
+          <div style="padding: 10px;border-bottom: 1px solid #888;" id="statusDescription" [innerHTML]="data.statusDescription"></div>
+        </div>
       </mat-card>
     </div>
   </div>
-</div>
+
+      

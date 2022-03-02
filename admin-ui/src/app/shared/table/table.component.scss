@@ -49,6 +49,10 @@ td.mat-footer-cell:first-child {
   padding-left: 20px;
 }
 
+th:last-child {
+  width: 0px;
+}
+
 th.mat-header-cell:last-child,
 td.mat-cell:last-child,
 td.mat-footer-cell:last-child {

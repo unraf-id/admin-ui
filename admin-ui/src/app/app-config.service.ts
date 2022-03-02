@@ -24,6 +24,7 @@ export class AppConfigService {
           this.appConfig["leftToRightOrientation"] = responseData["leftToRightOrientation"];
           this.appConfig["countryCode"] = responseData["countryCode"];
           this.appConfig["version"]= responseData["version"];
+          this.appConfig["filterValueMaxRecords"]= responseData["filterValueMaxRecords"];          
         },
         (error) => {
           console.log(error);

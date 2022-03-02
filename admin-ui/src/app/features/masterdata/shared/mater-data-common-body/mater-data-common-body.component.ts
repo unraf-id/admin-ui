@@ -33,6 +33,7 @@ import { AppConfigService } from 'src/app/app-config.service';
 import defaultJson from "../../../../../assets/i18n/default.json";
 import { HeaderService } from 'src/app/core/services/header.service';
 import { TranslateService } from '@ngx-translate/core';
+import { AuditService } from 'src/app/core/services/audit.service';
 
 @Component({
   selector: 'app-mater-data-common-body',
@@ -96,6 +97,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
     private appConfigService: AppConfigService, 
     private headerService: HeaderService,
     private translateService: TranslateService,
+    private auditService: AuditService,
   ) { 
     this.tomorrow.setDate(this.tomorrow.getDate() + 1);
   }
@@ -212,9 +214,12 @@ export class MaterDataCommonBodyComponent implements OnInit {
         let name = "";      
         if(this.router.url.split('/')[4] !== "new"){
           name = this.router.url.split('/')[4];
+          this.dataStorageService.getDynamicfieldDescriptionValue(name, this.primaryLang).subscribe(response => {
+            this.primaryData = {"name":name,"description":response.response.description,"dataType":"string","value":"", "code":"","langCode":this.primaryLang};
+          });
+        }else{
+          this.primaryData = {"name":name,"description":"","dataType":"string","value":"", "code":"","langCode":this.primaryLang};
         }
-        //this.primaryData = {"name":name,"description":"","dataType":"","fieldVal": '{"value":"", "code":""}',"langCode":this.primaryLang};
-        this.primaryData = {"name":name,"description":"","dataType":"string","value":"", "code":"","langCode":this.primaryLang};
       }
     }else{  
 
@@ -738,8 +743,13 @@ export class MaterDataCommonBodyComponent implements OnInit {
     }
   }
 
-  executeAPI(){
+  executeAPI(){    
     let url = this.router.url.split('/')[3];
+    this.dataStorageService
+    .getSpecFileForMasterDataEntity(this.mapping.specFileName)
+    .subscribe(response => {
+      this.auditService.audit(21, response.auditEventIds[0], url);
+    });    
     let textToValidate = null;
     if(url === "center-type"){
       textToValidate = this.secondaryData.name;

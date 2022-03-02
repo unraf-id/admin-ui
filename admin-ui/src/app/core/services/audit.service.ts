@@ -182,6 +182,14 @@ export class AuditService {
         auditObject.description = `User visited Device Create/Device Update form`;
         break;
       }
+      case 21: {
+        auditObject.eventName = `Click: Create/Update ${data}`;
+        auditObject.eventType = 'Navigation: Click Event';
+        auditObject.moduleId = 'KER-MSD';
+        auditObject.moduleName = 'Kernel-Masterdata';
+        auditObject.description = `User clicked on 'Create/Update' button on ${data} 'Create/Update' form`;
+        break;
+      }
     }
     console.log(auditObject);
     this.postAuditLog(auditObject);

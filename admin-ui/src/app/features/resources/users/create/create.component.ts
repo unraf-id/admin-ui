@@ -210,56 +210,56 @@ export class CreateComponent{
       zoneData
     );
     if(this.createUpdate){
-      this.dataStorageService.updateZoneUserMapping(request).subscribe(zoneResponse => { 
-        if (!zoneResponse.errors) {
-          if(url !== "zoneuser"){
-            request = new RequestModel("", null, centerData);
-            this.dataStorageService.updateCenterUserMapping(request).subscribe(centerResponse => {
-              if (!centerResponse.errors) {
-                  let url = centerData.name+this.genericmessage.mappingMessage;
-                  this.showMessage(url)
-                    .afterClosed()
-                    .subscribe(() => {
-                      if(url === "zoneuser"){
-                        this.router.navigateByUrl(`admin/resources/zoneuser/view`);
-                      }else{
-                        this.router.navigateByUrl(`admin/resources/users/view`);
-                      }
-                    });
-                } else {
-                  let message = "";
-                  if(centerResponse.errors[0].errorCode === "KER-MSD-999"){
-                    centerResponse.errors.forEach((element) => {
-                      message = message + element.message.toString() +"\n\n";
-                    });
-                    message = this.serverError[centerResponse.errors[0].errorCode] +"\n\n"+ message;
+      if(url !== "zoneuser"){
+        request = new RequestModel("", null, centerData);
+        this.dataStorageService.updateCenterUserMapping(request).subscribe(centerResponse => {
+          if (!centerResponse.errors) {
+              let url = centerData.name+this.genericmessage.mappingMessage;
+              this.showMessage(url)
+                .afterClosed()
+                .subscribe(() => {
+                  if(url === "zoneuser"){
+                    this.router.navigateByUrl(`admin/resources/zoneuser/view`);
                   }else{
-                    message = this.serverError[centerResponse.errors[0].errorCode];
+                    this.router.navigateByUrl(`admin/resources/users/view`);
                   }
-                  this.showErrorPopup(message);
-                }        
-            });
-          } else {
+                });
+            } else {
+              let message = "";
+              if(centerResponse.errors[0].errorCode === "KER-MSD-999"){
+                centerResponse.errors.forEach((element) => {
+                  message = message + element.message.toString() +"\n\n";
+                });
+                message = this.serverError[centerResponse.errors[0].errorCode] +"\n\n"+ message;
+              }else{
+                message = this.serverError[centerResponse.errors[0].errorCode];
+              }
+              this.showErrorPopup(message);
+            }        
+        });
+      } else {
+        this.dataStorageService.updateZoneUserMapping(request).subscribe(zoneResponse => { 
+          if (!zoneResponse.errors) {          
             let url = centerData.name+this.genericmessage.mappingMessage;
             this.showMessage(url)
               .afterClosed()
               .subscribe(() => { 
                 this.router.navigateByUrl(`admin/resources/zoneuser/view`);                                
               });
+          } else {
+            let message = "";
+            if(zoneResponse.errors[0].errorCode === "KER-MSD-999"){
+              zoneResponse.errors.forEach((element) => {
+                message = message + element.message.toString() +"\n\n";
+              });
+              message = this.serverError[zoneResponse.errors[0].errorCode] +"\n\n"+ message;
+            }else{
+              message = this.serverError[zoneResponse.errors[0].errorCode];
+            }
+            this.showErrorPopup(message);
           } 
-        } else {
-          let message = "";
-          if(zoneResponse.errors[0].errorCode === "KER-MSD-999"){
-            zoneResponse.errors.forEach((element) => {
-              message = message + element.message.toString() +"\n\n";
-            });
-            message = this.serverError[zoneResponse.errors[0].errorCode] +"\n\n"+ message;
-          }else{
-            message = this.serverError[zoneResponse.errors[0].errorCode];
-          }
-          this.showErrorPopup(message);
-        } 
-      });
+        });
+      }
     }else{
       this.dataStorageService.createZoneUserMapping(request).subscribe(zoneResponse => { 
         if (!zoneResponse.errors) {

@@ -217,6 +217,12 @@ export class DataStorageService {
     );
   }
 
+  getDynamicfieldDescriptionValue(name:any, langCode:any): Observable<any> {
+    return this.http.get(
+      this.BASE_URL + appConstants.MASTERDATA_BASE_URL + 'dynamicfields/'+name+'/'+langCode+'?withValue=false'
+    );
+  }
+
   getMasterDataByTypeAndId(type: string, data: RequestModel): Observable<any> {
     let url = this.router.url.split('/')[3];
     if(url === "dynamicfields")
@@ -239,6 +245,7 @@ export class DataStorageService {
     type: string,
     data: RequestModel
   ): Observable<any> {
+    data.request["pageFetch"] = this.appService.getConfig().filterValueMaxRecords;
     return this.http.post(
       this.BASE_URL + appConstants.MASTERDATA_BASE_URL + type + '/filtervalues',
       data

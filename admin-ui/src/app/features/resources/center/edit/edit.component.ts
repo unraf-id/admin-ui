@@ -200,9 +200,7 @@ export class EditComponent {
         this.popupMessages = response.center.popupMessages;
       });
     //load all the dropdowns    
-    //this.loadLocationData(this.initialLocationCode, 'region');  
-    this.getRegistrationCenterTypes();    
-    this.getHolidayZoneData();
+    //this.loadLocationData(this.initialLocationCode, 'region');      
     this.getProcessingTime();
     this.getTimeSlots();
     this.getLeafZoneData();
@@ -558,7 +556,9 @@ export class EditComponent {
     let commonData = this.data[0];
     this.commonForm.controls.centerTypeCode.setValue(
       commonData.centerTypeCode
-    );   
+    );  
+    this.getRegistrationCenterTypes("",commonData.centerTypeCode);    
+    this.getHolidayZoneData("",commonData.holidayLocationCode); 
     this.commonForm.controls.contactPhone.setValue(commonData.contactPhone);
     this.commonForm.controls.longitude.setValue(commonData.longitude);
     this.commonForm.controls.latitude.setValue(commonData.latitude);
@@ -971,15 +971,23 @@ export class EditComponent {
     }
   }
 
-  getHolidayZoneData() {
-     let filterObject = new FilterValuesModel('locationCode', 'unique', '');
+  getHolidayZoneData(filterValue, fillValue) {
+    let filterObject = new FilterValuesModel('locationCode', 'unique', '');
     let optinalFilterObject = new OptionalFilterValuesModel('isActive', 'equals', 'true');
-    let filterRequest = new FilterRequest([filterObject], this.primaryLang, [optinalFilterObject]);
+    let filterValueObject = {};
+    let optinalFilterArray = [];
+    optinalFilterArray.push(optinalFilterObject);
+    if(filterValue)
+      filterValueObject = {"columnName":"locationCode","type":"contains","value":filterValue}
+      optinalFilterArray.push(filterValueObject);
+    if(fillValue)
+      filterValueObject = {"columnName":"locationCode","type":"equals","value":fillValue}
+      optinalFilterArray.push(filterValueObject);          
+    let filterRequest = new FilterRequest([filterObject], this.primaryLang, optinalFilterArray);
     let request = new RequestModel('', null, filterRequest);
     this.dataStorageService.getStubbedDataForDropdowns(request).subscribe(response => {
       if (response.response.filters) {
-        this.dropDownValues.holidayZone.primary =
-        response.response.filters;
+        this.dropDownValues.holidayZone.primary = response.response.filters;
       }
     });
   }
@@ -1004,16 +1012,34 @@ export class EditComponent {
     }); 
   }
 
-  getRegistrationCenterTypes() {
+  getRegistrationCenterTypes(filterValue, fillValue) {
     let filterObject = new FilterValuesModel('name', 'unique', '');
     let optinalFilterObject = new OptionalFilterValuesModel('isActive', 'equals', 'true');
-    let filterRequest = new FilterRequest([filterObject], this.primaryLang, [optinalFilterObject]);
+    let filterValueObject = {};
+    let optinalFilterArray = [];
+    optinalFilterArray.push(optinalFilterObject);
+    if(filterValue)
+      filterValueObject = {"columnName":"name","type":"contains","value":filterValue}
+      optinalFilterArray.push(filterValueObject);    
+    if(fillValue)
+      filterValueObject = {"columnName":"code","type":"equals","value":fillValue}
+      optinalFilterArray.push(filterValueObject);            
+    let filterRequest = new FilterRequest([filterObject], this.primaryLang, optinalFilterArray);
     let request = new RequestModel('', null, filterRequest);
     this.dataStorageService
       .getFiltersForAllMaterDataTypes('registrationcentertypes', request)
       .subscribe(response => {
         this.dropDownValues.centerTypeCode.primary = response.response.filters;
       });
+  }
+
+  onKey(value, type) {     
+    let filter = value.toLowerCase();
+    if(type === "centertype"){
+      this.getRegistrationCenterTypes(filter, "");
+    }else if(type === "holiday"){
+      this.getHolidayZoneData(filter, "");
+    }    
   }
 
   getProcessingTime() {

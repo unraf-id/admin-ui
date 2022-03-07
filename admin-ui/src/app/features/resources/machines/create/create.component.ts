@@ -92,7 +92,8 @@ export class CreateComponent {
   holidayDate: any;
   minDate = new Date();
   localeDtFormat = "";
-  
+  searchResult:any;
+
   constructor(
     private location: Location,
     private formBuilder: FormBuilder,
@@ -166,7 +167,7 @@ export class CreateComponent {
         this.initializeheader();
       }
     });
-    this.getMachinespecifications();
+    this.getMachinespecifications("");
     this.getSubZoneData();
     this.initializePrimaryForm();
     this.translateService
@@ -231,14 +232,24 @@ export class CreateComponent {
       });
   }
 
-  getMachinespecifications() {
-    const filterObject = new FilterValuesModel('name', 'unique', '');
-    const optinalFilterObject = new OptionalFilterValuesModel('isActive', 'equals', 'true');
-    const filterRequest = new FilterRequest([filterObject], this.primaryLang, [optinalFilterObject]);
-    const request = new RequestModel('', null, filterRequest);
+  getMachinespecifications(filterValue) {
+    let filterObject = new FilterValuesModel('name', 'unique', '');
+    let optinalFilterObject = new OptionalFilterValuesModel('isActive', 'equals', 'true');
+    let filterValueObject = {};
+    let optinalFilterArray = [];
+    optinalFilterArray.push(optinalFilterObject);
+    if(filterValue)
+      filterValueObject = {"columnName":"name","type":"contains","value":filterValue}
+      optinalFilterArray.push(filterValueObject);      
+    let filterRequest = new FilterRequest([filterObject], this.primaryLang, optinalFilterArray);
+    if(!filterValue){
+      filterRequest["totalCountRequired"] = true;
+    }
+    let request = new RequestModel('', null, filterRequest);    
     this.dataStorageService
       .getFiltersForAllMaterDataTypes('machinespecifications', request)
       .subscribe(response => {
+        this.searchResult = response.response.filters;
         this.dropDownValues.machineTypeCode.primary = response.response.filters;
       });
   }
@@ -256,6 +267,16 @@ export class CreateComponent {
           this.primaryForm.controls.zone.disable();
         }
       });
+  }
+
+  onKey(value) {     
+    this.searchResult = this.search(value);
+  }
+
+  search(value: string) { 
+    let filter = value.toLowerCase();
+    this.getMachinespecifications(value);
+    //return this.dropDownValues.machineTypeCode.primary.filter(option => option.fieldValue.toLowerCase().startsWith(filter));
   }
 
   initializeheader() {

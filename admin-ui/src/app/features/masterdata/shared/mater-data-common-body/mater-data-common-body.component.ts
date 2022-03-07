@@ -85,6 +85,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
   masterDataName:string;
   primaryLangCode:string;
   isPrimaryLangRTL:boolean = false;
+  searchResult:any;
 
   constructor(
     private location: Location,
@@ -208,7 +209,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
       }else if(url === "holiday"){
         this.pageName = "Holiday";
         this.primaryData = {"holidayName":"","holidayDesc":"","holidayDate":"","locationCode": "","langCode":this.primaryLang,"isActive":true};
-        this.getUniqueLocation();
+        this.getUniqueLocation("", "", "primary");
       }else if(url === "dynamicfields"){
         this.pageName = "Dynamic Field";  
         let name = "";      
@@ -265,7 +266,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
         this.pageName = "Document Category";
       }else if(url === "holiday"){
         this.pageName = "Holiday";
-        this.getUniqueLocation();
+        this.getUniqueLocation("", this.primaryData.locationCode, "primary");
       }else if(url === "dynamicfields"){
         this.pageName = "Dynamic Field";
         this.primaryData["code"] = JSON.parse(this.primaryData.fieldVal)["code"];
@@ -382,7 +383,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
           this.secondaryData.code = this.primaryData.code;
       }else if(this.url === "holiday"){
         this.secondaryData = {"holidayName":"","holidayDesc":"","holidayDate":"","locationCode": "","langCode":this.secondaryLang,"isActive":true};
-        this.getUniqueLocation();
+        this.getUniqueLocation("", "", "secondary");
       }else if(this.url === "templates"){
         this.secondaryData = {"name":"","description":"","fileFormatCode":"","model":"","fileText":"","moduleId":"","moduleName":"","templateTypeCode":"","langCode":this.secondaryLang,"isActive":true,id:""};
         this.getTemplateFileFormat();
@@ -452,7 +453,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
         this.pageName = "Document Category";
       }else if(this.url === "holiday"){
         this.pageName = "Holiday";
-        this.getUniqueLocation();
+        this.getUniqueLocation("", this.secondaryData.locationCode, "secondary");
       }else if(this.url === "dynamicfields"){
         this.pageName = "Dynamic Field";
         this.secondaryData["code"] = this.secondaryData.fieldVal["code"];
@@ -605,21 +606,40 @@ export class MaterDataCommonBodyComponent implements OnInit {
       });*/
   }
 
-  getUniqueLocation(){
+  onKey(value, type) {     
+    //this.searchResult['locationCode']['type'] = this.search(value);
+    this.getUniqueLocation(value, "", type);
+  }
+
+  /*search(value: string) { 
+    let filter = value.toLowerCase();
+    this.getMachinespecifications(value);
+  }*/
+
+  getUniqueLocation(filterValue, fillValue, type){
     let filterObject = new FilterValuesModel('name', 'unique', '');
+
     let optinalFilterObject = new OptionalFilterValuesModel('isActive', 'equals', 'true');
-    let filterRequest = new FilterRequest([filterObject], this.primaryLang, [optinalFilterObject]);
+    let filterValueObject = {};
+    let optinalFilterArray = [];
+    optinalFilterArray.push(optinalFilterObject);
+    if(filterValue)
+      filterValueObject = {"columnName":"name","type":"contains","value":filterValue}
+      optinalFilterArray.push(filterValueObject);      
+    if(fillValue)
+      filterValueObject = {"columnName":"code","type":"equals","value":fillValue}
+      optinalFilterArray.push(filterValueObject);    
+    let filterRequest = new FilterRequest([filterObject], this.primaryLang, optinalFilterArray);
     let request = new RequestModel('', null, filterRequest);
-
-    this.dataStorageService
-      .getUniqueLocation(request)
-      .subscribe(response => {
-        this.dropDownValues['locationCode'].primary =
-          response['response']['filters'];
-    });
-
-    if(this.secondaryLang){
-      let filterRequest = new FilterRequest([filterObject], this.secondaryLang, [optinalFilterObject]);
+    if(type === "primary"){
+      this.dataStorageService
+        .getUniqueLocation(request)
+        .subscribe(response => {
+          this.dropDownValues['locationCode'].primary =
+            response['response']['filters'];
+      });
+    }else if(type === "secondary"){
+      let filterRequest = new FilterRequest([filterObject], this.secondaryLang, optinalFilterArray);
       let request = new RequestModel('', null, filterRequest);
 
       this.dataStorageService
@@ -628,7 +648,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
         this.dropDownValues['locationCode'].secondary =
           response['response']['filters'];
       });
-    }   
+    }
   }
 
   loadLocationData(locationCode: string) {

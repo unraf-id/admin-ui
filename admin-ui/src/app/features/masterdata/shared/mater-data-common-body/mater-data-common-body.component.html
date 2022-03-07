@@ -207,6 +207,7 @@
                           [value]="primaryData[field.name]"
                           placeholder="{{ field.label[primaryLang] }}"
                           required={{field.ismandatory}}>
+                          <input placeholder="Search..." matInput type="text" (keyup)="onKey($event.target.value, 'primary')" class="example-input">
                           <mat-option *ngFor="let data of dropDownValues['locationCode']['primary']" 
                           (onSelectionChange)="captureDropDownValue($event, field.name, 'primary')" 
                           [value]="data.fieldCode">

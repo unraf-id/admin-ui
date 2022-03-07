@@ -62,10 +62,8 @@ export class PacketStatusComponent implements OnInit {
     } else {
       this.error = false;
       this.dataStorageService.getPacketStatus(this.id, this.headerService.getUserPreferredLanguage()).subscribe(response => {
-        console.log(response);
-        if (response['response'] != null) {
+        if (response['errors'].length == 0) {
           this.data = response['response']['packetStatusUpdateList'];
-          // tslint:disable-next-line:prefer-for-of
           for (let i = 0 ; i < this.data.length; i++) {
             if (this.data[i].statusCode.includes('FAILED')) {
               this.statusCheck = this.messages.statuscheckFailed;
@@ -76,9 +74,11 @@ export class PacketStatusComponent implements OnInit {
             this.error = false;
             this.showDetails = true;
         }
-       } else if (response['errors'] != null) {
+       } else{
+          console.log("response['errors'][0].message>>>"+response['errors'][0].message);
           this.error = true;
-          this.errorMessage = response['errors'][0].message;
+          this.statusCheck = '';
+          this.errorMessage = this.serverMessage[response['errors'][0].errorCode];
           /*this.dialog
             .open(DialogComponent, {
                data: {

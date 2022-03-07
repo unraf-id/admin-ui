@@ -54,6 +54,7 @@ export class DataStorageService {
   }
 
   getStubbedDataForDropdowns(data: RequestModel): Observable<any> {
+    data.request["pageFetch"] = this.appService.getConfig().filterValueMaxRecords;
     return this.http.post(
       this.BASE_URL + appConstants.MASTERDATA_BASE_URL + 'holidays/filtervalues',
       data

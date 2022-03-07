@@ -140,8 +140,9 @@
                           id="machineSpecId"
                           required
                         >
+                          <input placeholder="Search..." matInput type="text" (keyup)="onKey($event.target.value)" class="example-input">
                           <mat-option
-                            *ngFor="let data of dropDownValues.machineTypeCode.primary"
+                            *ngFor="let data of searchResult"
                             [value]="data.fieldCode"
                           >
                             {{ data.fieldValue }}

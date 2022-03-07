@@ -80,7 +80,8 @@
             <mat-form-field>
               <mat-label>{{"devices.deviceSpecId" | translate}}</mat-label>
               <mat-select formControlName="deviceSpecId" id="deviceSpecId" required>
-                <mat-option *ngFor="let data of dropDownValues.deviceTypeCode.primary" [value]="data.fieldCode">
+                <input placeholder="Search..." matInput type="text" (keyup)="onKey($event.target.value)" class="example-input">
+                <mat-option *ngFor="let data of searchResult" [value]="data.fieldCode">
                   {{ data.fieldValue }}
                 </mat-option>
               </mat-select>

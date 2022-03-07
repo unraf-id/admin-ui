@@ -128,7 +128,8 @@ export class CreateComponent {
     this.auditService.audit(16, 'ADM-096');
     this.initializeheader();
     this.initializePrimaryForm();
-    this.getStubbedData();
+    this.getStubbedData("");
+    this.getRegistrationCenterTypes("");  
     this.getProcessingTime();
     this.getTimeSlots();
     this.getLeafZoneData();
@@ -473,18 +474,20 @@ export class CreateComponent {
     }
   }
 
-  getStubbedData() {
-    this.getRegistrationCenterTypes();  
-
+  getStubbedData(filterValue) {    
     let filterObject = new FilterValuesModel('locationCode', 'unique', '');
     let optinalFilterObject = new OptionalFilterValuesModel('isActive', 'equals', 'true');
-    let filterRequest = new FilterRequest([filterObject], this.primaryLang, [optinalFilterObject]);
+    let filterValueObject = {};
+    let optinalFilterArray = [];
+    optinalFilterArray.push(optinalFilterObject);
+    if(filterValue)
+      filterValueObject = {"columnName":"locationCode","type":"contains","value":filterValue}
+      optinalFilterArray.push(filterValueObject);      
+    let filterRequest = new FilterRequest([filterObject], this.primaryLang, optinalFilterArray);
     let request = new RequestModel('', null, filterRequest);
-
     this.dataStorageService.getStubbedDataForDropdowns(request).subscribe(response => {
       if (response.response.filters) {
-        this.dropDownValues.holidayZone.primary =
-        response.response.filters;
+        this.dropDownValues.holidayZone.primary = response.response.filters;
       }
     });
   }
@@ -507,16 +510,32 @@ export class CreateComponent {
     });      
   }
 
-  getRegistrationCenterTypes() {
+  getRegistrationCenterTypes(filterValue) {
     let filterObject = new FilterValuesModel('name', 'unique', '');
     let optinalFilterObject = new OptionalFilterValuesModel('isActive', 'equals', 'true');
-    let filterRequest = new FilterRequest([filterObject], this.primaryLang, [optinalFilterObject]);
+    let filterValueObject = {};
+    let optinalFilterArray = [];
+    optinalFilterArray.push(optinalFilterObject);
+    if(filterValue)
+      filterValueObject = {"columnName":"name","type":"contains","value":filterValue}
+      optinalFilterArray.push(filterValueObject);      
+    let filterRequest = new FilterRequest([filterObject], this.primaryLang, optinalFilterArray);
     let request = new RequestModel('', null, filterRequest);
     this.dataStorageService
       .getFiltersForAllMaterDataTypes('registrationcentertypes', request)
       .subscribe(response => {
         this.dropDownValues.centerTypeCode.primary = response.response.filters;
       });
+  }
+
+  onKey(value, type) {     
+    let filter = value.toLowerCase();
+    if(type === "centertype"){
+      this.getRegistrationCenterTypes(filter);
+    }else if(type === "holiday"){
+      this.getStubbedData(filter);
+    }
+    
   }
 
   getProcessingTime() {

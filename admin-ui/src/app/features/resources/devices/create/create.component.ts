@@ -81,6 +81,8 @@ export class CreateComponent{
   holidayDate: any;
   minDate = new Date();
   localeDtFormat = "";
+  searchResult:any;
+
   constructor(
     private location: Location,
     private formBuilder: FormBuilder,
@@ -164,7 +166,7 @@ export class CreateComponent{
         this.initializeheader();
       }
     });
-    this.getDevicespecifications();
+    this.getDevicespecifications("");
     this.getSubZoneData();
     this.initializePrimaryForm();
     //this.getCenterDetails();  
@@ -233,14 +235,21 @@ export class CreateComponent{
       });
   }
 
-  getDevicespecifications() {
-    const filterObject = new FilterValuesModel('name', 'unique', '');
+  getDevicespecifications(filterValue) {
+    let filterObject = new FilterValuesModel('name', 'unique', '');
     let optinalFilterObject = new OptionalFilterValuesModel('isActive', 'equals', 'true');
-    let filterRequest = new FilterRequest([filterObject], this.primaryLang, [optinalFilterObject]);
+    let filterValueObject = {};
+    let optinalFilterArray = [];
+    optinalFilterArray.push(optinalFilterObject);
+    if(filterValue)
+      filterValueObject = {"columnName":"name","type":"contains","value":filterValue}
+      optinalFilterArray.push(filterValueObject);      
+    let filterRequest = new FilterRequest([filterObject], this.primaryLang, optinalFilterArray);
     let request = new RequestModel('', null, filterRequest);
     this.dataStorageService
       .getFiltersForAllMaterDataTypes('devicespecifications', request)
       .subscribe(response => {
+        this.searchResult = response.response.filters;
         this.dropDownValues.deviceTypeCode.primary = response.response.filters;
       });
   }
@@ -258,6 +267,15 @@ export class CreateComponent{
           this.primaryForm.controls.zone.disable();
         }        
       });
+  }
+
+  onKey(value) {     
+    this.searchResult = this.search(value);
+  }
+
+  search(value: string) { 
+    let filter = value.toLowerCase();
+    this.getDevicespecifications(value);
   }
 
   initializeheader() {

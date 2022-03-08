@@ -16,7 +16,7 @@
                 <br /><br />
                 <div *ngFor="let field of fields; let i = index" class="mat-form1">
                     <mat-form-field *ngIf="field.showInSingleView === 'true' && field.inputType === 'text' && field.name !== 'code'">           
-                      <span *ngIf="pageName === 'Dynamic Field' && primaryData[field.name] !== '' && field.name === 'name'">
+                      <span *ngIf="pageName === 'Dynamic Field' && primaryData[field.name] !== '' && field.name === 'name' && !isCreateForm">
                         <input
                           #keyboardRef
                           #{{field.name}}
@@ -33,7 +33,7 @@
                           readonly = true
                         />
                       </span>
-                      <span *ngIf="pageName === 'Dynamic Field' && primaryData[field.name] === '' && field.name === 'name'">
+                      <span *ngIf="pageName === 'Dynamic Field' && field.name === 'name' && isCreateForm">
                         <input
                           #keyboardRef
                           #{{field.name}}
@@ -132,7 +132,7 @@
                       />
                     </mat-form-field>
                     <mat-form-field *ngIf="field.showInSingleView === 'true' && field.inputType === 'textarea'">
-                      <span *ngIf="pageName === 'Dynamic Field' && primaryData[field.name] !== '' && field.name === 'description'">
+                      <span *ngIf="pageName === 'Dynamic Field' && primaryData[field.name] !== '' && field.name === 'description' && !isCreateForm">
                         <textarea
                         #keyboardRef
                         #{{field.name}}
@@ -149,7 +149,7 @@
                         readonly = true
                       ></textarea>
                       </span>
-                      <span *ngIf="pageName === 'Dynamic Field' && primaryData[field.name] === '' && field.name === 'description'">
+                      <span *ngIf="pageName === 'Dynamic Field'  && isCreateForm && field.name === 'description'">
                         <textarea
                         #keyboardRef
                         #{{field.name}}

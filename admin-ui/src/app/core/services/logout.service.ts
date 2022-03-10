@@ -22,6 +22,7 @@ export class LogoutService {
   ) {}
 
   logout() {
+    let adminUrl = this.appService.getConfig().adminUrl;
     this.http
       .delete(`${this.appService.getConfig().baseUrl}${this.appService.getConfig().logout}`, {
         observe: 'response'
@@ -30,7 +31,7 @@ export class LogoutService {
         (res: HttpResponse<ResponseModel<LogoutResponse>>) => {
           if (res.body.response.status === 'Success') {
             this.redirectService.redirect(
-              window.location.origin + '/admin-ui/'
+              window.location.origin + adminUrl
             );
           } else {
             window.alert(res.body.response.message);

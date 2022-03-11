@@ -28,6 +28,7 @@ import org.testng.annotations.Test;
 
 import io.mosip.test.admintest.utility.BaseClass;
 import io.mosip.test.admintest.utility.Commons;
+import io.mosip.test.admintest.utility.JsonUtil;
 import io.mosip.test.admintest.utility.PropertiesUtil;
 import io.mosip.test.admintest.utility.SetTestName;
 
@@ -83,7 +84,7 @@ public class BulkUploadTest extends BaseClass {
     Commons.click(driver,By.xpath("//div[@class='custom-file-input']"));
     
 
-    String filePath = System.getProperty("user.dir") + "\\BulkUploadFiles\\"+ PropertiesUtil.getKeyValue("langcode")+"\\"+table+".csv";
+    String filePath = System.getProperty("user.dir") + "\\BulkUploadFiles\\"+ JsonUtil.JsonObjParsing(Commons.getTestData(),"loginlang")+"\\"+table+".csv";
    StringSelection ss = new StringSelection(filePath);
    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
    
@@ -112,7 +113,7 @@ public class BulkUploadTest extends BaseClass {
     System.out.println(divTextArr[1].trim());
     
     Commons.click(driver,By.id("confirmmessagepopup")); //DONE
-    Thread.sleep(Long.parseLong(PropertiesUtil.getKeyValue("bulkwait")));
+    Thread.sleep(Long.parseLong(JsonUtil.JsonObjParsing(Commons.getTestData(),"bulkwait")));
 
     String transId=driver.findElement(By.xpath("//table[@class='mat-table']//tr[2]//td[1]")).getText();
     String status=driver.findElement(By.xpath("//table[@class='mat-table']//tr[2]//td[5]")).getText();

@@ -25,9 +25,15 @@ import org.testng.annotations.Test;
 
 import io.mosip.test.admintest.utility.BaseClass;
 import io.mosip.test.admintest.utility.Commons;
+import io.mosip.test.admintest.utility.JsonUtil;
 public class MachineTest extends BaseClass{
   @Test(groups = "M")
-  public void machineCRUD() {
+  public void machineCRUD() throws Exception {
+	  String holidayDateCenter=JsonUtil.JsonObjParsing(Commons.getTestData(),"holidayDateCenter");
+	  String publicKey=JsonUtil.JsonObjParsing(Commons.getTestData(),"publicKey");
+
+	  String signPublicKey=JsonUtil.JsonObjParsing(Commons.getTestData(),"signPublicKey");
+	  
 	  Commons.click(driver,By.id("admin/resources"));
     Commons.click(driver,By.xpath("//a[@href='#/admin/resources/machines']"));
     Commons.click(driver,By.id("Create Machine"));
@@ -36,13 +42,11 @@ public class MachineTest extends BaseClass{
     Commons.enter(driver,By.id("serialNumber"),"1234567");
     Commons.enter(driver,By.id("macAddress"),"1.2.3.4.5.6");
     Commons.enter(driver,By.id("ipAddress"),"2.3.4.5.6");
-    Commons.enter(driver,By.id("validity"),"27/11/2022");
+    Commons.enter(driver,By.id("validity"),holidayDateCenter);
     Commons.dropdown(driver,By.id("machineSpecId"));
-    Commons.enter(driver,By.id("publicKey"),
-    		"AAEACwACAHIAIINxl2dEhLP4GpDMjUal1yT9UtduBlILZPKh2hszFGmqABAAFwALCAAAAQABAQDCHegKJ3vRn__8h1knXKiLA8qfO5LebzBlRO2tAcI3HvLyL9rPkVrXWYQ6wAn4VQk015C1hViU-7k752dYE5WUAUbgsxOHvvDPH1t72CNHNj9dyE86wGqR9AtK3yz0yf1IP_xgtWpiaQ2V9t2d3LtgPYWnRuPJbcl97nLXXL6PGfh1mRwsQUi94coEBPMZ9YLLOAFckPuDZt-lEcXIMkj8r0uNwAZUSEvGifTNWbLjC5BRlJBmvScIlptXqIwBaq2kSMVK2X1KbQ6TM8zkA_co4LEAIZfcpMgPn6RdW0yFtcx24HqrCY8v0DHregwoCPPpw8HvB-r5aR09mXG64zsJ");
+    Commons.enter(driver,By.id("publicKey"),publicKey);
     		
-    		Commons.enter(driver,By.id("signPublicKey"),
-    				"AAEABAAEAHIAAAAQABQACwgAAAEAAQEAr93rKokeZGIzcCtFX3iyCvwpmfnd9jz0nF__0bxWr0mH8Zs0rhlG6vKRagx31I4CdrLAECOwMZ0r7Y3utTqHqelQE3MJLtboKITOqYRpBkqHSm1jGaEb8a1E9yoJri3tZrBCrAShimrN_SbtS1uKbJUG3cuVuE0gtGLI1d5wMfS_4PSz3RwvZtGHisEb3zbV6SLcJkgcDeMbUD7P25SVJd1xrJybuGIgyeSZxOgLzy1P-qHCiOXiAO9o06fwyIhIYbeZYz5th4rq7Rb6mRK9EWFpLrLvBL0F6USiidl8qNCxxZZFUp3W5xFANVYfRvgLKI33zBYniZ7aTE8PgrYa2w");
+    		Commons.enter(driver,By.id("signPublicKey"),signPublicKey);
     				Commons.dropdown(driver,By.id("zone"));
     Commons.dropdown(driver,By.id("regCenterId"));
     

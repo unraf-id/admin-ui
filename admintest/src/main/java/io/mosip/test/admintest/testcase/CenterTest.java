@@ -16,19 +16,22 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Reporter;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import io.mosip.test.admintest.utility.BaseClass;
 import io.mosip.test.admintest.utility.Commons;
+import io.mosip.test.admintest.utility.JsonUtil;
 public class CenterTest extends BaseClass{
 
 	@Test(groups = "CTR")
 	
-  public void centerCRUD() throws InterruptedException {
+  public void centerCRUD() throws Exception {
 	  
-   
+   Reporter.log("centerCRUD",true);
+   String holidayDate=JsonUtil.JsonObjParsing(Commons.getTestData(),"holidayDateCenter");
     Commons.click(driver,By.id("admin/resources"));
 
     Commons.click(driver,By.id("/admin/resources/centers"));
@@ -80,7 +83,7 @@ public class CenterTest extends BaseClass{
     Commons.click(driver,By.cssSelector(".mat-list-item:nth-child(4) > .mat-list-item-content"));
     Commons.click(driver,By.cssSelector(".mat-list-item:nth-child(5) > .mat-list-item-content"));
     
-    Commons.enter(driver,By.id("holidayDate"),"27/11/2022");
+    Commons.enter(driver,By.id("holidayDate"),holidayDate);
     Commons.click(driver, By.id("createExceptionalHoliday"));
     
     Commons.createRes(driver);

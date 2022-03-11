@@ -1,4 +1,5 @@
 package io.mosip.test.admintest.testcase;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -25,13 +26,15 @@ import org.testng.annotations.Test;
 
 import io.mosip.test.admintest.utility.BaseClass;
 import io.mosip.test.admintest.utility.Commons;
+import io.mosip.test.admintest.utility.JsonUtil;
+import io.mosip.test.admintest.utility.PropertiesUtil;
 
 public class HolidaysTest extends BaseClass{
  
   @Test(groups = "H")
-  public void holidaysCRUD() {
+  public void holidaysCRUD() throws Exception {
 	String listofholidays="admin/masterdata/holiday/view";
-	
+	String holidayDate=JsonUtil.JsonObjParsing(Commons.getTestData(),"holidayDate");
     Commons.click(driver,By.xpath("//a[@href='#/admin/masterdata']"));
    
     Commons.click(driver,By.id(listofholidays));
@@ -40,7 +43,7 @@ public class HolidaysTest extends BaseClass{
   
     Commons.enter(driver,By.id("holidayName"),data);
     Commons.enter(driver,By.id("holidayDesc"),data);
-    Commons.enter(driver,By.id("holidayDate"),"12/27/2021");
+    Commons.enter(driver,By.id("holidayDate"),holidayDate);
     Commons.dropdown(driver,By.id("locationCode"));
         
     

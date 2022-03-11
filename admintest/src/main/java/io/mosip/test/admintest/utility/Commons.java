@@ -276,6 +276,12 @@ public class Commons {
 		logger.info("Click create");
 	}
 	public static void createRes(WebDriver driver) {
+		 try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		Commons.click(driver, By.xpath("//button[@id='createButton']")); 
 		 Commons.click(driver,By.id("confirmpopup")); 
 		Commons.click(driver, By.id("confirmmessagepopup")); 

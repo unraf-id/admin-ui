@@ -1,4 +1,4 @@
-This Repsitory is used for Admin Portal Automation.
+This Repository is used for Admin Portal Automation.
 
 How To run : 
 	First Build Jar
@@ -6,10 +6,10 @@ How To run :
 	Place jar in one folder along with src/main/resources files and folder and then run jar
 
 TestData Setup:
-	Config.properties
-		langcode:eng -- This is Admin login page language selection description placed in TestData.json
-		bulkwait:10000 -- This is Bulk upload wait
 	TestData.json
+		langcode:eng -- This is Admin login page language selection 
+		bulkwait:10000 -- This is Bulk upload wait
+	
 		Keep setExcludedGroups="" -- To run all the scenario mentioned below
 		Keep setExcludedGroups="BL,CT" -- To Exclude testcases execution based on below tags. 
 	

@@ -61,7 +61,7 @@ public class JsonUtil {
         String val =null;
         JSONObject json = new JSONObject(jsonIdentity);
 
-        JSONObject identity = json.getJSONObject(PropertiesUtil.getKeyValue("jsonObjName"));
+        JSONObject identity = json.getJSONObject("identity");
 
         JSONArray identityitems = identity.getJSONArray(idfield);
 
@@ -69,71 +69,13 @@ public class JsonUtil {
             JSONObject idItem = identityitems.getJSONObject(i);
             String lang = idItem.getString("language");
              val = idItem.getString("value");
-            if (lang.equalsIgnoreCase(PropertiesUtil.getKeyValue(idfield)))
+            if (lang.equalsIgnoreCase(JsonUtil.JsonObjParsing(Commons.getTestData(),"loginlang")))
             	return val;
         }
         return "sin";
     }
 
-    public static LinkedHashMap<String, String> JsonObjSimpleParsingWithCode(String jsonIdentity, String idfield)
-            throws Exception {
-        LinkedHashMap<String, String> mapLang = new LinkedHashMap<String, String>();
-        LinkedHashMap<String, String> mapLangorder = new LinkedHashMap<String, String>();
-        JSONObject json = new JSONObject(jsonIdentity);
-
-        JSONObject identity = json.getJSONObject(PropertiesUtil.getKeyValue("jsonObjName"));
-
-        JSONArray identityitems = identity.getJSONArray(idfield);
-
-        for (int i = 0, size = identityitems.length(); i < size; i++) {
-            JSONObject idItem = identityitems.getJSONObject(i);
-            String lang = idItem.getString("language");
-            String val = idItem.getString("value");
-            String code = idItem.getString("code");
-            String valcode = val + "@@" + code;
-            mapLang.put(lang, valcode);
-        }
-        String[] listLang = PropertiesUtil.getKeyValue("langcode").split("@@");
-        Set<String> keys = mapLang.keySet();
-
-        for (String list : listLang) {
-            for (String ky : keys) {
-                if (list.equals(ky)) {
-                    mapLangorder.put(list, mapLang.get(ky));
-                }
-            }
-
-        }
-
-        return mapLangorder;
-    }
-
-    public static LinkedHashMap<String, String> JsonObjSimpleParsingnoTranslate(String jsonIdentity, String idfield)
-            throws Exception {
-        LinkedHashMap<String, String> mapLang = new LinkedHashMap<String, String>();
-        JSONObject json = new JSONObject(jsonIdentity);
-
-        JSONObject identity = json.getJSONObject(PropertiesUtil.getKeyValue("jsonObjName"));
-
-        JSONArray identityitems = identity.getJSONArray(idfield);
-
-        for (int i = 0, size = identityitems.length(); i < size; i++) {
-            JSONObject idItem = identityitems.getJSONObject(i);
-            String lang = idItem.getString("language");
-            String val = idItem.getString("value");
-            String[] listLang = PropertiesUtil.getKeyValue("langcode").split("@@");
-            for (String list : listLang) {
-                if (lang.equals(list)) {
-                    mapLang.put(list, val);
-                    return mapLang;
-
-                }
-            }
-
-        }
-        return mapLang;
-    }
-
+ 
     /**
      * Direct String
      * 
@@ -146,7 +88,7 @@ public class JsonUtil {
     public static String JsonObjParsing(String jsonIdentity, String idfield) throws Exception {
         String value = null;
         JSONObject json = new JSONObject(jsonIdentity);
-        JSONObject identity = json.getJSONObject(PropertiesUtil.getKeyValue("jsonObjName"));
+        JSONObject identity = json.getJSONObject("identity");
 
         value = identity.getString(idfield);
 
@@ -156,7 +98,7 @@ public class JsonUtil {
     public static double JsonObjDoubleParsing(String jsonIdentity, String idfield) throws Exception {
         double value = 0;
         JSONObject json = new JSONObject(jsonIdentity);
-        JSONObject identity = json.getJSONObject(PropertiesUtil.getKeyValue("jsonObjName"));
+        JSONObject identity = json.getJSONObject("identity");
 
         value = identity.getDouble(idfield);
 
@@ -167,7 +109,7 @@ public class JsonUtil {
         List<String> list = new LinkedList<String>();
         JSONObject json = new JSONObject(jsonIdentity);
 
-        JSONObject identity = json.getJSONObject(PropertiesUtil.getKeyValue("jsonObjName"));
+        JSONObject identity = json.getJSONObject("identity");
 
         JSONArray identityitems = identity.getJSONArray(idfield);
         if (identityitems != null) {

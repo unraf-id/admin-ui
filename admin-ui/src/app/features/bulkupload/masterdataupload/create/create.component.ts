@@ -8,7 +8,7 @@ import { DataStorageService } from 'src/app/core/services/data-storage.service';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { HeaderService } from 'src/app/core/services/header.service';
 import { TranslateService } from '@ngx-translate/core';
-
+import { AppConfigService } from 'src/app/app-config.service';
 import { saveAs } from 'file-saver';
 
 @Component({
@@ -37,6 +37,7 @@ export class CreateComponent {
   private formBuilder: FormBuilder,
   private router: Router,
   private dialog: MatDialog,
+    private appService: AppConfigService,
   ) {
     this.subscribed = router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -82,7 +83,7 @@ export class CreateComponent {
   }
 
   downloadExcel(){
-    let buildURL = window.location.origin +"/admin-ui/templates/"+this.tableName+".csv"
+    let buildURL = window.location.origin +this.appService.getConfig().templateRepoUrl+this.tableName+".csv"
     this.dataStorageService
     .getsampletemplate(buildURL).subscribe(
       data => {

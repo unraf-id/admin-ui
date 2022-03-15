@@ -15,7 +15,7 @@ export class AppConfigService {
     /*if (this.appConfig.primaryLangCode) {*/
       this.appConfig["primaryLangCode"] = this.headerService.getUserPreferredLanguage();
       //this.appConfig["secondaryLangCode"] = this.appConfig.secondaryLangCode;
-      this.http.get(this.appConfig.baseUrl + "masterdata/configs").subscribe(
+      this.http.get(this.appConfig.baseUrl + "admin/masterdata/configs").subscribe(
         (response) => {
           let responseData = response["response"];
           this.appConfig["locationHierarchyLevel"] = responseData["locationHierarchyLevel"];
@@ -24,7 +24,8 @@ export class AppConfigService {
           this.appConfig["leftToRightOrientation"] = responseData["leftToRightOrientation"];
           this.appConfig["countryCode"] = responseData["countryCode"];
           this.appConfig["version"]= responseData["version"];
-          this.appConfig["filterValueMaxRecords"]= responseData["filterValueMaxRecords"];          
+          this.appConfig["filterValueMaxRecords"] = responseData["filterValueMaxRecords"];   
+          this.appConfig["filterValueMaxCount"] = responseData["filterValueMaxCount"];
         },
         (error) => {
           console.log(error);

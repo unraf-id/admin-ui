@@ -386,8 +386,8 @@ export class CreateComponent {
 
   submit() {
     if (!this.disableForms) {
-      this.auditService.audit(17, 'ADM-097');
-      if (this.primaryForm.valid) {
+      this.auditService.audit(22, 'ADM-097',{action:'Create/Update machine',actioned:'clicked on Create/Update button',type:'machine'});
+       if (this.primaryForm.valid) {
         this.onCreate();
       } else {
         for (const i in this.primaryForm.controls) {
@@ -427,15 +427,15 @@ export class CreateComponent {
     });
     dialogRef.afterClosed().subscribe((response) => {
       if (response && this.data.length === 0) {
-        this.auditService.audit(18, 'ADM-104', 'create');
-        this.saveData();
+        this.auditService.audit(22, 'ADM-104', {action:'Confirm create',actioned:'confirmed create',type:'machine'});
+		this.saveData();
       } else if (response && this.data.length !== 0) {
-        this.auditService.audit(18, 'ADM-105', 'edit');
-        this.updateData();
+        this.auditService.audit(22, 'ADM-105', {action:'Confirm edit',actioned:'confirmed edit',type:'machine'});
+		this.updateData();
       } else if (!response && this.data.length === 0) {
-        this.auditService.audit(19, 'ADM-106', 'create');
+		this.auditService.audit(22, 'ADM-106', {action:'Cancel create',actioned:'cancelled create',type:'machine'});
       } else if (!response && this.data.length !== 0) {
-        this.auditService.audit(19, 'ADM-107', 'edit');
+        this.auditService.audit(22, 'ADM-107', {action:'Cancel edit',actioned:'cancelled edit',type:'machine'});
       }
     });
   }

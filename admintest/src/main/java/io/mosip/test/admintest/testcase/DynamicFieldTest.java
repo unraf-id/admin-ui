@@ -42,21 +42,21 @@ public class DynamicFieldTest extends BaseClass{
     Commons.enter(driver,By.id("code"),data);
     
     Commons.enter(driver,By.id("name"),"Automation");
-    Commons.enter(driver,By.id("description"),data);
+    Commons.enter(driver,By.id("description"),"Automation");
 
     Commons.enter(driver,By.id("value"),data);
     
 
     Commons.create(driver);
-	Commons.filter(driver, By.id("description"), data);
+	Commons.filter(driver, By.id("description"), "Automation");
 	
 
-	Commons.edit(driver,data+1,By.id("description"));
-	Commons.filter(driver, By.id("description"), data+1);
+	Commons.edit(driver,data+1,By.id("code"));
+	Commons.filter(driver, By.id("description"), "Automation");
 	
 	Commons.activate(driver);
-	Commons.edit(driver,data+2,By.id("description"));
-	Commons.filter(driver, By.id("description"), data+2);
+	Commons.edit(driver,data+2,By.id("code"));
+	Commons.filter(driver, By.id("description"), "Automation");
 	Commons.deactivate(driver);
 
   }

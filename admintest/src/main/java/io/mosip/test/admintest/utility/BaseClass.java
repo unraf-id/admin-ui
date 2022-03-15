@@ -49,8 +49,9 @@ public class BaseClass {
 	protected String password = System.getProperty("password");
 	protected String data = Commons.appendDate;
 
-	public void setLangcode(String langcode) throws IOException {
-		this.langcode = PropertiesUtil.getKeyValue("langcode");
+
+	public void setLangcode(String langcode) throws Exception {
+		this.langcode = Commons.getFieldData("langcode");
 	}
 
 	@BeforeMethod
@@ -75,6 +76,7 @@ public class BaseClass {
 		driver.findElement(By.linkText("Admin")).click();
 		String language1 = null;
 		try {
+			//String loginlang = JsonUtil.JsonObjParsing(Commons.getTestData(),"loginlang");
 			language1 = Commons.getFieldData("langcode");
 
 			System.out.println(language1);
@@ -114,7 +116,8 @@ public class BaseClass {
 	public static String[] readFolderJsonList() {
 		String contents[] = null;
 		try {
-			String langcode = PropertiesUtil.getKeyValue("langcode");
+			String langcode = JsonUtil.JsonObjParsing(Commons.getTestData(),"loginlang");
+				
 			File directoryPath = new File(System.getProperty("user.dir") + "\\BulkUploadFiles\\" + langcode + "\\");
 
 			if (directoryPath.exists()) {

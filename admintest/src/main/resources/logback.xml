@@ -19,9 +19,9 @@
 		</triggeringPolicy>
 	</appender>
 
-	<logger name="automation" level="INFO" additivity="false">
+	<logger name="io.mosip.test.admintest" level="INFO" additivity="false">
 		<appender-ref ref="applicationLogAutomation" />
 	</logger>
 
 
-</configuration>
+</configuration>	

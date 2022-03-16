@@ -56,16 +56,11 @@ export class ToolbarComponent extends MatPaginatorIntl implements OnInit {
       this.openFilterDialog(buttonAction.actionURL);
     }
     if (buttonAction.actionListType === 'redirect') {
-	  var idvalue :string = 'ADM-083';
-      var masterdataNameValue :string = this.router.url.split('/')[
-        this.router.url.split('/').length - 2
-      ];
-      if(masterdataNameValue === 'masterdataupload' || masterdataNameValue === 'packetupload'){
-        idvalue='ADM-331';
-      }
-      this.auditService.audit(9, idvalue, {
+      this.auditService.audit(9, 'ADM-083', {
         buttonName: buttonAction.buttonName.eng,
-        masterdataName: masterdataNameValue
+        masterdataName: this.router.url.split('/')[
+          this.router.url.split('/').length - 2
+        ]
       });
       if("admin/masterdata/dynamicfields/create" === buttonAction.redirectURL){
         this.router.navigateByUrl("admin/masterdata/dynamicfields/"+this.router.url.split('/')[4]+"/create");

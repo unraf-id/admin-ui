@@ -3,7 +3,7 @@
         <mat-card-content class="forms-container" *ngIf="pageName !=='Location' && primaryData">
             <div class="primary-form">
                 <div style="padding-bottom: 50px;"></div>
-                <strong class="title">{{'center.language' | translate }}</strong>
+                <strong class="title">{{languageNames[primaryData.langCode] | translate }}</strong>
                 <span
                   *ngIf="!disableForms"
                   matTooltip="{{ 'center.keyboard-tooltip' | translate }}"
@@ -64,8 +64,38 @@
                           required={{field.ismandatory}}
                           *ngIf="field.name !== 'fieldVal'"
                         />
+                      </span>                       
+                      <span *ngIf="pageName === 'Blocklisted Word'  && !isCreateForm && field.name === 'word'">
+                        <input
+                          #keyboardRef
+                          #{{field.name}}
+                          id="{{field.name}}"
+                          (blur)="captureValue($event, field.name, 'primary')"
+                          (focus)="scrollPage(field.name, 'primary', field.name, i)"
+                          matInput
+                          placeholder="{{
+                            field.label[primaryData.langCode] | translate
+                          }}"
+                          [value]="primaryData[field.name]"                        
+                          required={{field.ismandatory}}
+                        />
                       </span>
-                      <span *ngIf="pageName !== 'Dynamic Field'">
+                      <span *ngIf="pageName === 'Blocklisted Word'  && isCreateForm && field.name === 'word'">
+                        <input
+                          #keyboardRef
+                          #{{field.name}}
+                          id="{{field.name}}"
+                          (blur)="captureValue($event, field.name, 'primary')"
+                          (focus)="scrollPage(field.name, 'primary', field.name, i)"
+                          matInput
+                          placeholder="{{
+                            field.label[primaryLang] | translate
+                          }}"
+                          [value]="primaryData[field.name]"                        
+                          required={{field.ismandatory}}
+                        />
+                      </span>
+                      <span *ngIf="pageName !== 'Dynamic Field' && pageName !== 'Blocklisted Word'">
                         <input
                           #keyboardRef
                           #{{field.name}}
@@ -165,7 +195,39 @@
                         rows="3" cols="40"
                       ></textarea>
                       </span>
-                      <span *ngIf="pageName !== 'Dynamic Field'">
+                      <span *ngIf="pageName === 'Blocklisted Word'  && !isCreateForm && field.name === 'description'">
+                        <textarea
+                        #keyboardRef
+                        #{{field.name}}
+                        id="{{field.name}}"
+                        (blur)="captureValue($event, field.name, 'primary')"
+                        (focus)="scrollPage(field.name, 'primary', field.name, i)"
+                        matInput
+                        placeholder="{{
+                          field.label[primaryData.langCode] | translate
+                        }}"
+                        [value]="primaryData[field.name]"
+                        required={{field.ismandatory}}
+                        rows="3" cols="40"
+                        ></textarea>
+                      </span>
+                      <span *ngIf="pageName === 'Blocklisted Word'  && isCreateForm && field.name === 'description'">
+                        <textarea
+                        #keyboardRef
+                        #{{field.name}}
+                        id="{{field.name}}"
+                        (blur)="captureValue($event, field.name, 'primary')"
+                        (focus)="scrollPage(field.name, 'primary', field.name, i)"
+                        matInput
+                        placeholder="{{
+                          field.label[primaryLang] | translate
+                        }}"
+                        [value]="primaryData[field.name]"
+                        required={{field.ismandatory}}
+                        rows="3" cols="40"
+                        ></textarea>
+                      </span>
+                      <span *ngIf="pageName !== 'Dynamic Field' && pageName !== 'Blocklisted Word'">                      
                       <textarea
                         #keyboardRef
                         #{{field.name}}

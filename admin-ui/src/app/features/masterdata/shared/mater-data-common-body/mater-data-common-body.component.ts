@@ -86,6 +86,7 @@ export class MaterDataCommonBodyComponent implements OnInit {
   primaryLangCode:string;
   isPrimaryLangRTL:boolean = false;
   searchResult:any;
+  appConfig:any;
 
   constructor(
     private location: Location,
@@ -98,14 +99,24 @@ export class MaterDataCommonBodyComponent implements OnInit {
     private appConfigService: AppConfigService, 
     private headerService: HeaderService,
     private translateService: TranslateService,
-    private auditService: AuditService,
+    private auditService: AuditService, 
   ) { 
     this.tomorrow.setDate(this.tomorrow.getDate() + 1);
   }
 
   ngOnInit() {
+    let url = this.router.url.split('/')[3];
+    this.url = this.router.url.split('/')[3];
     this.fieldsCount = 0;
     this.primaryLangCode = this.headerService.getUserPreferredLanguage();
+    console.log("this.primaryLangCode>>>"+this.primaryLangCode);
+    console.log("config>>>"+defaultJson.languages["ara"].name);
+    /*if(url === "blocklisted-words"){      
+      this.primaryLang = this.primaryData.langCode;
+      if(this.primaryData.langCode === "ara"){
+        this.isPrimaryLangRTL = true;
+      }
+    }*/
     if(this.primaryLang === "ara"){
       this.isPrimaryLangRTL = true;
     }
@@ -152,10 +163,17 @@ export class MaterDataCommonBodyComponent implements OnInit {
     }   
     this.isCreateForm = false;
     this.disableForms = false;
-    this.primaryKeyboard = defaultJson.keyboardMapping[this.primaryLang];
-    this.secondaryKeyboard = defaultJson.keyboardMapping[this.secondaryLang];
-    let url = this.router.url.split('/')[3];
-    this.url = this.router.url.split('/')[3];
+    if(url === "blocklisted-words" && this.primaryData){      
+      if(this.primaryData.langCode === "ara"){
+        this.isPrimaryLangRTL = true;
+      }
+      this.primaryKeyboard = defaultJson.keyboardMapping[this.primaryData.langCode];
+    }else{
+      this.primaryKeyboard = defaultJson.keyboardMapping[this.primaryLang];
+      this.secondaryKeyboard = defaultJson.keyboardMapping[this.secondaryLang];
+    }
+    
+    
     if(!this.primaryData){
       this.isCreateForm = true;
       if(url === "center-type"){

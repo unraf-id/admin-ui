@@ -62,7 +62,11 @@ export class PacketStatusComponent implements OnInit {
     } else {
       this.error = false;
       this.dataStorageService.getPacketStatus(this.id, this.headerService.getUserPreferredLanguage()).subscribe(response => {
-        if (response['errors'].length == 0) {
+        if (response['errors']) {
+          this.error = true;
+          this.statusCheck = '';
+          this.errorMessage = this.serverMessage[response['errors'][0].errorCode];
+       } else{          
           this.data = response['response']['packetStatusUpdateList'];
           for (let i = 0 ; i < this.data.length; i++) {
             if (this.data[i].statusCode.includes('FAILED')) {
@@ -73,27 +77,7 @@ export class PacketStatusComponent implements OnInit {
             }
             this.error = false;
             this.showDetails = true;
-        }
-       } else{
-          console.log("response['errors'][0].message>>>"+response['errors'][0].message);
-          this.error = true;
-          this.statusCheck = '';
-          this.errorMessage = this.serverMessage[response['errors'][0].errorCode];
-          /*this.dialog
-            .open(DialogComponent, {
-               data: {
-                case: 'MESSAGE',
-                title: this.messages.errorMessages.title,
-                message: this.messages.errorMessages.message,
-                btnTxt: this.messages.errorMessages.btnTxt
-               } ,
-              width: '700px',
-              disableClose: true
-            })
-            .afterClosed()
-            .subscribe(result => {
-              console.log('dialog is closed from view component');
-            });*/
+          }
         }
       });
     }

@@ -6,11 +6,13 @@ import { AppConfigService } from 'src/app/app-config.service';
 import { AuditService } from 'src/app/core/services/audit.service';
 import { HeaderService } from 'src/app/core/services/header.service';
 import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss']
 })
+
 export class ToolbarComponent extends MatPaginatorIntl implements OnInit {
   @Input() buttonList: any;
   @Input() paginationOptions: any;
@@ -19,7 +21,7 @@ export class ToolbarComponent extends MatPaginatorIntl implements OnInit {
   lang: string;
 
   pageSize: number;
-
+  itemsPerPageLabel: string = "";
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -29,11 +31,10 @@ export class ToolbarComponent extends MatPaginatorIntl implements OnInit {
     private translateService: TranslateService
   ) {
     super();
-
-    let self = this;     
-    this.translateService.getTranslation(this.headerService.getUserPreferredLanguage()).subscribe(response => {
+    let self = this;  
+    self.translateService.getTranslation(self.headerService.getUserPreferredLanguage()).subscribe(response => {
       self.itemsPerPageLabel = response.paginationLabel.showRows;
-      this.ngOnInit();
+      self.ngOnInit();
     });    
   }
 
@@ -41,7 +42,7 @@ export class ToolbarComponent extends MatPaginatorIntl implements OnInit {
     this.lang = this.headerService.getUserPreferredLanguage();   
     this.showMissingDataBtn(); 
     if(this.paginationOptions){
-      this.pageSize = Number(this.paginationOptions.pageSize);  
+      this.pageSize = Number(this.paginationOptions.pageSize); 
     } 
   }
 

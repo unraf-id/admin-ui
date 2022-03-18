@@ -88,10 +88,10 @@ export class SingleViewComponent implements OnDestroy {
       });
     if (this.masterdataType.toLowerCase() === 'blocklisted-words') {
       if(this.id){
-        this.primaryLangCode = this.id.split('$')[1];
+        let langCode = this.id.split('$')[1];
         this.id = this.id.split('$')[0];
+        await this.getData(langCode, true);
       }     
-      await this.getData(this.primaryLangCode, true);
     } else {
       await this.getData(this.primaryLangCode, true);
       /*if (this.showSecondaryForm) {

@@ -472,6 +472,11 @@
             "title": "Request payload is too large",
             "message": "Payload size exceeds the size limit. Kindly check the payload size.",
             "btnTxt": "Ok"
+        },
+        "servicedown": {
+            "title": "Service Temporarily Unavailable",
+            "message": "Service is not ready to handle the request. Kindly try after sometime.",
+            "btnTxt": "Ok"
         }
     },
     "validationMessages": {
@@ -1389,6 +1394,7 @@
         "RPR-UIN-FAILED-007": "UIN De-activation  Failed",
         "RPR-UIN-FAILED-008": "UIN Not Found for the Matched RID",
         "RPR-SEN-SUCCESS-001": "Notification received to securezone",
-        "RPR-RGS-034" : "searching between date should be less then 30 days"
+        "RPR-RGS-034" : "searching between date should be less then 30 days",
+        "KER-MSD-394" : "Your zone mapping missing. Please contact the administrator."
     }
 }

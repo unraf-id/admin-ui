@@ -4,15 +4,15 @@ export const VERSION = '1.0';
 export const BASE_URL = config.baseUrl;
 export const IDS = 'dummy';
 export const URL = {
-  centers: `masterdata/registrationcenters/search`,
-  devices: `masterdata/devices/search`,
-  machines: `masterdata/machines/search`,
-  'rid-status': `masterdata/packet/search`,
-  users: `masterdata/users/search`,
-  zoneuser: `masterdata/zoneuser/search`,
-  documentCategories: `masterdata/documentcategories`,
-  mappedDocUrl: `masterdata/documenttypes/`,
-  unMappedDocUrl: `masterdata/documenttypes/`,
+  centers: `admin/masterdata/registrationcenters/search`,
+  devices: `admin/masterdata/devices/search`,
+  machines: `admin/masterdata/machines/search`,
+  'rid-status': `admin/masterdata/packet/search`,
+  users: `admin/masterdata/users/search`,
+  zoneuser: `admin/masterdata/zoneuser/search`,
+  documentCategories: `admin/masterdata/documentcategories`,
+  mappedDocUrl: `admin/masterdata/documenttypes/`,
+  unMappedDocUrl: `admin/masterdata/documenttypes/`,
   'lost-rid-status': `admin/lostRid `,
 };
 export const navItems = [
@@ -169,7 +169,7 @@ export const navItems = [
   }
 ];
 
-export const MASTERDATA_BASE_URL = `masterdata/`;
+export const MASTERDATA_BASE_URL = `admin/masterdata/`;
 export const processingTimeStart = 15;
 export const processingTimeEnd = 45;
 export const processingTimeInterval = 5;

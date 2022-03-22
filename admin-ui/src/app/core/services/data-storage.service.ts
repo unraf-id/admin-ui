@@ -47,6 +47,11 @@ export class DataStorageService {
   }
 
   getUniqueLocation(data: RequestModel): Observable<any> {
+    if(JSON.parse(this.appService.getConfig().filterValueMaxCount)["locations"]){
+      data.request["pageFetch"] = JSON.parse(this.appService.getConfig().filterValueMaxCount)["locations"];
+    }else{
+      data.request["pageFetch"] = JSON.parse(this.appService.getConfig().filterValueMaxCount)["default"];
+    } 
     return this.http.post(
       this.BASE_URL + appConstants.MASTERDATA_BASE_URL + 'locations/filtervalues',
       data
@@ -54,7 +59,11 @@ export class DataStorageService {
   }
 
   getStubbedDataForDropdowns(data: RequestModel): Observable<any> {
-    data.request["pageFetch"] = this.appService.getConfig().filterValueMaxRecords;
+    if(JSON.parse(this.appService.getConfig().filterValueMaxCount)["holidays"]){
+      data.request["pageFetch"] = JSON.parse(this.appService.getConfig().filterValueMaxCount)["holidays"];
+    }else{
+      data.request["pageFetch"] = JSON.parse(this.appService.getConfig().filterValueMaxCount)["default"];
+    }    
     return this.http.post(
       this.BASE_URL + appConstants.MASTERDATA_BASE_URL + 'holidays/filtervalues',
       data
@@ -176,7 +185,7 @@ export class DataStorageService {
   }
 
   updateridStatus(request: RequestModel): Observable<any> {    
-    return this.http.post(this.BASE_URL + 'masterdata/packet/resume', request);
+    return this.http.post(this.BASE_URL + 'admin/masterdata/packet/resume', request);
   }
 
   getlostridDetails(request: RequestModel): Observable<any> {
@@ -246,7 +255,12 @@ export class DataStorageService {
     type: string,
     data: RequestModel
   ): Observable<any> {
-    data.request["pageFetch"] = this.appService.getConfig().filterValueMaxRecords;
+    console.log("('filterValueMaxCount')[type]>>>"+JSON.parse(this.appService.getConfig().filterValueMaxCount)[type]);
+    if(JSON.parse(this.appService.getConfig().filterValueMaxCount)[type]){
+      data.request["pageFetch"] = JSON.parse(this.appService.getConfig().filterValueMaxCount)[type];
+    }else{
+      data.request["pageFetch"] = JSON.parse(this.appService.getConfig().filterValueMaxCount)["default"];
+    }
     return this.http.post(
       this.BASE_URL + appConstants.MASTERDATA_BASE_URL + type + '/filtervalues',
       data

@@ -105,6 +105,23 @@ export class AuthInterceptor implements HttpInterceptor {
                     disableClose: true
                   });
                 });
+            }else if (err.status === 503) {
+              this.translateService
+                .getTranslation(this.appService.getConfig().primaryLangCode)
+                .subscribe(response => {
+                  this.errorMessages = response.errorPopup;
+                  this.dialog.open(DialogComponent, {
+                    width: '868px',
+                    height: '190px',
+                    data: {
+                      case: 'MESSAGE',
+                      title: this.errorMessages.servicedown.title,
+                      message: this.errorMessages.servicedown.message,
+                      btnTxt: this.errorMessages.servicedown.btnTxt
+                    },
+                    disableClose: true
+                  });
+                });
             } else {
               if (err.url.includes('validateToken')) {
 

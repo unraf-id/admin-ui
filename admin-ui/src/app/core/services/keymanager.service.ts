@@ -14,34 +14,34 @@ export class KeymanagerService {
   private BASE_URL = this.appService.getConfig().baseUrl;
 
   getCertificate(request: RequestModel, applicationId : any, pageStart : any, pageFetch : any, referenceId : any): Observable<any> {
-    return this.http.get(this.BASE_URL + 'keymanager'  + '/getCertificate?applicationId='+applicationId+'&referenceId='+referenceId);
+    return this.http.get(this.BASE_URL + 'admin/keymanager'  + '/getCertificate?applicationId='+applicationId+'&referenceId='+referenceId);
   }
 
 
   uploadOtherDomainCertificate(data: any): Observable<any> {
     return this.http.post(
-      this.BASE_URL  + 'keymanager'  + '/uploadOtherDomainCertificate',
+      this.BASE_URL  + 'admin/keymanager'  + '/uploadOtherDomainCertificate',
       data
     );
   }
 
   uploadCertificate(data: any): Observable<any> {
     return this.http.post(
-      this.BASE_URL  + 'keymanager'  + '/uploadCertificate',
+      this.BASE_URL  + 'admin/keymanager'  + '/uploadCertificate',
       data
     );
   }
 
   generateMasterkey(data: any, ObjectType : any): Observable<any> {
     return this.http.post(
-      this.BASE_URL  + 'keymanager'  + '/generateMasterKey' + '/' + ObjectType,
+      this.BASE_URL  + 'admin/keymanager'  + '/generateMasterKey' + '/' + ObjectType,
       data
     );
   }
 
   generateCSR(data: any): Observable<any> {
     return this.http.post(
-      this.BASE_URL  + 'keymanager'  + '/generateCSR',
+      this.BASE_URL  + 'admin/keymanager'  + '/generateCSR',
       data
     );
   }

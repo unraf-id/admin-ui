@@ -163,7 +163,7 @@ export class AuditService {
         auditObject.eventType = 'Navigation: Click Event';
         auditObject.moduleId = 'KER-MSD';
         auditObject.moduleName = 'Kernel-Masterdata';
-        auditObject.description = `User confirmed ${data} of a Registration Center`;
+        auditObject.description = `User confirmed ${data}`;
         break;
       }
       case 19: {
@@ -171,7 +171,7 @@ export class AuditService {
         auditObject.eventType = 'Navigation: Click Event';
         auditObject.moduleId = 'KER-MSD';
         auditObject.moduleName = 'Kernel-Masterdata';
-        auditObject.description = `User cancelled ${data} of a Registration Center`;
+        auditObject.description = `User cancelled ${data}`;
         break;
       }
       case 20: {
@@ -190,12 +190,28 @@ export class AuditService {
         auditObject.description = `User clicked on 'Create/Update' button on ${data} 'Create/Update' form`;
         break;
       }
-	  case 22: {
+	    case 22: {
         auditObject.eventName = `Click: ${data.action}`;
         auditObject.eventType = 'Navigation: Click Event';
         auditObject.moduleId = 'KER-MSD';
         auditObject.moduleName = 'Kernel-Masterdata';
         auditObject.description = `User ${data.actioned} of a ${data.type}`;
+        break;
+      }
+      case 23: {
+        auditObject.eventName = `Page View: ${data} `;
+        auditObject.eventType = 'Navigation: Page View Event';
+        auditObject.moduleId = 'KER-MSD';
+        auditObject.moduleName = 'Kernel-Masterdata';
+        auditObject.description = `User visited ${data}`;
+        break;
+      }
+      case 24: {
+        auditObject.eventName = `Click: ${data} `;
+        auditObject.eventType = 'Navigation: Click Event';
+        auditObject.moduleId = 'KER-MSD';
+        auditObject.moduleName = 'Kernel-Masterdata';
+        auditObject.description = `User clicked on 'Upload' button on ${data}`;
         break;
       }
     }

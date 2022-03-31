@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { BulkuploadService } from 'src/app/core/services/bulkupload.service';
+import { AuditService } from 'src/app/core/services/audit.service';
 
 @Component({
   selector: 'app-view',
@@ -23,6 +24,7 @@ export class SingleviewComponent {
   private location: Location,
   private router: Router,
   public activatedRoute: ActivatedRoute,
+  private auditService: AuditService,
   ) {
     this.subscribed = router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -32,6 +34,7 @@ export class SingleviewComponent {
   }
 
   initializeComponent() {
+    this.auditService.audit(23, 'ADM-345', 'packet upload view transaction details');
     this.activatedRoute.params.subscribe(params => {
       this.getData(params);
     });
@@ -49,6 +52,7 @@ export class SingleviewComponent {
   }
 
   cancel() {
+    this.auditService.audit(19, 'ADM-346', 'packet upload view transaction details');
     this.location.back();
   }
 }

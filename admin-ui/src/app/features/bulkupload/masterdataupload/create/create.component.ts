@@ -10,6 +10,7 @@ import { HeaderService } from 'src/app/core/services/header.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConfigService } from 'src/app/app-config.service';
 import { saveAs } from 'file-saver';
+import { AuditService } from 'src/app/core/services/audit.service';
 
 @Component({
   selector: 'app-create',
@@ -37,7 +38,8 @@ export class CreateComponent {
   private formBuilder: FormBuilder,
   private router: Router,
   private dialog: MatDialog,
-    private appService: AppConfigService,
+  private appService: AppConfigService,
+  private auditService: AuditService,
   ) {
     this.subscribed = router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -47,6 +49,7 @@ export class CreateComponent {
   }
 
   initializeComponent() {
+    this.auditService.audit(23, 'ADM-332', 'Master Data Upload Form');
     this.primaryLang = this.headerService.getUserPreferredLanguage();
     if(this.primaryLang === "ara"){
       this.buttonalignment = 'rtl';
@@ -120,6 +123,7 @@ export class CreateComponent {
 
   submit(){
     if (this.uploadForm.valid) {
+      this.auditService.audit(24, 'ADM-333', 'Master Data Upload Form');
       let data = {};
       data = {
         case: 'CONFIRMATION',       
@@ -134,6 +138,7 @@ export class CreateComponent {
       });
       dialogRef.afterClosed().subscribe(response => {   
         if(response){
+          this.auditService.audit(18, 'ADM-334', 'Master Data Upload Form');
           this.saveData();
         }      
       });  
@@ -162,7 +167,7 @@ export class CreateComponent {
     formData.append('files', self.uploadForm.get('files').value);
     formData.append('category', self.uploadForm.get('category').value);
     formData.append('operation', self.uploadForm.get('operation').value);
-    formData.append('tableName', self.uploadForm.get('tableName').value);
+    formData.append('tableName', self.uploadForm.get('tableName').value);    
     self.bulkuploadService.uploadData(formData).subscribe(uploadResponse => {
       self.showMessage(uploadResponse);
     });
@@ -224,6 +229,7 @@ export class CreateComponent {
     });
   }
   cancel() {
+    this.auditService.audit(19, 'ADM-335', 'Master Data Upload Form');
     this.location.back();
   }
 }

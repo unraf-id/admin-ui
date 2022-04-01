@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FilterRequest } from 'src/app/core/models/filter-request.model';
 import { FilterValuesModel } from 'src/app/core/models/filter-values.model';
 import { RequestModel } from 'src/app/core/models/request.model';
+import { AuditService } from 'src/app/core/services/audit.service';
 
 @Component({
   selector: 'app-create',
@@ -43,7 +44,8 @@ export class CreateComponent {
   private dialog: MatDialog,
   private headerService: HeaderService,
   private translateService: TranslateService,
-  private dataService: DataStorageService
+  private dataService: DataStorageService,
+  private auditService: AuditService,
   ) {
     this.subscribed = router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -55,6 +57,7 @@ export class CreateComponent {
   }
 
   initializeComponent() {
+    this.auditService.audit(23, 'ADM-340', 'Packet Upload Form');
     this.initializeForm();
     if(this.primaryLangCode === "ara"){
       this.buttonalignment = 'rtl';
@@ -125,6 +128,7 @@ export class CreateComponent {
 
   submit() {
     if (this.uploadForm.valid) {
+      this.auditService.audit(24, 'ADM-341', 'Packet Upload Form');
       let data = {};
       data = {
         case: 'CONFIRMATION',
@@ -139,6 +143,7 @@ export class CreateComponent {
       });
       dialogRef.afterClosed().subscribe(response => {
         if (response) {
+          this.auditService.audit(18, 'ADM-342', 'Packet Upload Form');
           this.saveData();
         }
       });
@@ -232,6 +237,7 @@ export class CreateComponent {
     });
   }
   cancel() {
+    this.auditService.audit(19, 'ADM-343', 'Packet Upload Form');
     this.location.back();
   }
 }

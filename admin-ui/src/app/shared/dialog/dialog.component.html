@@ -282,4 +282,21 @@
     >
   </div>
 </div>
+
+<div class="pop-up" *ngIf="input.case === 'NOZONE'">
+  <div class="pop-up-header">
+    <b mat-dialog-title>{{ input.title }}</b>
+    <div mat-dialog-content>
+      <div [innerText]="input.message"></div>
+    </div>
+  </div>
+  <div mat-dialog-actions class="pop-up-footer">
+    <span
+      ><button mat-button cdkFocusInitial id="confirmmessagepopup" (click)="logout()">
+        {{ input.btnTxt }}
+      </button></span
+    >
+  </div>
+</div>
+
 </div>

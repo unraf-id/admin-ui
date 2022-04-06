@@ -23,6 +23,7 @@ import { AuditService } from 'src/app/core/services/audit.service';
 import { TranslateService } from '@ngx-translate/core';
 import { OptionalFilterValuesModel } from 'src/app/core/models/optional-filter-values.model';
 import { HeaderService } from 'src/app/core/services/header.service';
+import { LogoutService } from './../../core/services/logout.service';
 
 @Component({
   selector: 'app-dialog',
@@ -68,7 +69,8 @@ export class DialogComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private auditService: AuditService,
     private translate: TranslateService,
-    private headerService: HeaderService
+    private headerService: HeaderService,
+    private logoutService: LogoutService
   ) {
     this.primaryLangCode = this.headerService.getUserPreferredLanguage();
     this.translate.use(this.primaryLangCode);
@@ -107,6 +109,10 @@ export class DialogComponent implements OnInit {
 
   dismiss(): void {
     this.dialog.closeAll();
+  }
+
+  logout() {
+    this.logoutService.logout();
   }
 
   async getFilterMappings() {

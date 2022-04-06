@@ -61,8 +61,10 @@ export class ToolbarComponent extends MatPaginatorIntl implements OnInit {
         var masterdataNameValue :string = this.router.url.split('/')[
         this.router.url.split('/').length - 2
       ];
-      if(masterdataNameValue === 'masterdataupload' || masterdataNameValue === 'packetupload'){
+      if(masterdataNameValue === 'masterdataupload'){
         idvalue='ADM-331';
+      }else if(masterdataNameValue === 'packetupload'){
+        idvalue='ADM-339';
       }
       this.auditService.audit(9, idvalue, {
         buttonName: buttonAction.buttonName.eng,

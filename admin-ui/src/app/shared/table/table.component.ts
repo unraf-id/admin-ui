@@ -111,7 +111,14 @@ export class TableComponent implements OnInit, OnChanges {
     this.currentRoute = this.router.url.slice(0, routeIndex);
     const currentRouteType = this.router.url.split('/')[3];
     const id = appConstants.ListViewIdKeyMapping[`${currentRouteType}`];
-    this.auditService.audit(7, id.auditEventId, currentRouteType);
+
+    if(currentRouteType === 'masterdataupload'){
+      this.auditService.audit(25, 'ADM-336', currentRouteType);
+    }else if(currentRouteType === 'packetupload'){
+      this.auditService.audit(25, 'ADM-344', currentRouteType);
+    }else{
+      this.auditService.audit(7, id.auditEventId, currentRouteType);
+    }    
     if (index === 0) {
       if (currentRouteType.toLowerCase() === 'blocklisted-words') {
         this.router.navigate([

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import * as appConstants from '../../app.constants';
 
 import { AppConfigService } from 'src/app/app-config.service';
 import { URL } from 'src/app/app.constants';
@@ -30,7 +31,7 @@ export class DocumentCategoryMappingService {
   }
 
   getMappedDoc(code: string, lang: string): Observable<any> {
-    return this.http.get(this.BASE_URL + 'masterdata/validdocuments/' + code +'/'+ lang).pipe(map(response => {
+    return this.http.get(this.BASE_URL + appConstants.MASTERDATA_BASE_URL +'validdocuments/' + code +'/'+ lang).pipe(map(response => {
       return response;
     }));
   }
@@ -44,7 +45,7 @@ export class DocumentCategoryMappingService {
   updateMappedDoc(doccategorycode: string, doctypecode: string): Observable<any> {
 
     return this.http.put(
-      this.BASE_URL + 'masterdata/validdocuments/map/' + doccategorycode + '/' + doctypecode,
+      this.BASE_URL + appConstants.MASTERDATA_BASE_URL +'validdocuments/map/' + doccategorycode + '/' + doctypecode,
       ""
     );
 
@@ -52,7 +53,7 @@ export class DocumentCategoryMappingService {
 
   updateUnMappeddoc(doccategorycode: string, doctypecode: string): Observable<any> {
     return this.http.put(
-      this.BASE_URL + 'masterdata/validdocuments/unmap/' + doccategorycode + '/' + doctypecode,
+      this.BASE_URL + appConstants.MASTERDATA_BASE_URL +'validdocuments/unmap/' + doccategorycode + '/' + doctypecode,
       ""
     );
   }

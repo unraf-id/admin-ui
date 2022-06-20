@@ -12,6 +12,8 @@ export class DataStorageService {
 
   private BASE_URL = this.appService.getConfig().baseUrl;
   
+  langIndependentTables : string[] = ['devicetypes','machinetypes','devicespecifications','machinespecifications','devices','machines'];
+
   getI18NLanguageFiles(langCode:string){
    return this.http.get(`./assets/i18n/${langCode}.json`);
   }
@@ -260,6 +262,9 @@ export class DataStorageService {
       data.request["pageFetch"] = JSON.parse(this.appService.getConfig().filterValueMaxCount)[type];
     }else{
       data.request["pageFetch"] = JSON.parse(this.appService.getConfig().filterValueMaxCount)["default"];
+    }
+    if(this.langIndependentTables.includes(type)){
+      data.request["languageCode"] = 'all';
     }
     return this.http.post(
       this.BASE_URL + appConstants.MASTERDATA_BASE_URL + type + '/filtervalues',

@@ -33,4 +33,3 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## License
 This project is licensed under the terms of [Mozilla Public License 2.0](../LICENSE).
-

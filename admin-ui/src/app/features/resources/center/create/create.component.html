@@ -211,7 +211,9 @@
                 <mat-label>{{ fieldName }}</mat-label>
                 <mat-select [value]="dynamicFieldValue[fieldName]" id="fieldName" (selectionChange)="
                     loadLocationDataDynamically($event, i);
-                  ">
+                  "
+                  required
+                  >
                   <mat-option *ngFor="let data of dynamicDropDown[fieldName]" [value]="data.code">
                     {{ data.name }}
                   </mat-option>

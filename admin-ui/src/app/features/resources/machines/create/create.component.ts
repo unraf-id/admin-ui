@@ -332,9 +332,9 @@ export class CreateComponent {
         disableClose: true,
       })
       .afterClosed()
-      .subscribe(() =>
+      .subscribe(() => {
         this.router.navigateByUrl('admin/resources/machine/view')
-      );
+      });
   }
 
   setPrimaryData() {
@@ -596,8 +596,8 @@ export class CreateComponent {
         disableClose: true,
       })
       .afterClosed()
-      .subscribe(() =>
+      .subscribe(() => {
         this.router.navigateByUrl(`admin/resources/machines/view`)
-      );
+      });
   }
 }

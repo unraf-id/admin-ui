@@ -12,6 +12,7 @@ on:
       - '!release-branch'
       - develop
       - master
+      - release-1*
 
 jobs:
   build-admin-ui:

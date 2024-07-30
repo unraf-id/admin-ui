@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { LostRidStatusComponent } from './lost-rid-status.component';
+import { LostRidStatusComponent } from "./lost-rid-status.component";
 
-describe('PacketStatusComponent', () => {
+describe("PacketStatusComponent", () => {
   let component: LostRidStatusComponent;
   let fixture: ComponentFixture<LostRidStatusComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LostRidStatusComponent ]
-    })
-    .compileComponents();
+      declarations: [LostRidStatusComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('PacketStatusComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

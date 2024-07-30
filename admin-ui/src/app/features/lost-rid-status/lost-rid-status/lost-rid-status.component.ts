@@ -1,25 +1,39 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { RequestModel } from 'src/app/core/models/request.model';
-import { FilterRequest } from 'src/app/core/models/filter-request.model';
-import { FilterValuesModel } from 'src/app/core/models/filter-values.model';
-import { OptionalFilterValuesModel } from 'src/app/core/models/optional-filter-values.model';
-import { SortModel } from 'src/app/core/models/sort.model';
-import { DataStorageService } from 'src/app/core/services/data-storage.service';
-import { AppConfigService } from 'src/app/app-config.service';
-import { PaginationModel } from 'src/app/core/models/pagination.model';
-import { CenterRequest } from 'src/app/core/models/centerRequest.model';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import Utils from 'src/app/app.utils';
-import { MatDialog } from '@angular/material';
-import { TranslateService } from '@ngx-translate/core';
-import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
-import { AuditService } from 'src/app/core/services/audit.service';
-import { HeaderService } from 'src/app/core/services/header.service';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
+import { RequestModel } from "src/app/core/models/request.model";
+import { FilterRequest } from "src/app/core/models/filter-request.model";
+import { FilterValuesModel } from "src/app/core/models/filter-values.model";
+import { OptionalFilterValuesModel } from "src/app/core/models/optional-filter-values.model";
+import { SortModel } from "src/app/core/models/sort.model";
+import { DataStorageService } from "src/app/core/services/data-storage.service";
+import { AppConfigService } from "src/app/app-config.service";
+import { PaginationModel } from "src/app/core/models/pagination.model";
+import { CenterRequest } from "src/app/core/models/centerRequest.model";
+import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
+import Utils from "src/app/app.utils";
+import {
+  MatDialog,
+  MatPaginator,
+  MatTableDataSource,
+  PageEvent,
+} from "@angular/material";
+import { TranslateService } from "@ngx-translate/core";
+import { DialogComponent } from "src/app/shared/dialog/dialog.component";
+import { AuditService } from "src/app/core/services/audit.service";
+import { HeaderService } from "src/app/core/services/header.service";
+import { ProfileDialogComponent } from "../lost-rid-profile/profile-dialog/profile-dialog.component";
+import { log } from "util";
+import { ConfirmDialogComponent } from "../lost-rid-profile/confirm-dialog/confirm-dialog.component";
 
 @Component({
-  selector: 'app-lost-rid-status',
-  templateUrl: './lost-rid-status.component.html',
-  styleUrls: ['./lost-rid-status.component.scss']
+  selector: "app-lost-rid-status",
+  templateUrl: "./lost-rid-status.component.html",
+  styleUrls: ["./lost-rid-status.component.scss"],
 })
 export class LostRidStatusComponent implements OnInit {
   displayedColumns = [];
@@ -28,7 +42,7 @@ export class LostRidStatusComponent implements OnInit {
   actionEllipsis = [];
   paginatorOptions: any;
   sortFilter = [];
-  primaryLang: string;  
+  primaryLang: string;
   pagination = new PaginationModel();
   centerRequest = {} as CenterRequest;
   requestModel: RequestModel;
@@ -44,12 +58,13 @@ export class LostRidStatusComponent implements OnInit {
   filterOptions: any = {};
   fieldNameList: any = {};
   showTable = false;
-
+  dataSource = [];
   initialLocationCode: "";
-  locationFieldNameList: string[] = [];  
+  locationFieldNameList: string[] = [];
   dynamicDropDown = {};
   dynamicFieldValue = {};
   locCode = 0;
+  displayedColumns1: string[] = ["id", "registrationDate", "action"];
 
   constructor(
     private dataStroageService: DataStorageService,
@@ -63,28 +78,27 @@ export class LostRidStatusComponent implements OnInit {
   ) {
     this.getlostridConfigs();
     this.primaryLang = this.headerService.getUserPreferredLanguage();
-    
+
     this.translateService.use(this.primaryLang);
-    translateService.getTranslation(this.primaryLang).subscribe(response => {
+    translateService.getTranslation(this.primaryLang).subscribe((response) => {
       this.errorMessages = response.errorPopup;
     });
-    this.subscribed = router.events.subscribe(event => {
+    this.subscribed = router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        if(this.displayedColumns)
-          this.getlostridConfigs();
+        if (this.displayedColumns) this.getlostridConfigs();
       }
     });
   }
 
   ngOnInit() {
-    this.auditService.audit(5, 'ADM-045');
-    this.initialLocationCode = this.appService.getConfig()['countryCode'];
-    this.locCode = this.appService.getConfig()['locationHierarchyLevel'];
-    //this.getLocationHierarchyLevels();  
+    this.auditService.audit(5, "ADM-045");
+    this.initialLocationCode = this.appService.getConfig()["countryCode"];
+    this.locCode = this.appService.getConfig()["locationHierarchyLevel"];
+    //this.getLocationHierarchyLevels();
     this.getlocationDetails();
     this.translateService
       .getTranslation(this.primaryLang)
-      .subscribe(response => {
+      .subscribe((response) => {
         this.popupMessages = response;
         this.serverError = response.serverError;
       });
@@ -93,20 +107,26 @@ export class LostRidStatusComponent implements OnInit {
   getlostridConfigs() {
     this.dataStroageService
       .getSpecFileForMasterDataEntity("lost-rid-status")
-      .subscribe(response => {
+      .subscribe((response) => {
         this.displayedColumns = response.columnsToDisplay;
-        this.filterColumns = response.filterColumns;        
+        this.filterColumns = response.filterColumns;
+
         this.actionButtons = response.actionButtons.filter(
-          value => value.showIn.toLowerCase() === 'ellipsis'
+          (value) => value.showIn.toLowerCase() === "ellipsis"
         );
         this.actionEllipsis = response.actionButtons.filter(
-          value => value.showIn.toLowerCase() === 'button'
+          (value) => value.showIn.toLowerCase() === "button"
         );
-        for(let value of this.filterColumns) {
+        for (let value of this.filterColumns) {
           this.fieldNameList[value.filtername] = "";
         }
         this.paginatorOptions = response.paginator;
-        this.auditService.audit(3, response.auditEventIds[0], 'lost-rid-status');
+
+        this.auditService.audit(
+          3,
+          response.auditEventIds[0],
+          "lost-rid-status"
+        );
         this.getlostridDetails();
       });
   }
@@ -114,75 +134,94 @@ export class LostRidStatusComponent implements OnInit {
   getLocationHierarchyLevels() {
     let self = this;
     let fieldNameData = {};
-    this.dataStroageService.getLocationHierarchyLevels(this.primaryLang).subscribe(response => {
-      response.response.locationHierarchyLevels.forEach(function (value) {
-        if(value.hierarchyLevel != 0)
-          if(value.hierarchyLevel <= self.locCode)          
-            self.locationFieldNameList.push(value.hierarchyLevelName);          
-      });  
-      for(let value of this.locationFieldNameList) {
-        self.dynamicDropDown[value] = []; 
-        self.dynamicFieldValue[value] = "";
-      }
-      self.loadLocationDataDynamically("", 0);
-    });      
+    this.dataStroageService
+      .getLocationHierarchyLevels(this.primaryLang)
+      .subscribe((response) => {
+        response.response.locationHierarchyLevels.forEach(function (value) {
+          if (value.hierarchyLevel != 0)
+            if (value.hierarchyLevel <= self.locCode)
+              self.locationFieldNameList.push(value.hierarchyLevelName);
+        });
+        for (let value of this.locationFieldNameList) {
+          self.dynamicDropDown[value] = [];
+          self.dynamicFieldValue[value] = "";
+        }
+        self.loadLocationDataDynamically("", 0);
+      });
   }
 
-  loadLocationDataDynamically(event:any, index: any) {
-    let locationCode = ""; 
-    let fieldName = "";   
-    let self = this;    
-    if(event === "") {
+  loadLocationDataDynamically(event: any, index: any) {
+    let locationCode = "";
+    let fieldName = "";
+    let self = this;
+    if (event === "") {
       fieldName = this.locationFieldNameList[parseInt(index)];
-      locationCode = this.initialLocationCode;         
-    }else{ 
-      fieldName = this.locationFieldNameList[parseInt(index)+1];
-      locationCode = event.value;     
-      this.dynamicFieldValue[this.locationFieldNameList[parseInt(index)]] = event.value;
-      if((parseInt(index)+1) === this.locationFieldNameList.length){
-        this.getCenterDetails(event.value); 
-      }else{
+      locationCode = this.initialLocationCode;
+    } else {
+      fieldName = this.locationFieldNameList[parseInt(index) + 1];
+      locationCode = event.value;
+      this.dynamicFieldValue[this.locationFieldNameList[parseInt(index)]] =
+        event.value;
+      if (parseInt(index) + 1 === this.locationFieldNameList.length) {
+        this.getCenterDetails(event.value);
+      } else {
         this.dynamicDropDown["centerId"] = "";
       }
     }
     this.dataStroageService
-    .getImmediateChildren(locationCode, this.primaryLang)
-    .subscribe(response => {
-      if(response['response'])
-        self.dynamicDropDown[fieldName] = response['response']['locations'];
-    });
+      .getImmediateChildren(locationCode, this.primaryLang)
+      .subscribe((response) => {
+        if (response["response"])
+          self.dynamicDropDown[fieldName] = response["response"]["locations"];
+      });
   }
 
-  getlocationDetails() {    
-    const filterObject = new FilterValuesModel('code', 'unique', '');
-    let optinalFilterObject = [{"columnName":"hierarchyLevel","type":"equals","value":this.locCode.toString()}];
-    let filterRequest = new FilterRequest([filterObject], this.primaryLang, optinalFilterObject);
-    let request = new RequestModel('', null, filterRequest);
+  getlocationDetails() {
+    const filterObject = new FilterValuesModel("code", "unique", "");
+    let optinalFilterObject = [
+      {
+        columnName: "hierarchyLevel",
+        type: "equals",
+        value: this.locCode.toString(),
+      },
+    ];
+    let filterRequest = new FilterRequest(
+      [filterObject],
+      this.primaryLang,
+      optinalFilterObject
+    );
+    let request = new RequestModel("", null, filterRequest);
     this.dataStroageService
-      .getFiltersForAllMaterDataTypes('locations', request)
-      .subscribe(response => {
-        if(!response.errors){
+      .getFiltersForAllMaterDataTypes("locations", request)
+      .subscribe((response) => {
+        if (!response.errors) {
           this.dynamicDropDown["locationCode"] = response.response.filters;
-        }else{
+        } else {
           this.dynamicDropDown["locationCode"] = [];
         }
-      });        
+      });
   }
 
-  getCenterDetails(locCode) {    
-    const filterObject = new FilterValuesModel('name', 'unique', '');
-    let optinalFilterObject = [{"columnName":"locationCode","type":"equals","value":locCode}];
-    let filterRequest = new FilterRequest([filterObject], this.primaryLang, optinalFilterObject);
-    let request = new RequestModel('', null, filterRequest);
+  getCenterDetails(locCode) {
+    const filterObject = new FilterValuesModel("name", "unique", "");
+    let optinalFilterObject = [
+      { columnName: "locationCode", type: "equals", value: locCode },
+    ];
+    let filterRequest = new FilterRequest(
+      [filterObject],
+      this.primaryLang,
+      optinalFilterObject
+    );
+    let request = new RequestModel("", null, filterRequest);
     this.dataStroageService
-      .getFiltersForAllMaterDataTypes('registrationcenters', request)
-      .subscribe(response => {
-        if(!response.errors){
+      .getFiltersForAllMaterDataTypes("registrationcenters", request)
+      .subscribe((response) => {
+        if (!response.errors) {
           this.dynamicDropDown["centerId"] = response.response.filters;
-        }else{
+        } else {
           this.dynamicDropDown["centerId"] = [];
         }
-      });        
+      });
   }
 
   captureValue(event: any, formControlName: string) {
@@ -191,24 +230,30 @@ export class LostRidStatusComponent implements OnInit {
 
   captureDatePickerValue(event: any, formControlName: string) {
     let dateFormat = new Date(event.target.value);
-    let formattedDate = dateFormat.getFullYear() + "-" + ("0"+(dateFormat.getMonth()+1)).slice(-2) + "-" + ("0" + dateFormat.getDate()).slice(-2);
+    let formattedDate =
+      dateFormat.getFullYear() +
+      "-" +
+      ("0" + (dateFormat.getMonth() + 1)).slice(-2) +
+      "-" +
+      ("0" + dateFormat.getDate()).slice(-2);
     this.fieldNameList[formControlName] = formattedDate;
   }
 
-  captureDropDownValue(event: any, formControlName: string) {    
-    if (event.source.selected) {      
-      if(formControlName === "locationCode"){
+  captureDropDownValue(event: any, formControlName: string) {
+    if (event.source.selected) {
+      if (formControlName === "locationCode") {
         this.fieldNameList[formControlName] = event.source.value;
         this.dynamicDropDown["centerId"] = [];
         this.getCenterDetails(event.source.viewValue);
-      }else{
+      } else {
         this.fieldNameList[formControlName] = event.source.value;
-      }   
+      }
     }
   }
 
-  resetForm(){
+  resetForm() {
     let self = this;
+
     for (let property in self.fieldNameList) {
       self.fieldNameList[property] = "";
     }
@@ -219,17 +264,23 @@ export class LostRidStatusComponent implements OnInit {
     let mandatoryFieldName = [];
     let mandatoryFieldLabel = [];
     for (let i = 0; i < self.filterColumns.length; i++) {
-      if(self.filterColumns[i].ismandatory === "true"){
-        mandatoryFieldName.push(self.filterColumns[i].filtername);  
-        mandatoryFieldLabel.push(self.filterColumns[i].filterlabel[this.primaryLang]);          
+      if (self.filterColumns[i].ismandatory === "true") {
+        mandatoryFieldName.push(self.filterColumns[i].filtername);
+        mandatoryFieldLabel.push(
+          self.filterColumns[i].filterlabel[this.primaryLang]
+        );
       }
     }
+
     let len = mandatoryFieldName.length;
     for (let i = 0; i < len; i++) {
-      if(!self.fieldNameList[mandatoryFieldName[i]]){
-        this.showErrorPopup(mandatoryFieldLabel[i]+this.popupMessages.genericerror.fieldNameValidation);
+      if (!self.fieldNameList[mandatoryFieldName[i]]) {
+        this.showErrorPopup(
+          mandatoryFieldLabel[i] +
+            this.popupMessages.genericerror.fieldNameValidation
+        );
         break;
-      }else if(len === (i+1)){
+      } else if (len === i + 1) {
         self.getlostridDetails();
       }
     }
@@ -237,81 +288,152 @@ export class LostRidStatusComponent implements OnInit {
 
   getlostridDetails() {
     let filter = [];
-    for(let value of this.filterColumns) {
-      if(this.fieldNameList[value.filtername]){
-        if(value.dropdown !== 'true' && value.datePicker !== 'true'){
-          filter.push({"columnName": value.fieldName,"type": "contains","value": this.fieldNameList[value.filtername]});
-        }else if(value.datePicker === 'true' && value.filterType === 'between'){
-          if(filter.length > 0)
-            filter.splice(0,1);
-          filter.push({"columnName": value.fieldName,"type": "between","value": "", "fromValue": this.fieldNameList["registrationDateFrom"], "toValue":this.fieldNameList["registrationDateTo"]});
-        }else if(value.dropdown === 'true'){
-          filter.push({"columnName": value.fieldName,"type": "equals","value": this.fieldNameList[value.filtername]});
+    let name1: string = "";
+    for (let value of this.filterColumns) {
+      let count: number = 0;
+      if (this.fieldNameList[value.filtername]) {
+        if (value.dropdown !== "true" && value.datePicker !== "true") {
+          if (
+            value.fieldName === "firstName" ||
+            value.fieldName === "middleName" ||
+            value.fieldName === "lastName"
+          ) {
+            if (count === 0) {
+              name1 += this.fieldNameList[value.filtername];
+              count++;
+            } else if (count === 1) {
+              name1 += " " + this.fieldNameList[value.filtername];
+            }
+            continue;
+          }
+          filter.push({
+            columnName: value.fieldName,
+            type: "contains",
+            value: this.fieldNameList[value.filtername],
+          });
+        } else if (
+          value.datePicker === "true" &&
+          value.filterType === "between"
+        ) {
+          if (filter.length > 0) filter.splice(0, 1);
+          filter.push({
+            columnName: value.fieldName,
+            type: "between",
+            value: "",
+            fromValue: this.fieldNameList["registrationDateFrom"],
+            toValue: this.fieldNameList["registrationDateTo"],
+          });
+        } else if (value.dropdown === "true") {
+          filter.push({
+            columnName: value.fieldName,
+            type: "equals",
+            value: this.fieldNameList[value.filtername],
+          });
+        } else if (value.fieldName === "name") {
         }
-      }        
-    }    
+      }
+    }
+    if (name1) {
+      filter.push({ columnName: "name", type: "contains", value: name1 });
+    }
+
     this.datas = [];
+    this.dataSource = [];
     this.noData = false;
     this.filtersApplied = false;
-    const filters = Utils.convertFilter(this.activatedRoute.snapshot.queryParams, this.primaryLang);
+    const filters = Utils.convertFilter(
+      this.activatedRoute.snapshot.queryParams,
+      this.primaryLang
+    );
     filters.filters = filter;
     if (filters.filters.length > 0) {
       this.filtersApplied = true;
     }
     this.sortFilter = filters.sort;
-    if(this.sortFilter.length == 0){
-      this.sortFilter.push({"sortType":"desc","sortField":"registrationDate"});      
+    if (this.sortFilter.length == 0) {
+      this.sortFilter.push({ sortType: "desc", sortField: "registrationDate" });
     }
+
     this.requestModel = new RequestModel(null, null, filters);
     if (filters.filters.length > 0)
       this.dataStroageService
         .getlostridDetails(this.requestModel)
-        .subscribe(({ response, errors }) => {        
+        .subscribe(({ response, errors }) => {
           if (errors.length === 0) {
-              this.paginatorOptions.totalEntries = 0;
-              this.paginatorOptions.pageIndex = 0;
-              this.paginatorOptions.pageSize = 0;              
-              if (response.data.length) {
-                this.datas = [...response.data];
-                this.datas.forEach((element, index) => {
-                  this.datas[index]["name"] = element.additionalInfo.name;
-                }); 
-                this.showTable = true;
-              } else {
-                this.noData = true;
-             }
+            this.paginatorOptions.totalEntries = 0;
+            this.paginatorOptions.pageIndex = 0;
+            this.paginatorOptions.pageSize = 0;
+            if (response.data.length) {
+              this.dataSource = [...response.data];
+              console.log("dataSource",this.dataSource);
+              
+              this.datas = [...response.data];
+              this.datas.forEach((element, index) => {
+                this.datas[index]["name"] = element.additionalInfo.name;
+              });
+              this.showTable = true;
+            } else {
+              this.noData = true;
+            }
           } else {
             this.noData = true;
             let message = "";
-            if(errors[0].errorCode === "KER-MSD-999"){
+            if (errors[0].errorCode === "KER-MSD-999") {
               errors.forEach((element) => {
-                message = message + element.message.toString() +"\n\n";
+                message = message + element.message.toString() + "\n\n";
               });
-              message = this.serverError[errors[0].errorCode] +"\n\n"+ message;
-            }else{
+              message =
+                this.serverError[errors[0].errorCode] + "\n\n" + message;
+            } else {
               message = this.serverError[errors[0].errorCode];
             }
+            this.dataSource = [];
+
             this.showErrorPopup(message);
           }
-      });
-    else
-      this.noData = true;
+        });
+    else this.noData = true;
   }
   showErrorPopup(message: string) {
-    this.dialog
-      .open(DialogComponent, {
-        width: '650px',
-        data: {
-          case: 'MESSAGE',
-          title: this.popupMessages.genericmessage.errorLabel,
-          message: message,
-          btnTxt: this.popupMessages.genericmessage.successButton
-        },
-        disableClose: true
-      });
+    this.dialog.open(ConfirmDialogComponent, {
+      width: "650px",
+      data: {
+        case: "MESSAGE",
+        title: this.popupMessages.genericmessage.errorLabel,
+        message: message,
+        btnTxt: this.popupMessages.genericmessage.successButton,
+      },
+      disableClose: true,
+    });
   }
 
-ngOnDestroy() {
+  fetchLostRidDetails(
+    element: { registrationId: string },
+    index: number
+  ): void {
+    this.dataStroageService
+      .getLostRidDetailsPhoto(element.registrationId)
+      .subscribe(
+        (response: any) => {
+          const lostData = response.response.lostRidDataMap;
+          this.openDialog(lostData, this.dataSource, index);
+        },
+        (error: any) => {
+          console.error("Error fetching details", error);
+        }
+      );
+  }
+  openDialog(data: any, dataSource: any, i: number): void {
+    const dialogRef = this.dialog.open(ProfileDialogComponent, {
+      data: { lostData: data, dataSource: dataSource, i: i },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // Handle dialog close action here
+    });
+  }
+
+  ngOnDestroy() {
     this.subscribed.unsubscribe();
   }
 }

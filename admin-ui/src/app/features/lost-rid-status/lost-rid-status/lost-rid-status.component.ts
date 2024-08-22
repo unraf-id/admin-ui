@@ -4,6 +4,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  ViewEncapsulation
 } from "@angular/core";
 import { RequestModel } from "src/app/core/models/request.model";
 import { FilterRequest } from "src/app/core/models/filter-request.model";
@@ -65,6 +66,10 @@ export class LostRidStatusComponent implements OnInit {
   dynamicFieldValue = {};
   locCode = 0;
   displayedColumns1: string[] = ["id", "registrationDate", "action"];
+  isTableMain = true;
+   lostRidRoles=[];
+   actionButton =true;
+
 
   constructor(
     private dataStroageService: DataStorageService,
@@ -260,6 +265,18 @@ export class LostRidStatusComponent implements OnInit {
   }
 
   submit() {
+    let count=0;
+    this.lostRidRoles =this.headerService.getRoles().split(',')
+       for(let i=0;i<this.lostRidRoles.length;i++){
+          if(this.lostRidRoles[i].trim() == 'BIOMETRIC READ' || this.lostRidRoles[i].trim()=='DATA READ'){
+              count++
+          } if( count==2){
+            break;
+          }
+       }
+        if(count==2){
+          this.actionButton=false;
+        }
     let self = this;
     let mandatoryFieldName = [];
     let mandatoryFieldLabel = [];
@@ -432,6 +449,8 @@ export class LostRidStatusComponent implements OnInit {
       // Handle dialog close action here
     });
   }
+
+  
 
   ngOnDestroy() {
     this.subscribed.unsubscribe();

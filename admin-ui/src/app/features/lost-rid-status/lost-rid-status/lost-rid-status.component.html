@@ -190,6 +190,7 @@
             <button
               mat-icon-button
               color="primary"
+              [disabled]="actionButton"
               (click)="fetchLostRidDetails(element, i)"
             >
               <mat-icon>remove_red_eye</mat-icon>

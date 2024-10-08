@@ -307,13 +307,14 @@ export class LostRidStatusComponent implements OnInit {
     let filter = [];
     let name1: string = "";
     for (let value of this.filterColumns) {
+      
+      
       let count: number = 0;
       if (this.fieldNameList[value.filtername]) {
         if (value.dropdown !== "true" && value.datePicker !== "true") {
           if (
-            value.fieldName === "firstName" ||
-            value.fieldName === "middleName" ||
-            value.fieldName === "lastName"
+            value.fieldName !== "phone" ||
+            value.fieldName !== "email" 
           ) {
             if (count === 0) {
               name1 += this.fieldNameList[value.filtername];
@@ -346,8 +347,7 @@ export class LostRidStatusComponent implements OnInit {
             type: "equals",
             value: this.fieldNameList[value.filtername],
           });
-        } else if (value.fieldName === "name") {
-        }
+        } 
       }
     }
     if (name1) {

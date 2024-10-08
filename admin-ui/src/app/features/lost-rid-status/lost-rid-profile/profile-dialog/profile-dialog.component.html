@@ -1,6 +1,6 @@
 <!-- profile-dialog.component.html -->
 <h2 mat-dialog-title>
-  Application Id :{{ data.dataSource[data.i].registrationId }}
+  {{ "lostRID.applicationId" | translate }} :{{ data.dataSource[data.i].registrationId }}
 </h2>
 <div mat-dialog-content class="mat-con">
   <div class="dialog-content">
@@ -11,14 +11,14 @@
     />
     <div class="dialog-info">
       <p>
-        Full Name: <strong>{{ name }}</strong>
+        {{ "lostRID.name" | translate }}: <strong>{{ name }}</strong>
       </p>
       <p>
-        Enrolment Date:
+        {{ "lostRID.enrolmentDate" | translate }}:
         <strong>{{ data.dataSource[data.i].registartionDate }}</strong>
       </p>
       <p>
-        Date Of Birth: <strong>{{ data.lostData.dateOfBirth }}</strong>
+        {{ "lostRID.dateOfBirth" | translate }}: <strong>{{ data.lostData.dateOfBirth }}</strong>
       </p>
     </div>
   </div>
